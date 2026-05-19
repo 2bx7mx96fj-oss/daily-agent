@@ -196,48 +196,68 @@
 <button class="reset-btn" onclick="resetDay()">Reset today's checklist</button>
 
 <script>
-  const SECTIONS = [
-    {
+  // 0=Sun,1=Mon,2=Tue,3=Wed,4=Thu,5=Fri,6=Sat
+  const GYM_SCHEDULE = {
+    0: "Shoulders & Arms",
+    1: "Legs",
+    2: "Push",
+    3: "Pull",
+    4: "Shoulders & Arms", // second shoulders if 5th session needed
+  };
+  // Fri (5) and Sat (6) are rest days — no gym
+
+  function getGymSection() {
+    const day = new Date().getDay();
+    if (day === 5 || day === 6) return null; // rest days
+    const session = GYM_SCHEDULE[day] || "Gym session";
+    return {
       title: "Gym & Training",
       items: [
-        "Gym session (leg / push / pull / shoulders / arms)",
+        `Gym — ${session}`,
         "Daily ab workout"
       ]
-    },
-    {
-      title: "Running",
-      items: [
-        "Run session (interval / 5km / long run)"
-      ]
-    },
-    {
-      title: "Business",
-      items: [
-        "Work on marketing agency (client outreach / delivery / admin)",
-        "One action toward getting a new client"
-      ]
-    },
-    {
-      title: "Focus & Discipline",
-      items: [
-        "Distractions blocked during deep work time",
-        "No mindless scrolling before 12pm"
-      ]
-    },
-    {
-      title: "Learning",
-      items: [
-        "Read (global politics / non-fiction / any book)",
-        "Swedish practice (Duolingo / flashcards / listening)"
-      ]
-    },
-    {
-      title: "Driving",
-      items: [
-        "Driving lesson or theory revision"
-      ]
-    }
-  ];
+    };
+  }
+
+  function getSections() {
+    const gymSection = getGymSection();
+    const sections = [];
+    if (gymSection) sections.push(gymSection);
+    sections.push(
+      {
+        title: "Running",
+        items: ["Run session (interval / 5km / long run)"]
+      },
+      {
+        title: "Business",
+        items: [
+          "Work on marketing agency (client outreach / delivery / admin)",
+          "One action toward getting a new client"
+        ]
+      },
+      {
+        title: "Focus & Discipline",
+        items: [
+          "Distractions blocked during deep work time",
+          "No mindless scrolling before 12pm"
+        ]
+      },
+      {
+        title: "Learning",
+        items: [
+          "Read (global politics / non-fiction / any book)",
+          "Swedish practice (Duolingo / flashcards / listening)"
+        ]
+      },
+      {
+        title: "Driving",
+        items: ["Driving lesson or theory revision"]
+      }
+    );
+    return sections;
+  }
+
+  const SECTIONS = getSections();
 
   const todayKey = () => new Date().toISOString().slice(0, 10);
 
