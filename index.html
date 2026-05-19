@@ -39,6 +39,24 @@
       margin-top: 2px;
     }
 
+    .edit-toggle {
+      margin-top: 10px;
+      background: none;
+      border: 1px solid #3a3a3c;
+      color: #888;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 5px 12px;
+      border-radius: 99px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .edit-toggle.active {
+      border-color: #0a84ff;
+      color: #0a84ff;
+    }
+
     .progress-bar-wrap {
       background: #1c1c1e;
       border-radius: 99px;
@@ -62,9 +80,7 @@
       margin-bottom: 20px;
     }
 
-    .section {
-      margin-bottom: 20px;
-    }
+    .section { margin-bottom: 20px; }
 
     .section-title {
       font-size: 11px;
@@ -131,8 +147,64 @@
       font-size: 15px;
       line-height: 1.3;
       color: #f0f0f0;
+      flex: 1;
       transition: color 0.2s;
     }
+
+    .delete-btn {
+      display: none;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #ff453a;
+      border: none;
+      color: white;
+      font-size: 16px;
+      line-height: 1;
+      cursor: pointer;
+      flex-shrink: 0;
+      align-items: center;
+      justify-content: center;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .edit-mode .delete-btn { display: flex; }
+
+    .edit-btn-label {
+      display: none;
+      font-size: 13px;
+      color: #0a84ff;
+      flex-shrink: 0;
+      padding: 2px 0;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .edit-mode .edit-btn-label { display: block; }
+
+    .add-item-row {
+      display: none;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      cursor: pointer;
+      color: #0a84ff;
+      font-size: 15px;
+      border-top: 1px solid #2c2c2e;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .edit-mode .add-item-row { display: flex; }
+    .add-item-row:active { opacity: 0.6; }
+
+    .lock-badge {
+      display: none;
+      font-size: 11px;
+      color: #555;
+      margin-left: 6px;
+    }
+
+    .edit-mode .lock-badge { display: inline; }
 
     .reset-btn {
       display: block;
@@ -169,8 +241,6 @@
     }
 
     .chat-btn:active { opacity: 0.7; }
-
-    .emoji { margin-right: 4px; }
   </style>
 </head>
 <body>
@@ -181,7 +251,7 @@
     <h1>Daily Agent</h1>
   </div>
   <div style="text-align:right;">
-    <div style="font-size:11px;color:#666;margin-top:6px;" id="streak-label"></div>
+    <button class="edit-toggle" id="edit-toggle" onclick="toggleEditMode()">Edit</button>
   </div>
 </header>
 
@@ -204,75 +274,72 @@
     3: "Pull",
     4: "Shoulders & Arms",
   };
-  // Fri (5) and Sat (6) are rest days — no gym
 
-  function getGymSection() {
-    const day = new Date().getDay();
-    if (day === 5 || day === 6) return null; // rest days
-    const session = GYM_SCHEDULE[day] || "Gym session";
-    return {
-      title: "Gym & Training",
-      items: [
-        `Gym — ${session}`,
-        "Daily ab workout"
-      ]
-    };
-  }
-
-  // Run schedule — avoids Sun (before legs) and Tue (after legs)
   const RUN_SCHEDULE = {
     3: "Interval session — 5km time work",
     5: "5km run",
     0: "Long run — 10km or half marathon",
   };
 
-  function getRunSection() {
+  const DEFAULT_EDITABLE = [
+    {
+      title: "Business",
+      items: [
+        "Work on marketing agency (client outreach / delivery / admin)",
+        "One action toward getting a new client"
+      ]
+    },
+    {
+      title: "Focus & Discipline",
+      items: [
+        "Distractions blocked during deep work time",
+        "No mindless scrolling before 12pm"
+      ]
+    },
+    {
+      title: "Learning",
+      items: [
+        "Read (global politics / non-fiction / any book)",
+        "Swedish practice (Duolingo / flashcards / listening)"
+      ]
+    },
+    {
+      title: "Driving",
+      items: ["Driving lesson or theory revision"]
+    }
+  ];
+
+  let editMode = false;
+
+  function getLockedSections() {
     const day = new Date().getDay();
-    const session = RUN_SCHEDULE[day];
-    if (!session) return null;
-    return {
-      title: "Running",
-      items: [`Run — ${session}`]
-    };
+    const locked = [];
+    if (day !== 5 && day !== 6) {
+      locked.push({
+        locked: true,
+        title: "Gym & Training",
+        items: [`Gym — ${GYM_SCHEDULE[day] || "Session"}`, "Daily ab workout"]
+      });
+    }
+    const run = RUN_SCHEDULE[day];
+    if (run) {
+      locked.push({ locked: true, title: "Running", items: [`Run — ${run}`] });
+    }
+    return locked;
   }
 
-  function getSections() {
-    const gymSection = getGymSection();
-    const runSection = getRunSection();
-    const sections = [];
-    if (gymSection) sections.push(gymSection);
-    if (runSection) sections.push(runSection);
-    sections.push(
-      {
-        title: "Business",
-        items: [
-          "Work on marketing agency (client outreach / delivery / admin)",
-          "One action toward getting a new client"
-        ]
-      },
-      {
-        title: "Focus & Discipline",
-        items: [
-          "Distractions blocked during deep work time",
-          "No mindless scrolling before 12pm"
-        ]
-      },
-      {
-        title: "Learning",
-        items: [
-          "Read (global politics / non-fiction / any book)",
-          "Swedish practice (Duolingo / flashcards / listening)"
-        ]
-      },
-      {
-        title: "Driving",
-        items: ["Driving lesson or theory revision"]
-      }
-    );
-    return sections;
+  function loadEditable() {
+    const saved = localStorage.getItem('editable-sections');
+    return saved ? JSON.parse(saved) : DEFAULT_EDITABLE;
   }
 
-  const SECTIONS = getSections();
+  function saveEditable(sections) {
+    localStorage.setItem('editable-sections', JSON.stringify(sections));
+  }
+
+  function getAllSections() {
+    return [...getLockedSections(), ...loadEditable()];
+  }
 
   const todayKey = () => new Date().toISOString().slice(0, 10);
 
@@ -285,55 +352,144 @@
     localStorage.setItem('daily-' + todayKey(), JSON.stringify(state));
   }
 
-  function updateProgress(state) {
-    const allItems = SECTIONS.flatMap(s => s.items);
+  function updateProgress() {
+    const sections = getAllSections();
+    const allItems = sections.flatMap(s => s.items);
+    const state = loadState();
     const done = allItems.filter((_, i) => state[i]).length;
-    const pct = Math.round((done / allItems.length) * 100);
+    const pct = allItems.length ? Math.round((done / allItems.length) * 100) : 0;
     document.getElementById('progress-bar').style.width = pct + '%';
     document.getElementById('progress-label').textContent = `${done} / ${allItems.length} done`;
+  }
+
+  function toggleEditMode() {
+    editMode = !editMode;
+    document.getElementById('checklist').classList.toggle('edit-mode', editMode);
+    const btn = document.getElementById('edit-toggle');
+    btn.textContent = editMode ? 'Done' : 'Edit';
+    btn.classList.toggle('active', editMode);
   }
 
   function render() {
     const state = loadState();
     const container = document.getElementById('checklist');
     container.innerHTML = '';
+    if (editMode) container.classList.add('edit-mode');
 
+    const sections = getAllSections();
     let globalIndex = 0;
 
-    SECTIONS.forEach(section => {
+    sections.forEach((section, sectionIdx) => {
+      const isLocked = !!section.locked;
+      const editableSectionIdx = sectionIdx - getLockedSections().length;
+
       const sec = document.createElement('div');
       sec.className = 'section';
 
-      const title = document.createElement('div');
-      title.className = 'section-title';
-      title.textContent = section.title;
-      sec.appendChild(title);
+      const titleRow = document.createElement('div');
+      titleRow.style.display = 'flex';
+      titleRow.style.alignItems = 'center';
+      titleRow.style.marginBottom = '8px';
+      titleRow.style.paddingLeft = '4px';
+
+      const titleEl = document.createElement('span');
+      titleEl.className = 'section-title';
+      titleEl.style.margin = '0';
+      titleEl.textContent = section.title;
+      titleRow.appendChild(titleEl);
+
+      if (isLocked) {
+        const badge = document.createElement('span');
+        badge.className = 'lock-badge';
+        badge.textContent = '🔒 locked';
+        titleRow.appendChild(badge);
+      }
+
+      sec.appendChild(titleRow);
 
       const card = document.createElement('div');
       card.className = 'card';
 
-      section.items.forEach(label => {
+      section.items.forEach((label, itemIdx) => {
         const idx = globalIndex++;
         const item = document.createElement('div');
         item.className = 'item' + (state[idx] ? ' done' : '');
-        item.innerHTML = `
-          <div class="checkbox"><span class="checkmark">✓</span></div>
-          <div class="label">${label}</div>
-        `;
+
+        const checkbox = document.createElement('div');
+        checkbox.className = 'checkbox';
+        checkbox.innerHTML = '<span class="checkmark">✓</span>';
+
+        const labelEl = document.createElement('div');
+        labelEl.className = 'label';
+        labelEl.textContent = label;
+
+        item.appendChild(checkbox);
+        item.appendChild(labelEl);
+
+        if (!isLocked) {
+          const editLbl = document.createElement('span');
+          editLbl.className = 'edit-btn-label';
+          editLbl.textContent = 'Edit';
+          editLbl.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const newText = prompt('Edit item:', label);
+            if (newText && newText.trim()) {
+              const editable = loadEditable();
+              editable[editableSectionIdx].items[itemIdx] = newText.trim();
+              saveEditable(editable);
+              render();
+            }
+          });
+
+          const delBtn = document.createElement('button');
+          delBtn.className = 'delete-btn';
+          delBtn.innerHTML = '&times;';
+          delBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (confirm(`Remove "${label}"?`)) {
+              const editable = loadEditable();
+              editable[editableSectionIdx].items.splice(itemIdx, 1);
+              saveEditable(editable);
+              render();
+            }
+          });
+
+          item.appendChild(editLbl);
+          item.appendChild(delBtn);
+        }
+
         item.addEventListener('click', () => {
+          if (editMode && !isLocked) return;
           const s = loadState();
           s[idx] = !s[idx];
           saveState(s);
           render();
         });
+
         card.appendChild(item);
       });
+
+      if (!isLocked) {
+        const addRow = document.createElement('div');
+        addRow.className = 'add-item-row';
+        addRow.innerHTML = '<span style="font-size:20px;line-height:1;">+</span> Add item';
+        addRow.addEventListener('click', () => {
+          const newText = prompt('New item:');
+          if (newText && newText.trim()) {
+            const editable = loadEditable();
+            editable[editableSectionIdx].items.push(newText.trim());
+            saveEditable(editable);
+            render();
+          }
+        });
+        card.appendChild(addRow);
+      }
 
       sec.appendChild(card);
       container.appendChild(sec);
     });
 
-    updateProgress(loadState());
+    updateProgress();
   }
 
   function resetDay() {
