@@ -219,15 +219,30 @@
     };
   }
 
+  // Run schedule — avoids Sun (before legs) and Tue (after legs)
+  const RUN_SCHEDULE = {
+    3: "Interval session — 5km time work",
+    5: "5km run",
+    6: "Long run — 10km or half marathon",
+  };
+
+  function getRunSection() {
+    const day = new Date().getDay();
+    const session = RUN_SCHEDULE[day];
+    if (!session) return null;
+    return {
+      title: "Running",
+      items: [`Run — ${session}`]
+    };
+  }
+
   function getSections() {
     const gymSection = getGymSection();
+    const runSection = getRunSection();
     const sections = [];
     if (gymSection) sections.push(gymSection);
+    if (runSection) sections.push(runSection);
     sections.push(
-      {
-        title: "Running",
-        items: ["Run session (interval / 5km / long run)"]
-      },
       {
         title: "Business",
         items: [
