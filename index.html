@@ -199,10 +199,10 @@
   // 0=Sun,1=Mon,2=Tue,3=Wed,4=Thu,5=Fri,6=Sat
   const GYM_SCHEDULE = {
     0: "Shoulders & Arms",
-    1: "Legs",
-    2: "Push",
+    1: "Push",
+    2: "Legs",
     3: "Pull",
-    4: "Shoulders & Arms", // second shoulders if 5th session needed
+    4: "Shoulders & Arms",
   };
   // Fri (5) and Sat (6) are rest days — no gym
 
@@ -223,7 +223,7 @@
   const RUN_SCHEDULE = {
     3: "Interval session — 5km time work",
     5: "5km run",
-    6: "Long run — 10km or half marathon",
+    0: "Long run — 10km or half marathon",
   };
 
   function getRunSection() {
