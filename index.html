@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Daily Agent" />
+  <title>Daily Agent</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #0a0a0a;
+      color: #f0f0f0;
+      min-height: 100dvh;
+      padding: env(safe-area-inset-top, 20px) 16px env(safe-area-inset-bottom, 20px);
+    }
+
+    header {
+      padding: 20px 0 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .date {
+      font-size: 13px;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    h1 {
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-top: 2px;
+    }
+
+    .progress-bar-wrap {
+      background: #1c1c1e;
+      border-radius: 99px;
+      height: 6px;
+      margin: 16px 0 24px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #30d158, #34c759);
+      border-radius: 99px;
+      transition: width 0.4s ease;
+    }
+
+    .progress-label {
+      font-size: 12px;
+      color: #666;
+      text-align: right;
+      margin-top: -20px;
+      margin-bottom: 20px;
+    }
+
+    .section {
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 8px;
+      padding-left: 4px;
+    }
+
+    .card {
+      background: #1c1c1e;
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    .item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 16px;
+      border-bottom: 1px solid #2c2c2e;
+      cursor: pointer;
+      transition: background 0.15s;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .item:last-child { border-bottom: none; }
+    .item:active { background: #2c2c2e; }
+
+    .item.done .label {
+      text-decoration: line-through;
+      color: #555;
+    }
+
+    .checkbox {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 2px solid #3a3a3c;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .item.done .checkbox {
+      background: #30d158;
+      border-color: #30d158;
+    }
+
+    .checkmark {
+      display: none;
+      color: white;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .item.done .checkmark { display: block; }
+
+    .label {
+      font-size: 15px;
+      line-height: 1.3;
+      color: #f0f0f0;
+      transition: color 0.2s;
+    }
+
+    .reset-btn {
+      display: block;
+      width: 100%;
+      margin-top: 28px;
+      padding: 14px;
+      background: #1c1c1e;
+      color: #ff453a;
+      font-size: 15px;
+      font-weight: 500;
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .reset-btn:active { opacity: 0.7; }
+
+    .chat-btn {
+      display: block;
+      width: 100%;
+      margin-top: 12px;
+      padding: 14px;
+      background: #1a3a2a;
+      color: #30d158;
+      font-size: 15px;
+      font-weight: 600;
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .chat-btn:active { opacity: 0.7; }
+
+    .emoji { margin-right: 4px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="date" id="date-label"></div>
+    <h1>Daily Agent</h1>
+  </div>
+  <div style="text-align:right;">
+    <div style="font-size:11px;color:#666;margin-top:6px;" id="streak-label"></div>
+  </div>
+</header>
+
+<div class="progress-bar-wrap">
+  <div class="progress-bar" id="progress-bar" style="width:0%"></div>
+</div>
+<div class="progress-label" id="progress-label">0 / 0 done</div>
+
+<div id="checklist"></div>
+
+<a class="chat-btn" href="https://claude.ai/new" target="_blank">&#x1F4AC; Open Claude to Plan My Day</a>
+<button class="reset-btn" onclick="resetDay()">Reset today's checklist</button>
+
+<script>
+  const SECTIONS = [
+    {
+      title: "Gym & Training",
+      items: [
+        "Gym session (leg / push / pull / shoulders / arms)",
+        "Daily ab workout"
+      ]
+    },
+    {
+      title: "Running",
+      items: [
+        "Run session (interval / 5km / long run)"
+      ]
+    },
+    {
+      title: "Business",
+      items: [
+        "Work on marketing agency (client outreach / delivery / admin)",
+        "One action toward getting a new client"
+      ]
+    },
+    {
+      title: "Focus & Discipline",
+      items: [
+        "Distractions blocked during deep work time",
+        "No mindless scrolling before 12pm"
+      ]
+    },
+    {
+      title: "Learning",
+      items: [
+        "Read (global politics / non-fiction / any book)",
+        "Swedish practice (Duolingo / flashcards / listening)"
+      ]
+    },
+    {
+      title: "Driving",
+      items: [
+        "Driving lesson or theory revision"
+      ]
+    }
+  ];
+
+  const todayKey = () => new Date().toISOString().slice(0, 10);
+
+  function loadState() {
+    const saved = localStorage.getItem('daily-' + todayKey());
+    return saved ? JSON.parse(saved) : {};
+  }
+
+  function saveState(state) {
+    localStorage.setItem('daily-' + todayKey(), JSON.stringify(state));
+  }
+
+  function updateProgress(state) {
+    const allItems = SECTIONS.flatMap(s => s.items);
+    const done = allItems.filter((_, i) => state[i]).length;
+    const pct = Math.round((done / allItems.length) * 100);
+    document.getElementById('progress-bar').style.width = pct + '%';
+    document.getElementById('progress-label').textContent = `${done} / ${allItems.length} done`;
+  }
+
+  function render() {
+    const state = loadState();
+    const container = document.getElementById('checklist');
+    container.innerHTML = '';
+
+    let globalIndex = 0;
+
+    SECTIONS.forEach(section => {
+      const sec = document.createElement('div');
+      sec.className = 'section';
+
+      const title = document.createElement('div');
+      title.className = 'section-title';
+      title.textContent = section.title;
+      sec.appendChild(title);
+
+      const card = document.createElement('div');
+      card.className = 'card';
+
+      section.items.forEach(label => {
+        const idx = globalIndex++;
+        const item = document.createElement('div');
+        item.className = 'item' + (state[idx] ? ' done' : '');
+        item.innerHTML = `
+          <div class="checkbox"><span class="checkmark">✓</span></div>
+          <div class="label">${label}</div>
+        `;
+        item.addEventListener('click', () => {
+          const s = loadState();
+          s[idx] = !s[idx];
+          saveState(s);
+          render();
+        });
+        card.appendChild(item);
+      });
+
+      sec.appendChild(card);
+      container.appendChild(sec);
+    });
+
+    updateProgress(loadState());
+  }
+
+  function resetDay() {
+    if (confirm('Reset all checkboxes for today?')) {
+      localStorage.removeItem('daily-' + todayKey());
+      render();
+    }
+  }
+
+  function setDateLabel() {
+    const now = new Date();
+    const options = { weekday: 'long', day: 'numeric', month: 'long' };
+    document.getElementById('date-label').textContent = now.toLocaleDateString('en-GB', options);
+  }
+
+  setDateLabel();
+  render();
+</script>
+</body>
+</html>
