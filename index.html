@@ -23,7 +23,7 @@
       position: fixed;
       bottom: 0; left: 0; right: 0;
       display: flex;
-      background: rgba(18,18,18,0.92);
+      background: rgba(18,18,18,0.94);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border-top: 1px solid #2c2c2e;
@@ -31,172 +31,97 @@
     }
 
     .tab-btn {
-      flex: 1;
-      background: none;
-      border: none;
-      color: #666;
-      font-size: 11px;
-      font-weight: 500;
-      padding: 10px 0 12px;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 3px;
+      flex: 1; background: none; border: none;
+      color: #555; font-size: 11px; font-weight: 500;
+      padding: 10px 0 12px; cursor: pointer;
+      display: flex; flex-direction: column; align-items: center; gap: 3px;
       -webkit-tap-highlight-color: transparent;
     }
-
     .tab-btn.active { color: #30d158; }
-
     .tab-icon { font-size: 22px; line-height: 1; }
 
     /* ── Pages ── */
     .page { display: none; }
     .page.active { display: block; }
 
-    /* ── Header ── */
+    /* ── Today header ── */
     header {
       padding: 20px 0 8px;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
+      display: flex; justify-content: space-between; align-items: flex-start;
     }
-
-    .date {
-      font-size: 13px;
-      color: #666;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-
-    h1 {
-      font-size: 26px;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-      margin-top: 2px;
-    }
+    .date { font-size: 13px; color: #666; text-transform: uppercase; letter-spacing: 0.08em; }
+    h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.5px; margin-top: 2px; }
 
     .edit-toggle {
-      margin-top: 10px;
-      background: none;
-      border: 1px solid #3a3a3c;
-      color: #888;
-      font-size: 13px;
-      font-weight: 500;
-      padding: 5px 12px;
-      border-radius: 99px;
-      cursor: pointer;
-      -webkit-tap-highlight-color: transparent;
+      margin-top: 10px; background: none;
+      border: 1px solid #3a3a3c; color: #888;
+      font-size: 13px; font-weight: 500;
+      padding: 5px 12px; border-radius: 99px;
+      cursor: pointer; -webkit-tap-highlight-color: transparent;
     }
-
     .edit-toggle.active { border-color: #0a84ff; color: #0a84ff; }
 
     /* ── Progress bar ── */
     .progress-bar-wrap {
-      background: #1c1c1e;
-      border-radius: 99px;
-      height: 6px;
-      margin: 16px 0 24px;
-      overflow: hidden;
+      background: #1c1c1e; border-radius: 99px;
+      height: 6px; margin: 16px 0 24px; overflow: hidden;
     }
-
     .progress-bar {
       height: 100%;
       background: linear-gradient(90deg, #30d158, #34c759);
-      border-radius: 99px;
-      transition: width 0.4s ease;
+      border-radius: 99px; transition: width 0.4s ease;
     }
-
-    .progress-label {
-      font-size: 12px;
-      color: #666;
-      text-align: right;
-      margin-top: -20px;
-      margin-bottom: 20px;
-    }
+    .progress-label { font-size: 12px; color: #666; text-align: right; margin-top: -20px; margin-bottom: 20px; }
 
     /* ── Checklist ── */
     .section { margin-bottom: 20px; }
-
-    .section-title {
-      font-size: 11px;
-      font-weight: 600;
-      color: #888;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      margin-bottom: 8px;
-      padding-left: 4px;
-    }
-
+    .section-title { font-size: 11px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; padding-left: 4px; }
     .card { background: #1c1c1e; border-radius: 14px; overflow: hidden; }
 
     .item {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 14px 16px;
-      border-bottom: 1px solid #2c2c2e;
-      cursor: pointer;
-      transition: background 0.15s;
+      display: flex; align-items: center; gap: 14px;
+      padding: 14px 16px; border-bottom: 1px solid #2c2c2e;
+      cursor: pointer; transition: background 0.15s;
       -webkit-tap-highlight-color: transparent;
     }
-
     .item:last-child { border-bottom: none; }
     .item:active { background: #2c2c2e; }
     .item.done .label { text-decoration: line-through; color: #555; }
 
     .checkbox {
-      width: 24px; height: 24px;
-      border-radius: 50%;
-      border: 2px solid #3a3a3c;
-      flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center;
-      transition: all 0.2s;
+      width: 24px; height: 24px; border-radius: 50%;
+      border: 2px solid #3a3a3c; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; transition: all 0.2s;
     }
-
     .item.done .checkbox { background: #30d158; border-color: #30d158; }
-
     .checkmark { display: none; color: white; font-size: 13px; font-weight: 700; }
     .item.done .checkmark { display: block; }
 
     .label { font-size: 15px; line-height: 1.3; color: #f0f0f0; flex: 1; transition: color 0.2s; }
 
     .delete-btn {
-      display: none;
-      width: 22px; height: 22px;
-      border-radius: 50%;
-      background: #ff453a;
-      border: none; color: white;
-      font-size: 16px; line-height: 1;
-      cursor: pointer; flex-shrink: 0;
-      align-items: center; justify-content: center;
+      display: none; width: 22px; height: 22px;
+      border-radius: 50%; background: #ff453a;
+      border: none; color: white; font-size: 16px; line-height: 1;
+      cursor: pointer; flex-shrink: 0; align-items: center; justify-content: center;
       -webkit-tap-highlight-color: transparent;
     }
-
     .edit-mode .delete-btn { display: flex; }
 
     .edit-btn-label {
-      display: none;
-      font-size: 13px; color: #0a84ff;
-      flex-shrink: 0; padding: 2px 0;
-      cursor: pointer;
+      display: none; font-size: 13px; color: #0a84ff;
+      flex-shrink: 0; padding: 2px 0; cursor: pointer;
       -webkit-tap-highlight-color: transparent;
     }
-
     .edit-mode .edit-btn-label { display: block; }
 
     .add-item-row {
-      display: none;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 16px;
-      cursor: pointer;
-      color: #0a84ff;
-      font-size: 15px;
+      display: none; align-items: center; gap: 12px;
+      padding: 12px 16px; cursor: pointer;
+      color: #0a84ff; font-size: 15px;
       border-top: 1px solid #2c2c2e;
       -webkit-tap-highlight-color: transparent;
     }
-
     .edit-mode .add-item-row { display: flex; }
     .add-item-row:active { opacity: 0.6; }
 
@@ -204,93 +129,124 @@
     .edit-mode .lock-badge { display: inline; }
 
     .reset-btn {
-      display: block; width: 100%;
-      margin-top: 28px; padding: 14px;
-      background: #1c1c1e; color: #ff453a;
-      font-size: 15px; font-weight: 500;
-      border: none; border-radius: 14px;
-      cursor: pointer;
+      display: block; width: 100%; margin-top: 28px; padding: 14px;
+      background: #1c1c1e; color: #ff453a; font-size: 15px; font-weight: 500;
+      border: none; border-radius: 14px; cursor: pointer;
       -webkit-tap-highlight-color: transparent;
     }
-
     .reset-btn:active { opacity: 0.7; }
 
     .chat-btn {
-      display: block; width: 100%;
-      margin-top: 12px; padding: 14px;
-      background: #1a3a2a; color: #30d158;
-      font-size: 15px; font-weight: 600;
-      border: none; border-radius: 14px;
-      cursor: pointer; text-align: center; text-decoration: none;
+      display: block; width: 100%; margin-top: 12px; padding: 14px;
+      background: #1a3a2a; color: #30d158; font-size: 15px; font-weight: 600;
+      border: none; border-radius: 14px; cursor: pointer; text-align: center; text-decoration: none;
       -webkit-tap-highlight-color: transparent;
     }
-
     .chat-btn:active { opacity: 0.7; }
 
-    /* ── Progress page ── */
-    .prog-header { padding: 24px 0 20px; }
+    /* ══ STOCK PAGE ══ */
+    .stock-header { padding: 24px 0 0; }
 
-    .prog-title {
-      font-size: 13px; color: #666;
-      text-transform: uppercase; letter-spacing: 0.08em;
-      margin-bottom: 4px;
+    .stock-meta {
+      display: flex; justify-content: space-between; align-items: flex-start;
     }
 
-    .prog-headline { font-size: 26px; font-weight: 700; letter-spacing: -0.5px; }
+    .ticker { font-size: 22px; font-weight: 800; letter-spacing: 1px; }
+    .ticker-sub { font-size: 12px; color: #555; margin-top: 2px; }
 
-    .big-change {
-      font-size: 42px; font-weight: 800;
-      letter-spacing: -1px; margin-top: 4px;
+    .live-badge {
+      display: flex; align-items: center; gap: 5px;
+      font-size: 11px; font-weight: 600;
+      color: #30d158; margin-top: 4px;
+    }
+    .live-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: #30d158; animation: pulse 1.8s infinite;
+    }
+    @keyframes pulse {
+      0%,100% { opacity: 1; } 50% { opacity: 0.3; }
     }
 
-    .big-change.up { color: #30d158; }
-    .big-change.down { color: #ff453a; }
-    .big-change.neutral { color: #888; }
+    .stock-price { font-size: 48px; font-weight: 800; letter-spacing: -2px; margin-top: 16px; line-height: 1; }
+    .stock-price span { font-size: 22px; font-weight: 500; color: #888; vertical-align: super; margin-right: 2px; }
 
-    .change-label { font-size: 13px; color: #666; margin-top: 2px; }
+    .stock-change {
+      display: flex; align-items: center; gap: 10px;
+      margin-top: 6px; font-size: 15px; font-weight: 600;
+    }
+    .change-pts { }
+    .change-pct {
+      background: rgba(48,209,88,0.15);
+      color: #30d158;
+      padding: 2px 8px; border-radius: 6px; font-size: 13px;
+    }
+    .stock-change.down .change-pts { color: #ff453a; }
+    .stock-change.down .change-pct { background: rgba(255,69,58,0.15); color: #ff453a; }
+    .stock-change.up .change-pts { color: #30d158; }
 
+    .stock-change.neutral .change-pts { color: #888; }
+    .stock-change.neutral .change-pct { background: rgba(128,128,128,0.15); color: #888; }
+
+    /* Period buttons */
     .period-btns {
-      display: flex; gap: 8px;
-      margin: 16px 0 20px;
+      display: flex; gap: 0;
+      margin: 20px 0 0;
+      background: #1c1c1e;
+      border-radius: 10px; padding: 3px;
     }
-
     .period-btn {
-      background: #1c1c1e; border: none;
-      color: #888; font-size: 13px; font-weight: 600;
-      padding: 6px 14px; border-radius: 99px;
-      cursor: pointer;
+      flex: 1; background: none; border: none;
+      color: #666; font-size: 13px; font-weight: 600;
+      padding: 7px 0; border-radius: 8px;
+      cursor: pointer; transition: all 0.2s;
       -webkit-tap-highlight-color: transparent;
     }
+    .period-btn.active { background: #2c2c2e; color: #f0f0f0; }
 
-    .period-btn.active { background: #30d158; color: #000; }
+    /* Chart */
+    .chart-area {
+      margin: 16px -16px 0;
+      position: relative;
+    }
+    canvas#chart { width: 100%; display: block; }
 
-    .chart-wrap {
-      background: #1c1c1e;
-      border-radius: 16px;
-      padding: 16px 16px 12px;
-      margin-bottom: 24px;
+    .crosshair-label {
+      position: absolute; top: 8px; left: 16px;
+      font-size: 13px; font-weight: 600; color: #f0f0f0;
+      background: rgba(28,28,30,0.85);
+      padding: 3px 8px; border-radius: 6px;
+      display: none;
     }
 
-    canvas { width: 100%; display: block; }
+    /* Stock stats */
+    .stock-stats {
+      margin-top: 24px;
+    }
+    .stats-row {
+      display: grid; grid-template-columns: 1fr 1fr 1fr 1fr;
+      background: #1c1c1e; border-radius: 14px;
+      overflow: hidden; margin-bottom: 12px;
+    }
+    .stat-cell {
+      padding: 14px 12px;
+      border-right: 1px solid #2c2c2e;
+    }
+    .stat-cell:last-child { border-right: none; }
+    .stat-lbl { font-size: 10px; color: #666; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+    .stat-val { font-size: 17px; font-weight: 700; }
+    .stat-val.up { color: #30d158; }
+    .stat-val.down { color: #ff453a; }
 
-    .stats-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
+    .stats-row2 {
+      display: grid; grid-template-columns: 1fr 1fr;
       gap: 12px;
-      margin-bottom: 24px;
     }
-
-    .stat-card {
-      background: #1c1c1e;
-      border-radius: 14px;
-      padding: 16px;
+    .stat-card2 {
+      background: #1c1c1e; border-radius: 14px; padding: 16px;
     }
-
-    .stat-label { font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
-    .stat-value { font-size: 28px; font-weight: 700; letter-spacing: -0.5px; }
-    .stat-sub { font-size: 12px; color: #666; margin-top: 2px; }
-    .stat-up { color: #30d158; }
-    .stat-down { color: #ff453a; }
+    .stat-card2 .stat-lbl { font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+    .stat-card2 .stat-val2 { font-size: 28px; font-weight: 700; letter-spacing: -0.5px; }
+    .stat-card2 .stat-sub { font-size: 12px; color: #666; margin-top: 2px; }
   </style>
 </head>
 <body>
@@ -302,9 +258,7 @@
       <div class="date" id="date-label"></div>
       <h1>Daily Agent</h1>
     </div>
-    <div style="text-align:right;">
-      <button class="edit-toggle" id="edit-toggle" onclick="toggleEditMode()">Edit</button>
-    </div>
+    <button class="edit-toggle" id="edit-toggle" onclick="toggleEditMode()">Edit</button>
   </header>
 
   <div class="progress-bar-wrap">
@@ -318,45 +272,69 @@
   <button class="reset-btn" onclick="resetDay()">Reset today's checklist</button>
 </div>
 
-<!-- PROGRESS PAGE -->
+<!-- STOCK PAGE -->
 <div class="page" id="page-progress">
-  <div class="prog-header">
-    <div class="prog-title">Productivity</div>
-    <div class="prog-headline">Your Progress</div>
-    <div class="big-change" id="big-change">—</div>
-    <div class="change-label" id="change-label">vs start of tracking</div>
+
+  <div class="stock-header">
+    <div class="stock-meta">
+      <div>
+        <div class="ticker">AFM</div>
+        <div class="ticker-sub">Productivity Index</div>
+      </div>
+      <div class="live-badge"><div class="live-dot"></div>LIVE</div>
+    </div>
+
+    <div class="stock-price"><span>%</span><span id="s-price">0</span></div>
+    <div class="stock-change neutral" id="s-change">
+      <span class="change-pts" id="s-pts">—</span>
+      <span class="change-pct" id="s-pct">—</span>
+    </div>
+    <div style="font-size:12px;color:#555;margin-top:4px;" id="s-period-lbl">Today</div>
   </div>
 
   <div class="period-btns">
-    <button class="period-btn active" onclick="setPeriod(7, this)">7D</button>
-    <button class="period-btn" onclick="setPeriod(30, this)">30D</button>
-    <button class="period-btn" onclick="setPeriod(999, this)">All</button>
+    <button class="period-btn active" onclick="setPeriod('1D',this)">1D</button>
+    <button class="period-btn" onclick="setPeriod('7D',this)">7D</button>
+    <button class="period-btn" onclick="setPeriod('30D',this)">30D</button>
+    <button class="period-btn" onclick="setPeriod('ALL',this)">ALL</button>
   </div>
 
-  <div class="chart-wrap">
-    <canvas id="chart" height="180"></canvas>
+  <div class="chart-area">
+    <div class="crosshair-label" id="crosshair-label"></div>
+    <canvas id="chart" height="200"></canvas>
   </div>
 
-  <div class="stats-grid">
-    <div class="stat-card">
-      <div class="stat-label">Today</div>
-      <div class="stat-value" id="stat-today">—</div>
-      <div class="stat-sub" id="stat-today-sub"></div>
+  <div class="stock-stats">
+    <div class="stats-row">
+      <div class="stat-cell">
+        <div class="stat-lbl">Open</div>
+        <div class="stat-val" id="s-open">—</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-lbl">High</div>
+        <div class="stat-val up" id="s-high">—</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-lbl">Low</div>
+        <div class="stat-val down" id="s-low">—</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-lbl">Avg</div>
+        <div class="stat-val" id="s-avg">—</div>
+      </div>
     </div>
-    <div class="stat-card">
-      <div class="stat-label">7-Day Avg</div>
-      <div class="stat-value" id="stat-avg">—</div>
-      <div class="stat-sub">last 7 days</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-label">Best Day</div>
-      <div class="stat-value" id="stat-best">—</div>
-      <div class="stat-sub" id="stat-best-date"></div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-label">Streak</div>
-      <div class="stat-value" id="stat-streak">—</div>
-      <div class="stat-sub">days 50%+ done</div>
+
+    <div class="stats-row2">
+      <div class="stat-card2">
+        <div class="stat-lbl">Streak</div>
+        <div class="stat-val2" id="s-streak">—</div>
+        <div class="stat-sub">days ≥ 50%</div>
+      </div>
+      <div class="stat-card2">
+        <div class="stat-lbl">All-Time High</div>
+        <div class="stat-val2" id="s-ath">—</div>
+        <div class="stat-sub" id="s-ath-date"></div>
+      </div>
     </div>
   </div>
 </div>
@@ -367,14 +345,14 @@
     <span class="tab-icon">✓</span>Today
   </button>
   <button class="tab-btn" id="tab-progress" onclick="showPage('progress')">
-    <span class="tab-icon">📈</span>Progress
+    <span class="tab-icon">📈</span>AFM
   </button>
 </nav>
 
 <script>
-  // ── Schedule data ──
-  const GYM_SCHEDULE = { 0:"Shoulders & Arms", 1:"Push", 2:"Legs", 3:"Pull", 4:"Shoulders & Arms" };
-  const RUN_SCHEDULE = { 3:"Interval session — 5km time work", 5:"5km run", 0:"Long run — 10km or half marathon" };
+  // ── Schedule ──
+  const GYM_SCHEDULE = { 0:"Shoulders & Arms",1:"Push",2:"Legs",3:"Pull",4:"Shoulders & Arms" };
+  const RUN_SCHEDULE = { 3:"Interval session — 5km time work",5:"5km run",0:"Long run — 10km or half marathon" };
 
   const DEFAULT_EDITABLE = [
     { title:"Business", items:["Work on marketing agency (client outreach / delivery / admin)","One action toward getting a new client"] },
@@ -384,54 +362,50 @@
   ];
 
   let editMode = false;
-  let currentPeriod = 7;
+  let currentPeriod = '1D';
 
-  // ── Sections ──
   function getLockedSections() {
     const day = new Date().getDay();
     const locked = [];
-    if (day !== 5 && day !== 6) {
-      locked.push({ locked:true, title:"Gym & Training", items:[`Gym — ${GYM_SCHEDULE[day]||"Session"}`, "Daily ab workout"] });
-    }
+    if (day !== 5 && day !== 6) locked.push({ locked:true, title:"Gym & Training", items:[`Gym — ${GYM_SCHEDULE[day]||"Session"}`, "Daily ab workout"] });
     const run = RUN_SCHEDULE[day];
     if (run) locked.push({ locked:true, title:"Running", items:[`Run — ${run}`] });
     return locked;
   }
 
-  function loadEditable() {
-    const s = localStorage.getItem('editable-sections');
-    return s ? JSON.parse(s) : DEFAULT_EDITABLE;
-  }
-
-  function saveEditable(sections) { localStorage.setItem('editable-sections', JSON.stringify(sections)); }
-
+  function loadEditable() { const s = localStorage.getItem('editable-sections'); return s ? JSON.parse(s) : DEFAULT_EDITABLE; }
+  function saveEditable(s) { localStorage.setItem('editable-sections', JSON.stringify(s)); }
   function getAllSections() { return [...getLockedSections(), ...loadEditable()]; }
 
-  // ── Daily state ──
   const todayKey = () => new Date().toISOString().slice(0,10);
+  function loadState() { const s = localStorage.getItem('daily-'+todayKey()); return s ? JSON.parse(s) : {}; }
+  function saveState(s) { localStorage.setItem('daily-'+todayKey(), JSON.stringify(s)); }
 
-  function loadState() {
-    const s = localStorage.getItem('daily-' + todayKey());
-    return s ? JSON.parse(s) : {};
-  }
+  // ── History (daily) ──
+  function loadHistory() { const s = localStorage.getItem('history'); return s ? JSON.parse(s) : {}; }
 
-  function saveState(state) { localStorage.setItem('daily-' + todayKey(), JSON.stringify(state)); }
+  // ── Intraday history ──
+  function loadIntraday() { const s = localStorage.getItem('intraday-'+todayKey()); return s ? JSON.parse(s) : []; }
+  function saveIntraday(arr) { localStorage.setItem('intraday-'+todayKey(), JSON.stringify(arr)); }
 
-  // ── History ──
-  function loadHistory() {
-    const s = localStorage.getItem('history');
-    return s ? JSON.parse(s) : {};
-  }
-
-  function saveToHistory() {
+  function getCurrentPct() {
     const sections = getAllSections();
     const allItems = sections.flatMap(s => s.items);
     const state = loadState();
-    const done = allItems.filter((_, i) => state[i]).length;
-    const pct = allItems.length ? Math.round((done / allItems.length) * 100) : 0;
+    const done = allItems.filter((_,i) => state[i]).length;
+    return allItems.length ? Math.round((done / allItems.length) * 100) : 0;
+  }
+
+  function saveToHistory() {
+    const pct = getCurrentPct();
+    // Daily
     const history = loadHistory();
     history[todayKey()] = pct;
     localStorage.setItem('history', JSON.stringify(history));
+    // Intraday
+    const intra = loadIntraday();
+    intra.push({ t: Date.now(), pct });
+    saveIntraday(intra);
   }
 
   // ── Progress bar ──
@@ -439,7 +413,7 @@
     const sections = getAllSections();
     const allItems = sections.flatMap(s => s.items);
     const state = loadState();
-    const done = allItems.filter((_, i) => state[i]).length;
+    const done = allItems.filter((_,i) => state[i]).length;
     const pct = allItems.length ? Math.round((done / allItems.length) * 100) : 0;
     document.getElementById('progress-bar').style.width = pct + '%';
     document.getElementById('progress-label').textContent = `${done} / ${allItems.length} done`;
@@ -449,9 +423,9 @@
   function showPage(name) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById('page-' + name).classList.add('active');
-    document.getElementById('tab-' + name).classList.add('active');
-    if (name === 'progress') renderProgress();
+    document.getElementById('page-'+name).classList.add('active');
+    document.getElementById('tab-'+name).classList.add('active');
+    if (name === 'progress') renderStock();
   }
 
   // ── Edit mode ──
@@ -474,22 +448,20 @@
     let globalIndex = 0;
     const lockedCount = getLockedSections().length;
 
-    sections.forEach((section, sectionIdx) => {
+    sections.forEach((section, sIdx) => {
       const isLocked = !!section.locked;
-      const editableSectionIdx = sectionIdx - lockedCount;
+      const eIdx = sIdx - lockedCount;
 
       const sec = document.createElement('div');
       sec.className = 'section';
 
       const titleRow = document.createElement('div');
       titleRow.style.cssText = 'display:flex;align-items:center;margin-bottom:8px;padding-left:4px;';
-
       const titleEl = document.createElement('span');
       titleEl.className = 'section-title';
       titleEl.style.margin = '0';
       titleEl.textContent = section.title;
       titleRow.appendChild(titleEl);
-
       if (isLocked) {
         const badge = document.createElement('span');
         badge.className = 'lock-badge';
@@ -506,16 +478,14 @@
         const item = document.createElement('div');
         item.className = 'item' + (state[idx] ? ' done' : '');
 
-        const checkbox = document.createElement('div');
-        checkbox.className = 'checkbox';
-        checkbox.innerHTML = '<span class="checkmark">✓</span>';
-
-        const labelEl = document.createElement('div');
-        labelEl.className = 'label';
-        labelEl.textContent = label;
-
-        item.appendChild(checkbox);
-        item.appendChild(labelEl);
+        const cb = document.createElement('div');
+        cb.className = 'checkbox';
+        cb.innerHTML = '<span class="checkmark">✓</span>';
+        const lbl = document.createElement('div');
+        lbl.className = 'label';
+        lbl.textContent = label;
+        item.appendChild(cb);
+        item.appendChild(lbl);
 
         if (!isLocked) {
           const editLbl = document.createElement('span');
@@ -523,30 +493,18 @@
           editLbl.textContent = 'Edit';
           editLbl.addEventListener('click', e => {
             e.stopPropagation();
-            const newText = prompt('Edit item:', label);
-            if (newText && newText.trim()) {
-              const editable = loadEditable();
-              editable[editableSectionIdx].items[itemIdx] = newText.trim();
-              saveEditable(editable);
-              render();
-            }
+            const t = prompt('Edit item:', label);
+            if (t && t.trim()) { const ed = loadEditable(); ed[eIdx].items[itemIdx] = t.trim(); saveEditable(ed); render(); }
           });
-
-          const delBtn = document.createElement('button');
-          delBtn.className = 'delete-btn';
-          delBtn.innerHTML = '&times;';
-          delBtn.addEventListener('click', e => {
+          const del = document.createElement('button');
+          del.className = 'delete-btn';
+          del.innerHTML = '&times;';
+          del.addEventListener('click', e => {
             e.stopPropagation();
-            if (confirm(`Remove "${label}"?`)) {
-              const editable = loadEditable();
-              editable[editableSectionIdx].items.splice(itemIdx, 1);
-              saveEditable(editable);
-              render();
-            }
+            if (confirm(`Remove "${label}"?`)) { const ed = loadEditable(); ed[eIdx].items.splice(itemIdx,1); saveEditable(ed); render(); }
           });
-
           item.appendChild(editLbl);
-          item.appendChild(delBtn);
+          item.appendChild(del);
         }
 
         item.addEventListener('click', () => {
@@ -557,7 +515,6 @@
           saveToHistory();
           render();
         });
-
         card.appendChild(item);
       });
 
@@ -566,13 +523,8 @@
         addRow.className = 'add-item-row';
         addRow.innerHTML = '<span style="font-size:20px;line-height:1">+</span> Add item';
         addRow.addEventListener('click', () => {
-          const newText = prompt('New item:');
-          if (newText && newText.trim()) {
-            const editable = loadEditable();
-            editable[editableSectionIdx].items.push(newText.trim());
-            saveEditable(editable);
-            render();
-          }
+          const t = prompt('New item:');
+          if (t && t.trim()) { const ed = loadEditable(); ed[eIdx].items.push(t.trim()); saveEditable(ed); render(); }
         });
         card.appendChild(addRow);
       }
@@ -586,38 +538,99 @@
 
   function resetDay() {
     if (confirm('Reset all checkboxes for today?')) {
-      localStorage.removeItem('daily-' + todayKey());
+      localStorage.removeItem('daily-'+todayKey());
       saveToHistory();
       render();
     }
   }
 
-  // ── Progress page ──
-  function setPeriod(days, btn) {
-    currentPeriod = days;
+  // ── Stock page ──
+  function setPeriod(p, btn) {
+    currentPeriod = p;
     document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    renderProgress();
+    renderStock();
   }
 
-  function getHistorySlice(days) {
+  function getChartData() {
+    if (currentPeriod === '1D') {
+      const intra = loadIntraday();
+      if (!intra.length) return [];
+      // Add opening 0 point at start of day
+      const start = new Date(); start.setHours(0,0,0,0);
+      const pts = [{ t: start.getTime(), pct: 0 }, ...intra];
+      return pts;
+    }
     const history = loadHistory();
     const dates = Object.keys(history).sort();
-    const slice = days < 999 ? dates.slice(-days) : dates;
-    return slice.map(d => ({ date: d, pct: history[d] }));
+    const days = currentPeriod === '7D' ? 7 : currentPeriod === '30D' ? 30 : 9999;
+    const slice = dates.slice(-days);
+    return slice.map(d => ({ t: new Date(d+'T12:00:00').getTime(), pct: history[d] }));
   }
 
-  function renderProgress() {
-    const data = getHistorySlice(currentPeriod);
-    drawChart(data);
-    renderStats(data);
+  function renderStock() {
+    const data = getChartData();
+    const history = loadHistory();
+    const allDates = Object.keys(history).sort();
+
+    const currentPct = getCurrentPct();
+    document.getElementById('s-price').textContent = currentPct;
+
+    // Change vs open of period
+    const open = data.length ? data[0].pct : null;
+    const last = currentPct;
+    const changeEl = document.getElementById('s-change');
+    const ptsEl = document.getElementById('s-pts');
+    const pctEl = document.getElementById('s-pct');
+    const periodLbl = document.getElementById('s-period-lbl');
+
+    const labels = { '1D':'Today', '7D':'Past 7 days', '30D':'Past 30 days', 'ALL':'All time' };
+    periodLbl.textContent = labels[currentPeriod] || '';
+
+    if (open !== null) {
+      const diff = last - open;
+      const pctChange = open > 0 ? ((diff / open) * 100).toFixed(1) : '—';
+      const sign = diff >= 0 ? '+' : '';
+      ptsEl.textContent = `${sign}${diff} pts`;
+      pctEl.textContent = `${sign}${pctChange}%`;
+      changeEl.className = 'stock-change ' + (diff > 0 ? 'up' : diff < 0 ? 'down' : 'neutral');
+    } else {
+      ptsEl.textContent = '—'; pctEl.textContent = '—';
+      changeEl.className = 'stock-change neutral';
+    }
+
+    // Stats
+    const vals = data.map(d => d.pct);
+    document.getElementById('s-open').textContent = open !== null ? open + '%' : '—';
+    document.getElementById('s-high').textContent = vals.length ? Math.max(...vals) + '%' : '—';
+    document.getElementById('s-low').textContent = vals.length ? Math.min(...vals) + '%' : '—';
+    const avg = vals.length ? Math.round(vals.reduce((a,b)=>a+b,0)/vals.length) : null;
+    document.getElementById('s-avg').textContent = avg !== null ? avg + '%' : '—';
+
+    // ATH
+    if (allDates.length) {
+      const allVals = allDates.map(d => history[d]);
+      const ath = Math.max(...allVals);
+      const athDate = allDates[allVals.indexOf(ath)];
+      document.getElementById('s-ath').textContent = ath + '%';
+      document.getElementById('s-ath-date').textContent = new Date(athDate+'T00:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short'});
+    }
+
+    // Streak
+    let streak = 0;
+    for (let i = allDates.length-1; i >= 0; i--) {
+      if (history[allDates[i]] >= 50) streak++; else break;
+    }
+    document.getElementById('s-streak').textContent = streak;
+
+    drawStockChart(data, open);
   }
 
-  function drawChart(data) {
+  function drawStockChart(data, openVal) {
     const canvas = document.getElementById('chart');
     const dpr = window.devicePixelRatio || 1;
-    const W = canvas.parentElement.clientWidth - 32;
-    const H = 180;
+    const W = window.innerWidth;
+    const H = 200;
     canvas.width = W * dpr;
     canvas.height = H * dpr;
     canvas.style.width = W + 'px';
@@ -628,155 +641,135 @@
     ctx.clearRect(0, 0, W, H);
 
     if (data.length < 2) {
-      ctx.fillStyle = '#555';
-      ctx.font = '14px -apple-system, sans-serif';
+      ctx.fillStyle = '#444';
+      ctx.font = '13px -apple-system, sans-serif';
       ctx.textAlign = 'center';
-      ctx.fillText('Not enough data yet — keep checking off tasks!', W / 2, H / 2);
+      ctx.fillText('Start checking off tasks to build your chart', W/2, H/2);
       return;
     }
 
-    const padL = 8, padR = 8, padT = 12, padB = 28;
+    const padL = 0, padR = 0, padT = 16, padB = 24;
     const cW = W - padL - padR;
     const cH = H - padT - padB;
 
     const vals = data.map(d => d.pct);
-    const minV = 0, maxV = 100;
+    const last = vals[vals.length - 1];
+    const isUp = openVal === null || last >= openVal;
+    const lineColor = isUp ? '#30d158' : '#ff453a';
+    const gradTop = isUp ? 'rgba(48,209,88,0.3)' : 'rgba(255,69,58,0.3)';
 
     function xOf(i) { return padL + (i / (data.length - 1)) * cW; }
-    function yOf(v) { return padT + cH - ((v - minV) / (maxV - minV)) * cH; }
+    function yOf(v) { return padT + cH - (Math.max(0, Math.min(100, v)) / 100) * cH; }
 
-    // Grid lines at 0, 50, 100
-    [0, 50, 100].forEach(v => {
-      const y = yOf(v);
+    // Open line
+    if (openVal !== null) {
+      const oy = yOf(openVal);
       ctx.beginPath();
-      ctx.strokeStyle = '#2c2c2e';
+      ctx.setLineDash([5, 5]);
+      ctx.strokeStyle = 'rgba(255,255,255,0.15)';
       ctx.lineWidth = 1;
-      ctx.setLineDash([4, 4]);
-      ctx.moveTo(padL, y);
-      ctx.lineTo(W - padR, y);
+      ctx.moveTo(0, oy); ctx.lineTo(W, oy);
       ctx.stroke();
       ctx.setLineDash([]);
-      ctx.fillStyle = '#555';
-      ctx.font = '10px -apple-system, sans-serif';
-      ctx.textAlign = 'right';
-      ctx.fillText(v + '%', padL - 2, y + 3);
-    });
+    }
+
+    // Build path
+    function buildPath() {
+      ctx.moveTo(xOf(0), yOf(vals[0]));
+      for (let i = 1; i < data.length; i++) {
+        const x0=xOf(i-1), y0=yOf(vals[i-1]), x1=xOf(i), y1=yOf(vals[i]);
+        ctx.bezierCurveTo((x0+x1)/2, y0, (x0+x1)/2, y1, x1, y1);
+      }
+    }
 
     // Gradient fill
-    const grad = ctx.createLinearGradient(0, padT, 0, padT + cH);
-    grad.addColorStop(0, 'rgba(48,209,88,0.35)');
-    grad.addColorStop(1, 'rgba(48,209,88,0)');
+    const grad = ctx.createLinearGradient(0, padT, 0, padT+cH);
+    grad.addColorStop(0, gradTop);
+    grad.addColorStop(1, 'rgba(0,0,0,0)');
 
     ctx.beginPath();
-    ctx.moveTo(xOf(0), yOf(vals[0]));
-    for (let i = 1; i < data.length; i++) {
-      const x0 = xOf(i - 1), y0 = yOf(vals[i - 1]);
-      const x1 = xOf(i), y1 = yOf(vals[i]);
-      const cpx = (x0 + x1) / 2;
-      ctx.bezierCurveTo(cpx, y0, cpx, y1, x1, y1);
-    }
-    ctx.lineTo(xOf(data.length - 1), padT + cH);
-    ctx.lineTo(xOf(0), padT + cH);
+    buildPath();
+    ctx.lineTo(xOf(data.length-1), H);
+    ctx.lineTo(xOf(0), H);
     ctx.closePath();
     ctx.fillStyle = grad;
     ctx.fill();
 
     // Line
     ctx.beginPath();
-    ctx.moveTo(xOf(0), yOf(vals[0]));
-    for (let i = 1; i < data.length; i++) {
-      const x0 = xOf(i - 1), y0 = yOf(vals[i - 1]);
-      const x1 = xOf(i), y1 = yOf(vals[i]);
-      const cpx = (x0 + x1) / 2;
-      ctx.bezierCurveTo(cpx, y0, cpx, y1, x1, y1);
-    }
-    ctx.strokeStyle = '#30d158';
+    buildPath();
+    ctx.strokeStyle = lineColor;
     ctx.lineWidth = 2.5;
+    ctx.lineJoin = 'round';
     ctx.stroke();
 
-    // End dot
-    const lastX = xOf(data.length - 1);
-    const lastY = yOf(vals[vals.length - 1]);
+    // End dot with glow
+    const ex = xOf(data.length-1), ey = yOf(vals[vals.length-1]);
     ctx.beginPath();
-    ctx.arc(lastX, lastY, 5, 0, Math.PI * 2);
-    ctx.fillStyle = '#30d158';
+    ctx.arc(ex, ey, 8, 0, Math.PI*2);
+    ctx.fillStyle = lineColor + '30';
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(ex, ey, 4.5, 0, Math.PI*2);
+    ctx.fillStyle = lineColor;
     ctx.fill();
 
-    // X axis labels (first, middle, last)
-    const labelIdxs = [0, Math.floor((data.length - 1) / 2), data.length - 1];
+    // X axis labels
     ctx.fillStyle = '#555';
     ctx.font = '10px -apple-system, sans-serif';
-    labelIdxs.forEach(i => {
-      const d = new Date(data[i].date + 'T00:00:00');
-      const label = d.toLocaleDateString('en-GB', { day:'numeric', month:'short' });
-      ctx.textAlign = i === 0 ? 'left' : i === data.length - 1 ? 'right' : 'center';
-      ctx.fillText(label, xOf(i), H - 4);
-    });
+
+    if (currentPeriod === '1D') {
+      // Show hour labels
+      const shown = new Set();
+      data.forEach((d, i) => {
+        const h = new Date(d.t).getHours();
+        const label = `${h}:00`;
+        if (!shown.has(h) && (i === 0 || i === data.length-1 || !shown.size)) {
+          shown.add(h);
+          const x = xOf(i);
+          ctx.textAlign = i === 0 ? 'left' : i === data.length-1 ? 'right' : 'center';
+          ctx.fillText(label, x, H - 4);
+        }
+      });
+      // Always show first and last time
+      const fmt = t => { const d = new Date(t); return `${d.getHours()}:${String(d.getMinutes()).padStart(2,'0')}`; };
+      ctx.textAlign = 'left'; ctx.fillText(fmt(data[0].t), xOf(0)+4, H-4);
+      ctx.textAlign = 'right'; ctx.fillText(fmt(data[data.length-1].t), xOf(data.length-1)-4, H-4);
+    } else {
+      const idxs = [0, Math.floor((data.length-1)/2), data.length-1];
+      idxs.forEach(i => {
+        const d = new Date(data[i].t);
+        const lbl = d.toLocaleDateString('en-GB',{day:'numeric',month:'short'});
+        ctx.textAlign = i===0 ? 'left' : i===data.length-1 ? 'right' : 'center';
+        ctx.fillText(lbl, xOf(i), H-4);
+      });
+    }
+
+    // Touch/tap crosshair
+    canvas.ontouchstart = canvas.ontouchmove = (e) => {
+      e.preventDefault();
+      const rect = canvas.getBoundingClientRect();
+      const tx = e.touches[0].clientX - rect.left;
+      const idx = Math.round((tx / W) * (data.length - 1));
+      const clamped = Math.max(0, Math.min(data.length-1, idx));
+      showCrosshair(data[clamped], clamped, data, W, H, dpr, lineColor);
+    };
+    canvas.ontouchend = () => { document.getElementById('crosshair-label').style.display = 'none'; };
   }
 
-  function renderStats(data) {
-    const history = loadHistory();
-    const allDates = Object.keys(history).sort();
-    const allVals = allDates.map(d => history[d]);
-
-    // Big change vs period start
-    const first = data[0]?.pct ?? null;
-    const last = data[data.length - 1]?.pct ?? null;
-    const bigEl = document.getElementById('big-change');
-    const lblEl = document.getElementById('change-label');
-
-    if (first !== null && last !== null && data.length >= 2) {
-      const change = last - first;
-      const sign = change >= 0 ? '+' : '';
-      bigEl.textContent = sign + change + '%';
-      bigEl.className = 'big-change ' + (change > 0 ? 'up' : change < 0 ? 'down' : 'neutral');
-      lblEl.textContent = `vs ${data.length === 1 ? 'yesterday' : data.length + ' days ago'}`;
-    } else {
-      bigEl.textContent = last !== null ? last + '%' : '—';
-      bigEl.className = 'big-change neutral';
-      lblEl.textContent = 'today';
-    }
-
-    // Today
-    const todayPct = history[todayKey()] ?? null;
-    const yesterdayKey = (() => { const d = new Date(); d.setDate(d.getDate()-1); return d.toISOString().slice(0,10); })();
-    const yesterPct = history[yesterdayKey] ?? null;
-    document.getElementById('stat-today').textContent = todayPct !== null ? todayPct + '%' : '—';
-    if (yesterPct !== null && todayPct !== null) {
-      const diff = todayPct - yesterPct;
-      const sub = document.getElementById('stat-today-sub');
-      sub.textContent = (diff >= 0 ? '↑ +' : '↓ ') + diff + '% vs yesterday';
-      sub.className = 'stat-sub ' + (diff >= 0 ? 'stat-up' : 'stat-down');
-    }
-
-    // 7-day avg
-    const last7 = allDates.slice(-7).map(d => history[d]);
-    const avg = last7.length ? Math.round(last7.reduce((a,b)=>a+b,0)/last7.length) : null;
-    document.getElementById('stat-avg').textContent = avg !== null ? avg + '%' : '—';
-
-    // Best day
-    if (allVals.length) {
-      const best = Math.max(...allVals);
-      const bestDate = allDates[allVals.indexOf(best)];
-      const bestFormatted = new Date(bestDate + 'T00:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short'});
-      document.getElementById('stat-best').textContent = best + '%';
-      document.getElementById('stat-best-date').textContent = bestFormatted;
-    }
-
-    // Streak (days >= 50%)
-    let streak = 0;
-    for (let i = allDates.length - 1; i >= 0; i--) {
-      if (history[allDates[i]] >= 50) streak++;
-      else break;
-    }
-    document.getElementById('stat-streak').textContent = streak;
+  function showCrosshair(point, idx, data, W, H, dpr, color) {
+    const lbl = document.getElementById('crosshair-label');
+    lbl.style.display = 'block';
+    const time = currentPeriod === '1D'
+      ? new Date(point.t).toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})
+      : new Date(point.t).toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'});
+    lbl.textContent = `${point.pct}%  ${time}`;
   }
 
   // ── Init ──
   function setDateLabel() {
-    const now = new Date();
     document.getElementById('date-label').textContent =
-      now.toLocaleDateString('en-GB', { weekday:'long', day:'numeric', month:'long' });
+      new Date().toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});
   }
 
   setDateLabel();
