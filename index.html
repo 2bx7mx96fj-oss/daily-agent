@@ -15,9 +15,46 @@
       background: #0a0a0a;
       color: #f0f0f0;
       min-height: 100dvh;
-      padding: env(safe-area-inset-top, 20px) 16px env(safe-area-inset-bottom, 20px);
+      padding: env(safe-area-inset-top, 20px) 16px 90px;
     }
 
+    /* ── Bottom nav ── */
+    .tab-bar {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      display: flex;
+      background: rgba(18,18,18,0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-top: 1px solid #2c2c2e;
+      padding-bottom: env(safe-area-inset-bottom, 0);
+    }
+
+    .tab-btn {
+      flex: 1;
+      background: none;
+      border: none;
+      color: #666;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 10px 0 12px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .tab-btn.active { color: #30d158; }
+
+    .tab-icon { font-size: 22px; line-height: 1; }
+
+    /* ── Pages ── */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ── Header ── */
     header {
       padding: 20px 0 8px;
       display: flex;
@@ -52,11 +89,9 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    .edit-toggle.active {
-      border-color: #0a84ff;
-      color: #0a84ff;
-    }
+    .edit-toggle.active { border-color: #0a84ff; color: #0a84ff; }
 
+    /* ── Progress bar ── */
     .progress-bar-wrap {
       background: #1c1c1e;
       border-radius: 99px;
@@ -80,6 +115,7 @@
       margin-bottom: 20px;
     }
 
+    /* ── Checklist ── */
     .section { margin-bottom: 20px; }
 
     .section-title {
@@ -92,11 +128,7 @@
       padding-left: 4px;
     }
 
-    .card {
-      background: #1c1c1e;
-      border-radius: 14px;
-      overflow: hidden;
-    }
+    .card { background: #1c1c1e; border-radius: 14px; overflow: hidden; }
 
     .item {
       display: flex;
@@ -111,60 +143,33 @@
 
     .item:last-child { border-bottom: none; }
     .item:active { background: #2c2c2e; }
-
-    .item.done .label {
-      text-decoration: line-through;
-      color: #555;
-    }
+    .item.done .label { text-decoration: line-through; color: #555; }
 
     .checkbox {
-      width: 24px;
-      height: 24px;
+      width: 24px; height: 24px;
       border-radius: 50%;
       border: 2px solid #3a3a3c;
       flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       transition: all 0.2s;
     }
 
-    .item.done .checkbox {
-      background: #30d158;
-      border-color: #30d158;
-    }
+    .item.done .checkbox { background: #30d158; border-color: #30d158; }
 
-    .checkmark {
-      display: none;
-      color: white;
-      font-size: 13px;
-      font-weight: 700;
-    }
-
+    .checkmark { display: none; color: white; font-size: 13px; font-weight: 700; }
     .item.done .checkmark { display: block; }
 
-    .label {
-      font-size: 15px;
-      line-height: 1.3;
-      color: #f0f0f0;
-      flex: 1;
-      transition: color 0.2s;
-    }
+    .label { font-size: 15px; line-height: 1.3; color: #f0f0f0; flex: 1; transition: color 0.2s; }
 
     .delete-btn {
       display: none;
-      width: 22px;
-      height: 22px;
+      width: 22px; height: 22px;
       border-radius: 50%;
       background: #ff453a;
-      border: none;
-      color: white;
-      font-size: 16px;
-      line-height: 1;
-      cursor: pointer;
-      flex-shrink: 0;
-      align-items: center;
-      justify-content: center;
+      border: none; color: white;
+      font-size: 16px; line-height: 1;
+      cursor: pointer; flex-shrink: 0;
+      align-items: center; justify-content: center;
       -webkit-tap-highlight-color: transparent;
     }
 
@@ -172,10 +177,8 @@
 
     .edit-btn-label {
       display: none;
-      font-size: 13px;
-      color: #0a84ff;
-      flex-shrink: 0;
-      padding: 2px 0;
+      font-size: 13px; color: #0a84ff;
+      flex-shrink: 0; padding: 2px 0;
       cursor: pointer;
       -webkit-tap-highlight-color: transparent;
     }
@@ -197,26 +200,15 @@
     .edit-mode .add-item-row { display: flex; }
     .add-item-row:active { opacity: 0.6; }
 
-    .lock-badge {
-      display: none;
-      font-size: 11px;
-      color: #555;
-      margin-left: 6px;
-    }
-
+    .lock-badge { display: none; font-size: 11px; color: #555; margin-left: 6px; }
     .edit-mode .lock-badge { display: inline; }
 
     .reset-btn {
-      display: block;
-      width: 100%;
-      margin-top: 28px;
-      padding: 14px;
-      background: #1c1c1e;
-      color: #ff453a;
-      font-size: 15px;
-      font-weight: 500;
-      border: none;
-      border-radius: 14px;
+      display: block; width: 100%;
+      margin-top: 28px; padding: 14px;
+      background: #1c1c1e; color: #ff453a;
+      font-size: 15px; font-weight: 500;
+      border: none; border-radius: 14px;
       cursor: pointer;
       -webkit-tap-highlight-color: transparent;
     }
@@ -224,134 +216,225 @@
     .reset-btn:active { opacity: 0.7; }
 
     .chat-btn {
-      display: block;
-      width: 100%;
-      margin-top: 12px;
-      padding: 14px;
-      background: #1a3a2a;
-      color: #30d158;
-      font-size: 15px;
-      font-weight: 600;
-      border: none;
-      border-radius: 14px;
-      cursor: pointer;
-      text-align: center;
-      text-decoration: none;
+      display: block; width: 100%;
+      margin-top: 12px; padding: 14px;
+      background: #1a3a2a; color: #30d158;
+      font-size: 15px; font-weight: 600;
+      border: none; border-radius: 14px;
+      cursor: pointer; text-align: center; text-decoration: none;
       -webkit-tap-highlight-color: transparent;
     }
 
     .chat-btn:active { opacity: 0.7; }
+
+    /* ── Progress page ── */
+    .prog-header { padding: 24px 0 20px; }
+
+    .prog-title {
+      font-size: 13px; color: #666;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      margin-bottom: 4px;
+    }
+
+    .prog-headline { font-size: 26px; font-weight: 700; letter-spacing: -0.5px; }
+
+    .big-change {
+      font-size: 42px; font-weight: 800;
+      letter-spacing: -1px; margin-top: 4px;
+    }
+
+    .big-change.up { color: #30d158; }
+    .big-change.down { color: #ff453a; }
+    .big-change.neutral { color: #888; }
+
+    .change-label { font-size: 13px; color: #666; margin-top: 2px; }
+
+    .period-btns {
+      display: flex; gap: 8px;
+      margin: 16px 0 20px;
+    }
+
+    .period-btn {
+      background: #1c1c1e; border: none;
+      color: #888; font-size: 13px; font-weight: 600;
+      padding: 6px 14px; border-radius: 99px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .period-btn.active { background: #30d158; color: #000; }
+
+    .chart-wrap {
+      background: #1c1c1e;
+      border-radius: 16px;
+      padding: 16px 16px 12px;
+      margin-bottom: 24px;
+    }
+
+    canvas { width: 100%; display: block; }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: #1c1c1e;
+      border-radius: 14px;
+      padding: 16px;
+    }
+
+    .stat-label { font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+    .stat-value { font-size: 28px; font-weight: 700; letter-spacing: -0.5px; }
+    .stat-sub { font-size: 12px; color: #666; margin-top: 2px; }
+    .stat-up { color: #30d158; }
+    .stat-down { color: #ff453a; }
   </style>
 </head>
 <body>
 
-<header>
-  <div>
-    <div class="date" id="date-label"></div>
-    <h1>Daily Agent</h1>
-  </div>
-  <div style="text-align:right;">
-    <button class="edit-toggle" id="edit-toggle" onclick="toggleEditMode()">Edit</button>
-  </div>
-</header>
+<!-- TODAY PAGE -->
+<div class="page active" id="page-today">
+  <header>
+    <div>
+      <div class="date" id="date-label"></div>
+      <h1>Daily Agent</h1>
+    </div>
+    <div style="text-align:right;">
+      <button class="edit-toggle" id="edit-toggle" onclick="toggleEditMode()">Edit</button>
+    </div>
+  </header>
 
-<div class="progress-bar-wrap">
-  <div class="progress-bar" id="progress-bar" style="width:0%"></div>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar" id="progress-bar" style="width:0%"></div>
+  </div>
+  <div class="progress-label" id="progress-label">0 / 0 done</div>
+
+  <div id="checklist"></div>
+
+  <a class="chat-btn" href="https://claude.ai/new" target="_blank">&#x1F4AC; Open Claude to Plan My Day</a>
+  <button class="reset-btn" onclick="resetDay()">Reset today's checklist</button>
 </div>
-<div class="progress-label" id="progress-label">0 / 0 done</div>
 
-<div id="checklist"></div>
+<!-- PROGRESS PAGE -->
+<div class="page" id="page-progress">
+  <div class="prog-header">
+    <div class="prog-title">Productivity</div>
+    <div class="prog-headline">Your Progress</div>
+    <div class="big-change" id="big-change">—</div>
+    <div class="change-label" id="change-label">vs start of tracking</div>
+  </div>
 
-<a class="chat-btn" href="https://claude.ai/new" target="_blank">&#x1F4AC; Open Claude to Plan My Day</a>
-<button class="reset-btn" onclick="resetDay()">Reset today's checklist</button>
+  <div class="period-btns">
+    <button class="period-btn active" onclick="setPeriod(7, this)">7D</button>
+    <button class="period-btn" onclick="setPeriod(30, this)">30D</button>
+    <button class="period-btn" onclick="setPeriod(999, this)">All</button>
+  </div>
+
+  <div class="chart-wrap">
+    <canvas id="chart" height="180"></canvas>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-label">Today</div>
+      <div class="stat-value" id="stat-today">—</div>
+      <div class="stat-sub" id="stat-today-sub"></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">7-Day Avg</div>
+      <div class="stat-value" id="stat-avg">—</div>
+      <div class="stat-sub">last 7 days</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Best Day</div>
+      <div class="stat-value" id="stat-best">—</div>
+      <div class="stat-sub" id="stat-best-date"></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Streak</div>
+      <div class="stat-value" id="stat-streak">—</div>
+      <div class="stat-sub">days 50%+ done</div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB BAR -->
+<nav class="tab-bar">
+  <button class="tab-btn active" id="tab-today" onclick="showPage('today')">
+    <span class="tab-icon">✓</span>Today
+  </button>
+  <button class="tab-btn" id="tab-progress" onclick="showPage('progress')">
+    <span class="tab-icon">📈</span>Progress
+  </button>
+</nav>
 
 <script>
-  // 0=Sun,1=Mon,2=Tue,3=Wed,4=Thu,5=Fri,6=Sat
-  const GYM_SCHEDULE = {
-    0: "Shoulders & Arms",
-    1: "Push",
-    2: "Legs",
-    3: "Pull",
-    4: "Shoulders & Arms",
-  };
-
-  const RUN_SCHEDULE = {
-    3: "Interval session — 5km time work",
-    5: "5km run",
-    0: "Long run — 10km or half marathon",
-  };
+  // ── Schedule data ──
+  const GYM_SCHEDULE = { 0:"Shoulders & Arms", 1:"Push", 2:"Legs", 3:"Pull", 4:"Shoulders & Arms" };
+  const RUN_SCHEDULE = { 3:"Interval session — 5km time work", 5:"5km run", 0:"Long run — 10km or half marathon" };
 
   const DEFAULT_EDITABLE = [
-    {
-      title: "Business",
-      items: [
-        "Work on marketing agency (client outreach / delivery / admin)",
-        "One action toward getting a new client"
-      ]
-    },
-    {
-      title: "Focus & Discipline",
-      items: [
-        "Distractions blocked during deep work time",
-        "No mindless scrolling before 12pm"
-      ]
-    },
-    {
-      title: "Learning",
-      items: [
-        "Read (global politics / non-fiction / any book)",
-        "Swedish practice (Duolingo / flashcards / listening)"
-      ]
-    },
-    {
-      title: "Driving",
-      items: ["Driving lesson or theory revision"]
-    }
+    { title:"Business", items:["Work on marketing agency (client outreach / delivery / admin)","One action toward getting a new client"] },
+    { title:"Focus & Discipline", items:["Distractions blocked during deep work time","No mindless scrolling before 12pm"] },
+    { title:"Learning", items:["Read (global politics / non-fiction / any book)","Swedish practice (Duolingo / flashcards / listening)"] },
+    { title:"Driving", items:["Driving lesson or theory revision"] }
   ];
 
   let editMode = false;
+  let currentPeriod = 7;
 
+  // ── Sections ──
   function getLockedSections() {
     const day = new Date().getDay();
     const locked = [];
     if (day !== 5 && day !== 6) {
-      locked.push({
-        locked: true,
-        title: "Gym & Training",
-        items: [`Gym — ${GYM_SCHEDULE[day] || "Session"}`, "Daily ab workout"]
-      });
+      locked.push({ locked:true, title:"Gym & Training", items:[`Gym — ${GYM_SCHEDULE[day]||"Session"}`, "Daily ab workout"] });
     }
     const run = RUN_SCHEDULE[day];
-    if (run) {
-      locked.push({ locked: true, title: "Running", items: [`Run — ${run}`] });
-    }
+    if (run) locked.push({ locked:true, title:"Running", items:[`Run — ${run}`] });
     return locked;
   }
 
   function loadEditable() {
-    const saved = localStorage.getItem('editable-sections');
-    return saved ? JSON.parse(saved) : DEFAULT_EDITABLE;
+    const s = localStorage.getItem('editable-sections');
+    return s ? JSON.parse(s) : DEFAULT_EDITABLE;
   }
 
-  function saveEditable(sections) {
-    localStorage.setItem('editable-sections', JSON.stringify(sections));
-  }
+  function saveEditable(sections) { localStorage.setItem('editable-sections', JSON.stringify(sections)); }
 
-  function getAllSections() {
-    return [...getLockedSections(), ...loadEditable()];
-  }
+  function getAllSections() { return [...getLockedSections(), ...loadEditable()]; }
 
-  const todayKey = () => new Date().toISOString().slice(0, 10);
+  // ── Daily state ──
+  const todayKey = () => new Date().toISOString().slice(0,10);
 
   function loadState() {
-    const saved = localStorage.getItem('daily-' + todayKey());
-    return saved ? JSON.parse(saved) : {};
+    const s = localStorage.getItem('daily-' + todayKey());
+    return s ? JSON.parse(s) : {};
   }
 
-  function saveState(state) {
-    localStorage.setItem('daily-' + todayKey(), JSON.stringify(state));
+  function saveState(state) { localStorage.setItem('daily-' + todayKey(), JSON.stringify(state)); }
+
+  // ── History ──
+  function loadHistory() {
+    const s = localStorage.getItem('history');
+    return s ? JSON.parse(s) : {};
   }
 
+  function saveToHistory() {
+    const sections = getAllSections();
+    const allItems = sections.flatMap(s => s.items);
+    const state = loadState();
+    const done = allItems.filter((_, i) => state[i]).length;
+    const pct = allItems.length ? Math.round((done / allItems.length) * 100) : 0;
+    const history = loadHistory();
+    history[todayKey()] = pct;
+    localStorage.setItem('history', JSON.stringify(history));
+  }
+
+  // ── Progress bar ──
   function updateProgress() {
     const sections = getAllSections();
     const allItems = sections.flatMap(s => s.items);
@@ -362,6 +445,16 @@
     document.getElementById('progress-label').textContent = `${done} / ${allItems.length} done`;
   }
 
+  // ── Navigation ──
+  function showPage(name) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('page-' + name).classList.add('active');
+    document.getElementById('tab-' + name).classList.add('active');
+    if (name === 'progress') renderProgress();
+  }
+
+  // ── Edit mode ──
   function toggleEditMode() {
     editMode = !editMode;
     document.getElementById('checklist').classList.toggle('edit-mode', editMode);
@@ -370,6 +463,7 @@
     btn.classList.toggle('active', editMode);
   }
 
+  // ── Render checklist ──
   function render() {
     const state = loadState();
     const container = document.getElementById('checklist');
@@ -378,19 +472,17 @@
 
     const sections = getAllSections();
     let globalIndex = 0;
+    const lockedCount = getLockedSections().length;
 
     sections.forEach((section, sectionIdx) => {
       const isLocked = !!section.locked;
-      const editableSectionIdx = sectionIdx - getLockedSections().length;
+      const editableSectionIdx = sectionIdx - lockedCount;
 
       const sec = document.createElement('div');
       sec.className = 'section';
 
       const titleRow = document.createElement('div');
-      titleRow.style.display = 'flex';
-      titleRow.style.alignItems = 'center';
-      titleRow.style.marginBottom = '8px';
-      titleRow.style.paddingLeft = '4px';
+      titleRow.style.cssText = 'display:flex;align-items:center;margin-bottom:8px;padding-left:4px;';
 
       const titleEl = document.createElement('span');
       titleEl.className = 'section-title';
@@ -404,7 +496,6 @@
         badge.textContent = '🔒 locked';
         titleRow.appendChild(badge);
       }
-
       sec.appendChild(titleRow);
 
       const card = document.createElement('div');
@@ -430,7 +521,7 @@
           const editLbl = document.createElement('span');
           editLbl.className = 'edit-btn-label';
           editLbl.textContent = 'Edit';
-          editLbl.addEventListener('click', (e) => {
+          editLbl.addEventListener('click', e => {
             e.stopPropagation();
             const newText = prompt('Edit item:', label);
             if (newText && newText.trim()) {
@@ -444,7 +535,7 @@
           const delBtn = document.createElement('button');
           delBtn.className = 'delete-btn';
           delBtn.innerHTML = '&times;';
-          delBtn.addEventListener('click', (e) => {
+          delBtn.addEventListener('click', e => {
             e.stopPropagation();
             if (confirm(`Remove "${label}"?`)) {
               const editable = loadEditable();
@@ -463,6 +554,7 @@
           const s = loadState();
           s[idx] = !s[idx];
           saveState(s);
+          saveToHistory();
           render();
         });
 
@@ -472,7 +564,7 @@
       if (!isLocked) {
         const addRow = document.createElement('div');
         addRow.className = 'add-item-row';
-        addRow.innerHTML = '<span style="font-size:20px;line-height:1;">+</span> Add item';
+        addRow.innerHTML = '<span style="font-size:20px;line-height:1">+</span> Add item';
         addRow.addEventListener('click', () => {
           const newText = prompt('New item:');
           if (newText && newText.trim()) {
@@ -495,17 +587,200 @@
   function resetDay() {
     if (confirm('Reset all checkboxes for today?')) {
       localStorage.removeItem('daily-' + todayKey());
+      saveToHistory();
       render();
     }
   }
 
+  // ── Progress page ──
+  function setPeriod(days, btn) {
+    currentPeriod = days;
+    document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderProgress();
+  }
+
+  function getHistorySlice(days) {
+    const history = loadHistory();
+    const dates = Object.keys(history).sort();
+    const slice = days < 999 ? dates.slice(-days) : dates;
+    return slice.map(d => ({ date: d, pct: history[d] }));
+  }
+
+  function renderProgress() {
+    const data = getHistorySlice(currentPeriod);
+    drawChart(data);
+    renderStats(data);
+  }
+
+  function drawChart(data) {
+    const canvas = document.getElementById('chart');
+    const dpr = window.devicePixelRatio || 1;
+    const W = canvas.parentElement.clientWidth - 32;
+    const H = 180;
+    canvas.width = W * dpr;
+    canvas.height = H * dpr;
+    canvas.style.width = W + 'px';
+    canvas.style.height = H + 'px';
+
+    const ctx = canvas.getContext('2d');
+    ctx.scale(dpr, dpr);
+    ctx.clearRect(0, 0, W, H);
+
+    if (data.length < 2) {
+      ctx.fillStyle = '#555';
+      ctx.font = '14px -apple-system, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('Not enough data yet — keep checking off tasks!', W / 2, H / 2);
+      return;
+    }
+
+    const padL = 8, padR = 8, padT = 12, padB = 28;
+    const cW = W - padL - padR;
+    const cH = H - padT - padB;
+
+    const vals = data.map(d => d.pct);
+    const minV = 0, maxV = 100;
+
+    function xOf(i) { return padL + (i / (data.length - 1)) * cW; }
+    function yOf(v) { return padT + cH - ((v - minV) / (maxV - minV)) * cH; }
+
+    // Grid lines at 0, 50, 100
+    [0, 50, 100].forEach(v => {
+      const y = yOf(v);
+      ctx.beginPath();
+      ctx.strokeStyle = '#2c2c2e';
+      ctx.lineWidth = 1;
+      ctx.setLineDash([4, 4]);
+      ctx.moveTo(padL, y);
+      ctx.lineTo(W - padR, y);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = '#555';
+      ctx.font = '10px -apple-system, sans-serif';
+      ctx.textAlign = 'right';
+      ctx.fillText(v + '%', padL - 2, y + 3);
+    });
+
+    // Gradient fill
+    const grad = ctx.createLinearGradient(0, padT, 0, padT + cH);
+    grad.addColorStop(0, 'rgba(48,209,88,0.35)');
+    grad.addColorStop(1, 'rgba(48,209,88,0)');
+
+    ctx.beginPath();
+    ctx.moveTo(xOf(0), yOf(vals[0]));
+    for (let i = 1; i < data.length; i++) {
+      const x0 = xOf(i - 1), y0 = yOf(vals[i - 1]);
+      const x1 = xOf(i), y1 = yOf(vals[i]);
+      const cpx = (x0 + x1) / 2;
+      ctx.bezierCurveTo(cpx, y0, cpx, y1, x1, y1);
+    }
+    ctx.lineTo(xOf(data.length - 1), padT + cH);
+    ctx.lineTo(xOf(0), padT + cH);
+    ctx.closePath();
+    ctx.fillStyle = grad;
+    ctx.fill();
+
+    // Line
+    ctx.beginPath();
+    ctx.moveTo(xOf(0), yOf(vals[0]));
+    for (let i = 1; i < data.length; i++) {
+      const x0 = xOf(i - 1), y0 = yOf(vals[i - 1]);
+      const x1 = xOf(i), y1 = yOf(vals[i]);
+      const cpx = (x0 + x1) / 2;
+      ctx.bezierCurveTo(cpx, y0, cpx, y1, x1, y1);
+    }
+    ctx.strokeStyle = '#30d158';
+    ctx.lineWidth = 2.5;
+    ctx.stroke();
+
+    // End dot
+    const lastX = xOf(data.length - 1);
+    const lastY = yOf(vals[vals.length - 1]);
+    ctx.beginPath();
+    ctx.arc(lastX, lastY, 5, 0, Math.PI * 2);
+    ctx.fillStyle = '#30d158';
+    ctx.fill();
+
+    // X axis labels (first, middle, last)
+    const labelIdxs = [0, Math.floor((data.length - 1) / 2), data.length - 1];
+    ctx.fillStyle = '#555';
+    ctx.font = '10px -apple-system, sans-serif';
+    labelIdxs.forEach(i => {
+      const d = new Date(data[i].date + 'T00:00:00');
+      const label = d.toLocaleDateString('en-GB', { day:'numeric', month:'short' });
+      ctx.textAlign = i === 0 ? 'left' : i === data.length - 1 ? 'right' : 'center';
+      ctx.fillText(label, xOf(i), H - 4);
+    });
+  }
+
+  function renderStats(data) {
+    const history = loadHistory();
+    const allDates = Object.keys(history).sort();
+    const allVals = allDates.map(d => history[d]);
+
+    // Big change vs period start
+    const first = data[0]?.pct ?? null;
+    const last = data[data.length - 1]?.pct ?? null;
+    const bigEl = document.getElementById('big-change');
+    const lblEl = document.getElementById('change-label');
+
+    if (first !== null && last !== null && data.length >= 2) {
+      const change = last - first;
+      const sign = change >= 0 ? '+' : '';
+      bigEl.textContent = sign + change + '%';
+      bigEl.className = 'big-change ' + (change > 0 ? 'up' : change < 0 ? 'down' : 'neutral');
+      lblEl.textContent = `vs ${data.length === 1 ? 'yesterday' : data.length + ' days ago'}`;
+    } else {
+      bigEl.textContent = last !== null ? last + '%' : '—';
+      bigEl.className = 'big-change neutral';
+      lblEl.textContent = 'today';
+    }
+
+    // Today
+    const todayPct = history[todayKey()] ?? null;
+    const yesterdayKey = (() => { const d = new Date(); d.setDate(d.getDate()-1); return d.toISOString().slice(0,10); })();
+    const yesterPct = history[yesterdayKey] ?? null;
+    document.getElementById('stat-today').textContent = todayPct !== null ? todayPct + '%' : '—';
+    if (yesterPct !== null && todayPct !== null) {
+      const diff = todayPct - yesterPct;
+      const sub = document.getElementById('stat-today-sub');
+      sub.textContent = (diff >= 0 ? '↑ +' : '↓ ') + diff + '% vs yesterday';
+      sub.className = 'stat-sub ' + (diff >= 0 ? 'stat-up' : 'stat-down');
+    }
+
+    // 7-day avg
+    const last7 = allDates.slice(-7).map(d => history[d]);
+    const avg = last7.length ? Math.round(last7.reduce((a,b)=>a+b,0)/last7.length) : null;
+    document.getElementById('stat-avg').textContent = avg !== null ? avg + '%' : '—';
+
+    // Best day
+    if (allVals.length) {
+      const best = Math.max(...allVals);
+      const bestDate = allDates[allVals.indexOf(best)];
+      const bestFormatted = new Date(bestDate + 'T00:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short'});
+      document.getElementById('stat-best').textContent = best + '%';
+      document.getElementById('stat-best-date').textContent = bestFormatted;
+    }
+
+    // Streak (days >= 50%)
+    let streak = 0;
+    for (let i = allDates.length - 1; i >= 0; i--) {
+      if (history[allDates[i]] >= 50) streak++;
+      else break;
+    }
+    document.getElementById('stat-streak').textContent = streak;
+  }
+
+  // ── Init ──
   function setDateLabel() {
     const now = new Date();
-    const options = { weekday: 'long', day: 'numeric', month: 'long' };
-    document.getElementById('date-label').textContent = now.toLocaleDateString('en-GB', options);
+    document.getElementById('date-label').textContent =
+      now.toLocaleDateString('en-GB', { weekday:'long', day:'numeric', month:'long' });
   }
 
   setDateLabel();
+  saveToHistory();
   render();
 </script>
 </body>
