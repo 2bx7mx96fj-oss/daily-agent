@@ -445,18 +445,24 @@
     .cal-day.selected:not(.today) .cal-day-num { background: var(--navy2); border: 1.5px solid var(--green); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
     .cal-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--green); margin-top: 3px; }
     .cal-day.today .cal-dot { background: var(--green2); }
-    .sch-selected-lbl { font-size: 13px; font-weight: 700; color: var(--muted2); margin-bottom: 10px; }
-    .sch-add-row { display: flex; gap: 8px; margin-bottom: 14px; }
-    .sch-time-input { background: var(--card); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-size: 14px; padding: 10px; width: 100px; -webkit-appearance: none; }
-    .sch-text-input { flex: 1; background: var(--card); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-size: 14px; padding: 10px 12px; }
-    .sch-text-input::placeholder { color: var(--muted); }
-    .sch-add-btn { background: var(--green); border: none; border-radius: 10px; color: #000; font-size: 20px; font-weight: 700; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; -webkit-tap-highlight-color: transparent; }
+    .sch-selected-lbl { font-size: 13px; font-weight: 700; color: var(--muted2); margin-bottom: 12px; }
+    .sch-form { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px; margin-bottom: 14px; }
+    .sch-form-title { width: 100%; background: var(--card2); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-size: 15px; font-weight: 600; padding: 11px 13px; margin-bottom: 10px; }
+    .sch-form-title::placeholder { color: var(--muted); font-weight: 400; }
+    .sch-form-row { display: flex; align-items: center; gap: 6px; margin-bottom: 8px; }
+    .sch-form-lbl { font-size: 10px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; min-width: 34px; }
+    .sch-form-arrow { font-size: 14px; color: var(--muted); }
+    .sch-date-input, .sch-time-input { background: var(--card2); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 13px; padding: 8px 8px; flex: 1; min-width: 0; -webkit-appearance: none; }
+    .sch-add-btn { width: 100%; background: var(--green); border: none; border-radius: 10px; color: #000; font-size: 14px; font-weight: 800; padding: 12px; cursor: pointer; letter-spacing: 0.04em; -webkit-tap-highlight-color: transparent; margin-top: 4px; }
     .sch-add-btn:active { opacity: 0.7; }
     .sch-empty { text-align: center; color: var(--muted); font-size: 13px; padding: 30px 0; }
-    .sch-event { display: flex; align-items: center; gap: 12px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; margin-bottom: 8px; animation: fadeIn 0.2s ease; }
-    .sch-event-time { font-size: 13px; font-weight: 700; color: var(--green); font-variant-numeric: tabular-nums; min-width: 52px; }
-    .sch-event-title { flex: 1; font-size: 14px; font-weight: 600; }
-    .sch-event-del { background: none; border: none; color: var(--muted); font-size: 18px; cursor: pointer; padding: 0 4px; -webkit-tap-highlight-color: transparent; line-height: 1; }
+    .sch-event { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; margin-bottom: 8px; animation: fadeIn 0.2s ease; display: flex; gap: 12px; align-items: flex-start; }
+    .sch-event-bar { width: 3px; border-radius: 2px; background: var(--green); align-self: stretch; flex-shrink: 0; min-height: 36px; }
+    .sch-event-body { flex: 1; min-width: 0; }
+    .sch-event-title { font-size: 14px; font-weight: 700; margin-bottom: 3px; }
+    .sch-event-time { font-size: 12px; color: var(--green); font-variant-numeric: tabular-nums; font-weight: 600; }
+    .sch-event-dates { font-size: 11px; color: var(--muted2); margin-top: 2px; }
+    .sch-event-del { background: none; border: none; color: var(--muted); font-size: 20px; cursor: pointer; padding: 0 2px; -webkit-tap-highlight-color: transparent; line-height: 1; flex-shrink: 0; }
     .sch-event-del:active { color: #ff453a; }
     .sch-section-lbl { font-size: 10px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: 0.12em; margin: 16px 0 8px; }
 
@@ -649,10 +655,19 @@
     <div class="cal-days" id="cal-days"></div>
   </div>
   <div id="sch-selected-lbl" class="sch-selected-lbl"></div>
-  <div class="sch-add-row">
-    <input type="time" class="sch-time-input" id="sch-time" />
-    <input type="text" class="sch-text-input" id="sch-title" placeholder="Add event..." />
-    <button class="sch-add-btn" onclick="addEvent()">+</button>
+  <div class="sch-form">
+    <input type="text" class="sch-form-title" id="sch-title" placeholder="Event title..." />
+    <div class="sch-form-row">
+      <span class="sch-form-lbl">From</span>
+      <input type="date" class="sch-date-input" id="sch-start-date" />
+      <input type="time" class="sch-time-input" id="sch-start-time" />
+    </div>
+    <div class="sch-form-row">
+      <span class="sch-form-lbl">To</span>
+      <input type="date" class="sch-date-input" id="sch-end-date" />
+      <input type="time" class="sch-time-input" id="sch-end-time" />
+    </div>
+    <button class="sch-add-btn" onclick="addEvent()">Add Event</button>
   </div>
   <div id="sch-list"></div>
 </div>
@@ -846,7 +861,18 @@
       `${MONTHS[calMonth]} <span class="cal-year">${calYear}</span>`;
 
     const events = loadEvents();
-    const datesWithEvents = new Set(events.map(e => e.date));
+    const datesWithEvents = new Set();
+    events.forEach(e => {
+      const start = e.startDate || e.date || '';
+      const end = e.endDate || start;
+      if (!start) return;
+      const cur = new Date(start);
+      const endD = new Date(end);
+      while (cur <= endD) {
+        datesWithEvents.add(cur.toISOString().slice(0,10));
+        cur.setDate(cur.getDate() + 1);
+      }
+    });
 
     const firstDay = new Date(calYear, calMonth, 1).getDay();
     const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
@@ -903,12 +929,28 @@
     document.getElementById('sch-selected-lbl').textContent = lbl;
   }
 
+  function fmtTime(t) {
+    if (!t) return '';
+    const [h, m] = t.split(':');
+    const hr = parseInt(h); const ampm = hr >= 12 ? 'pm' : 'am'; const hr12 = hr % 12 || 12;
+    return `${hr12}:${m} ${ampm}`;
+  }
+
+  function fmtDate(d) {
+    if (!d) return '';
+    const [y, mo, day] = d.split('-').map(Number);
+    return `${day} ${MONTHS[mo-1].slice(0,3)} ${y}`;
+  }
+
   function addEvent() {
-    const time = document.getElementById('sch-time').value;
     const title = document.getElementById('sch-title').value.trim();
     if (!title) return;
+    const startDate = document.getElementById('sch-start-date').value || calSelected;
+    const endDate = document.getElementById('sch-end-date').value || startDate;
+    const startTime = document.getElementById('sch-start-time').value || '00:00';
+    const endTime = document.getElementById('sch-end-time').value || startTime;
     const events = loadEvents();
-    events.push({ id: Date.now(), date: calSelected, time: time || '00:00', title });
+    events.push({ id: Date.now(), startDate, endDate, startTime, endTime, title });
     saveEvents(events);
     document.getElementById('sch-title').value = '';
     renderCalendar();
@@ -921,8 +963,16 @@
     renderEventList();
   }
 
+  function eventSpansDay(e, dateStr) {
+    const start = e.startDate || e.date || '';
+    const end = e.endDate || start;
+    return dateStr >= start && dateStr <= end;
+  }
+
   function renderEventList() {
-    const events = loadEvents().filter(e => e.date === calSelected).sort((a,b) => a.time.localeCompare(b.time));
+    const events = loadEvents()
+      .filter(e => eventSpansDay(e, calSelected))
+      .sort((a,b) => (a.startTime||'').localeCompare(b.startTime||''));
     const list = document.getElementById('sch-list');
     if (!events.length) {
       list.innerHTML = '<div class="sch-empty">No events — add one above</div>';
@@ -932,12 +982,19 @@
     const isToday = calSelected === todayKey2();
     let html = '';
     events.forEach(e => {
-      const [h, m] = e.time.split(':');
-      const hr = parseInt(h); const ampm = hr >= 12 ? 'pm' : 'am'; const hr12 = hr % 12 || 12;
-      const past = isToday && e.time < nowStr;
+      const start = e.startDate || e.date || '';
+      const end = e.endDate || start;
+      const multiDay = start !== end;
+      const past = isToday && (e.endTime || e.startTime || '23:59') < nowStr;
+      const timeStr = e.startTime ? `${fmtTime(e.startTime)}${e.endTime && e.endTime !== e.startTime ? ` — ${fmtTime(e.endTime)}` : ''}` : '';
+      const dateStr = multiDay ? `${fmtDate(start)} — ${fmtDate(end)}` : '';
       html += `<div class="sch-event" style="${past ? 'opacity:0.45' : ''}">
-        <div class="sch-event-time">${hr12}:${m} ${ampm}</div>
-        <div class="sch-event-title">${escapeHtml(e.title)}</div>
+        <div class="sch-event-bar"></div>
+        <div class="sch-event-body">
+          <div class="sch-event-title">${escapeHtml(e.title)}</div>
+          ${timeStr ? `<div class="sch-event-time">${timeStr}</div>` : ''}
+          ${dateStr ? `<div class="sch-event-dates">${dateStr}</div>` : ''}
+        </div>
         <button class="sch-event-del" onclick="deleteEvent(${e.id})">×</button>
       </div>`;
     });
@@ -951,8 +1008,25 @@
 
   function initSchTime() {
     const now = new Date();
-    document.getElementById('sch-time').value =
-      `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+    const h = String(now.getHours()).padStart(2,'0');
+    const m = String(now.getMinutes()).padStart(2,'0');
+    const endH = String((now.getHours() + 1) % 24).padStart(2,'0');
+    document.getElementById('sch-start-date').value = calSelected;
+    document.getElementById('sch-end-date').value = calSelected;
+    document.getElementById('sch-start-time').value = `${h}:${m}`;
+    document.getElementById('sch-end-time').value = `${endH}:${m}`;
+  }
+
+  // When calendar day changes, update date inputs
+  const origSelectDay = selectDay;
+  function selectDay(key) {
+    calSelected = key;
+    const sd = document.getElementById('sch-start-date');
+    const ed = document.getElementById('sch-end-date');
+    if (sd) sd.value = key;
+    if (ed) ed.value = key;
+    renderCalendar();
+    renderEventList();
   }
 
   document.getElementById('sch-title').addEventListener('keydown', e => { if (e.key === 'Enter') addEvent(); });
