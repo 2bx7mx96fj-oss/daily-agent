@@ -128,6 +128,48 @@
     .lock-badge { display: none; font-size: 11px; color: #555; margin-left: 6px; }
     .edit-mode .lock-badge { display: inline; }
 
+    /* Sub-tasks */
+    .chevron { font-size: 11px; color: #555; transition: transform 0.2s; flex-shrink: 0; margin-left: 2px; }
+    .item.expanded .chevron { transform: rotate(90deg); }
+
+    .subtask-list { background: #141414; border-top: 1px solid #2c2c2e; display: none; }
+    .subtask-list.open { display: block; }
+
+    .sub-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 11px 16px 11px 54px;
+      border-bottom: 1px solid #222;
+      cursor: pointer; transition: background 0.15s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .sub-item:last-child { border-bottom: none; }
+    .sub-item:active { background: #222; }
+    .sub-item.done .sub-label { text-decoration: line-through; color: #555; }
+
+    .sub-checkbox {
+      width: 20px; height: 20px; border-radius: 50%;
+      border: 2px solid #3a3a3c; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+    }
+    .sub-item.done .sub-checkbox { background: #30d158; border-color: #30d158; }
+    .sub-checkmark { display: none; color: white; font-size: 11px; font-weight: 700; }
+    .sub-item.done .sub-checkmark { display: block; }
+    .sub-label { font-size: 14px; color: #ccc; flex: 1; line-height: 1.3; }
+
+    .sub-delete { display: none; width: 20px; height: 20px; border-radius: 50%; background: #ff453a; border: none; color: white; font-size: 14px; cursor: pointer; flex-shrink: 0; align-items: center; justify-content: center; -webkit-tap-highlight-color: transparent; }
+    .edit-mode .sub-delete { display: flex; }
+    .sub-edit-lbl { display: none; font-size: 12px; color: #0a84ff; flex-shrink: 0; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+    .edit-mode .sub-edit-lbl { display: block; }
+
+    .add-sub-row {
+      display: none; padding: 10px 16px 10px 54px;
+      color: #0a84ff; font-size: 13px; cursor: pointer;
+      border-top: 1px solid #222;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .edit-mode .add-sub-row { display: block; }
+    .add-sub-row:active { opacity: 0.6; }
+
     .reset-btn {
       display: block; width: 100%; margin-top: 28px; padding: 14px;
       background: #1c1c1e; color: #ff453a; font-size: 15px; font-weight: 500;
@@ -530,11 +572,27 @@
   const RUN_SCHEDULE = { 3:"Interval session — 5km time work",5:"5km run",0:"Long run — 10km or half marathon" };
 
   const DEFAULT_EDITABLE = [
-    { title:"Business", items:["Work on marketing agency (client outreach / delivery / admin)","One action toward getting a new client"] },
-    { title:"Focus & Discipline", items:["Distractions blocked during deep work time","No mindless scrolling before 12pm"] },
-    { title:"Learning", items:["Read (global politics / non-fiction / any book)","Swedish practice (Duolingo / flashcards / listening)"] },
-    { title:"Driving", items:["Driving lesson or theory revision"] }
+    { title:"Business", items:[
+      { label:"Marketing agency", subs:["Client outreach / new leads","Deliver work for existing clients","Admin & planning"] },
+      { label:"One action toward getting a new client", subs:[] }
+    ]},
+    { title:"Focus & Discipline", items:[
+      { label:"Distractions blocked during deep work time", subs:[] },
+      { label:"No mindless scrolling before 12pm", subs:[] }
+    ]},
+    { title:"Learning", items:[
+      { label:"Read (global politics / non-fiction / any book)", subs:[] },
+      { label:"Swedish practice", subs:["Duolingo","Flashcards / vocab","Listening or speaking"] }
+    ]},
+    { title:"Driving", items:[
+      { label:"Driving lesson or theory revision", subs:[] }
+    ]}
   ];
+
+  // Migrate old string-format items to objects
+  function migrateItems(items) {
+    return items.map(item => typeof item === 'string' ? { label: item, subs: [] } : item);
+  }
 
   let editMode = false;
   let currentPeriod = '1D';
@@ -548,9 +606,17 @@
     return locked;
   }
 
-  function loadEditable() { const s = localStorage.getItem('editable-sections'); return s ? JSON.parse(s) : DEFAULT_EDITABLE; }
+  function loadEditable() {
+    const s = localStorage.getItem('editable-sections');
+    if (!s) return DEFAULT_EDITABLE;
+    const parsed = JSON.parse(s);
+    return parsed.map(sec => ({ ...sec, items: migrateItems(sec.items) }));
+  }
   function saveEditable(s) { localStorage.setItem('editable-sections', JSON.stringify(s)); }
   function getAllSections() { return [...getLockedSections(), ...loadEditable()]; }
+
+  // Expand state — in memory only (resets on reload, that's fine)
+  const expandState = {};
 
   const todayKey = () => new Date().toISOString().slice(0,10);
   function loadState() { const s = localStorage.getItem('daily-'+todayKey()); return s ? JSON.parse(s) : {}; }
@@ -563,12 +629,26 @@
   function loadIntraday() { const s = localStorage.getItem('intraday-'+todayKey()); return s ? JSON.parse(s) : []; }
   function saveIntraday(arr) { localStorage.setItem('intraday-'+todayKey(), JSON.stringify(arr)); }
 
+  // Returns all checkable state keys + total count
+  function getLeafKeys() {
+    const keys = [];
+    getLockedSections().forEach((sec, sIdx) =>
+      sec.items.forEach((_, iIdx) => keys.push(`l-${sIdx}-${iIdx}`))
+    );
+    loadEditable().forEach((sec, eIdx) =>
+      sec.items.forEach((item, iIdx) => {
+        if (!item.subs || !item.subs.length) keys.push(`e-${eIdx}-${iIdx}`);
+        else item.subs.forEach((_, sIdx) => keys.push(`e-${eIdx}-${iIdx}-s${sIdx}`));
+      })
+    );
+    return keys;
+  }
+
   function getCurrentPct() {
-    const sections = getAllSections();
-    const allItems = sections.flatMap(s => s.items);
+    const keys = getLeafKeys();
     const state = loadState();
-    const done = allItems.filter((_,i) => state[i]).length;
-    return allItems.length ? Math.round((done / allItems.length) * 100) : 0;
+    const done = keys.filter(k => state[k]).length;
+    return keys.length ? Math.round((done / keys.length) * 100) : 0;
   }
 
   function saveToHistory() {
@@ -585,13 +665,12 @@
 
   // ── Progress bar ──
   function updateProgress() {
-    const sections = getAllSections();
-    const allItems = sections.flatMap(s => s.items);
+    const keys = getLeafKeys();
     const state = loadState();
-    const done = allItems.filter((_,i) => state[i]).length;
-    const pct = allItems.length ? Math.round((done / allItems.length) * 100) : 0;
+    const done = keys.filter(k => state[k]).length;
+    const pct = keys.length ? Math.round((done / keys.length) * 100) : 0;
     document.getElementById('progress-bar').style.width = pct + '%';
-    document.getElementById('progress-label').textContent = `${done} / ${allItems.length} done`;
+    document.getElementById('progress-label').textContent = `${done} / ${keys.length} done`;
   }
 
   // ── Navigation ──
@@ -619,15 +698,49 @@
     const container = document.getElementById('checklist');
     container.innerHTML = '';
     if (editMode) container.classList.add('edit-mode');
+    else container.classList.remove('edit-mode');
 
-    const sections = getAllSections();
-    let globalIndex = 0;
-    const lockedCount = getLockedSections().length;
+    const locked = getLockedSections();
+    const editable = loadEditable();
 
-    sections.forEach((section, sIdx) => {
-      const isLocked = !!section.locked;
-      const eIdx = sIdx - lockedCount;
+    // ── Locked sections (simple string items) ──
+    locked.forEach((section, sIdx) => {
+      const sec = document.createElement('div');
+      sec.className = 'section';
 
+      const titleRow = document.createElement('div');
+      titleRow.style.cssText = 'display:flex;align-items:center;margin-bottom:8px;padding-left:4px;';
+      const titleEl = document.createElement('span');
+      titleEl.className = 'section-title';
+      titleEl.style.margin = '0';
+      titleEl.textContent = section.title;
+      const badge = document.createElement('span');
+      badge.className = 'lock-badge';
+      badge.textContent = '🔒 locked';
+      titleRow.appendChild(titleEl);
+      titleRow.appendChild(badge);
+      sec.appendChild(titleRow);
+
+      const card = document.createElement('div');
+      card.className = 'card';
+
+      section.items.forEach((label, iIdx) => {
+        const key = `l-${sIdx}-${iIdx}`;
+        const item = document.createElement('div');
+        item.className = 'item' + (state[key] ? ' done' : '');
+        item.innerHTML = `<div class="checkbox"><span class="checkmark">✓</span></div><div class="label">${label}</div>`;
+        item.addEventListener('click', () => {
+          const s = loadState(); s[key] = !s[key]; saveState(s); saveToHistory(); render();
+        });
+        card.appendChild(item);
+      });
+
+      sec.appendChild(card);
+      container.appendChild(sec);
+    });
+
+    // ── Editable sections (object items with optional subs) ──
+    editable.forEach((section, eIdx) => {
       const sec = document.createElement('div');
       sec.className = 'section';
 
@@ -638,72 +751,152 @@
       titleEl.style.margin = '0';
       titleEl.textContent = section.title;
       titleRow.appendChild(titleEl);
-      if (isLocked) {
-        const badge = document.createElement('span');
-        badge.className = 'lock-badge';
-        badge.textContent = '🔒 locked';
-        titleRow.appendChild(badge);
-      }
       sec.appendChild(titleRow);
 
       const card = document.createElement('div');
       card.className = 'card';
 
-      section.items.forEach((label, itemIdx) => {
-        const idx = globalIndex++;
-        const item = document.createElement('div');
-        item.className = 'item' + (state[idx] ? ' done' : '');
+      section.items.forEach((item, iIdx) => {
+        const hasSubs = item.subs && item.subs.length > 0;
+        const parentKey = `e-${eIdx}-${iIdx}`;
+        const expandKey = `${eIdx}-${iIdx}`;
+
+        // Check if all subs done (for parent auto-check display)
+        const allSubsDone = hasSubs && item.subs.every((_, sIdx) => state[`e-${eIdx}-${iIdx}-s${sIdx}`]);
+        const parentDone = hasSubs ? allSubsDone : !!state[parentKey];
+
+        const row = document.createElement('div');
+        row.className = 'item' + (parentDone ? ' done' : '') + (expandState[expandKey] ? ' expanded' : '');
 
         const cb = document.createElement('div');
         cb.className = 'checkbox';
         cb.innerHTML = '<span class="checkmark">✓</span>';
+
         const lbl = document.createElement('div');
         lbl.className = 'label';
-        lbl.textContent = label;
-        item.appendChild(cb);
-        item.appendChild(lbl);
+        lbl.textContent = item.label;
 
-        if (!isLocked) {
-          const editLbl = document.createElement('span');
-          editLbl.className = 'edit-btn-label';
-          editLbl.textContent = 'Edit';
-          editLbl.addEventListener('click', e => {
-            e.stopPropagation();
-            const t = prompt('Edit item:', label);
-            if (t && t.trim()) { const ed = loadEditable(); ed[eIdx].items[itemIdx] = t.trim(); saveEditable(ed); render(); }
-          });
-          const del = document.createElement('button');
-          del.className = 'delete-btn';
-          del.innerHTML = '&times;';
-          del.addEventListener('click', e => {
-            e.stopPropagation();
-            if (confirm(`Remove "${label}"?`)) { const ed = loadEditable(); ed[eIdx].items.splice(itemIdx,1); saveEditable(ed); render(); }
-          });
-          item.appendChild(editLbl);
-          item.appendChild(del);
+        row.appendChild(cb);
+        row.appendChild(lbl);
+
+        // Edit controls
+        const editLbl = document.createElement('span');
+        editLbl.className = 'edit-btn-label';
+        editLbl.textContent = 'Edit';
+        editLbl.addEventListener('click', e => {
+          e.stopPropagation();
+          const t = prompt('Edit item:', item.label);
+          if (t && t.trim()) { const ed = loadEditable(); ed[eIdx].items[iIdx].label = t.trim(); saveEditable(ed); render(); }
+        });
+
+        const del = document.createElement('button');
+        del.className = 'delete-btn';
+        del.innerHTML = '&times;';
+        del.addEventListener('click', e => {
+          e.stopPropagation();
+          if (confirm(`Remove "${item.label}"?`)) { const ed = loadEditable(); ed[eIdx].items.splice(iIdx,1); saveEditable(ed); render(); }
+        });
+
+        row.appendChild(editLbl);
+        row.appendChild(del);
+
+        // Chevron for expandable items
+        if (hasSubs || editMode) {
+          const chev = document.createElement('span');
+          chev.className = 'chevron';
+          chev.textContent = '›';
+          row.appendChild(chev);
         }
 
-        item.addEventListener('click', () => {
-          if (editMode && !isLocked) return;
-          const s = loadState();
-          s[idx] = !s[idx];
-          saveState(s);
-          saveToHistory();
-          render();
+        // Click: expand if has subs, toggle if no subs
+        row.addEventListener('click', () => {
+          if (editMode) return;
+          if (hasSubs) {
+            expandState[expandKey] = !expandState[expandKey];
+            render();
+          } else {
+            const s = loadState(); s[parentKey] = !s[parentKey]; saveState(s); saveToHistory(); render();
+          }
         });
-        card.appendChild(item);
+
+        card.appendChild(row);
+
+        // Sub-task list
+        const subList = document.createElement('div');
+        subList.className = 'subtask-list' + (expandState[expandKey] ? ' open' : '');
+
+        item.subs.forEach((subLabel, sIdx) => {
+          const subKey = `e-${eIdx}-${iIdx}-s${sIdx}`;
+          const subDone = !!state[subKey];
+
+          const subRow = document.createElement('div');
+          subRow.className = 'sub-item' + (subDone ? ' done' : '');
+
+          const subCb = document.createElement('div');
+          subCb.className = 'sub-checkbox';
+          subCb.innerHTML = '<span class="sub-checkmark">✓</span>';
+
+          const subLbl = document.createElement('div');
+          subLbl.className = 'sub-label';
+          subLbl.textContent = subLabel;
+
+          const subEditLbl = document.createElement('span');
+          subEditLbl.className = 'sub-edit-lbl';
+          subEditLbl.textContent = 'Edit';
+          subEditLbl.addEventListener('click', e => {
+            e.stopPropagation();
+            const t = prompt('Edit sub-task:', subLabel);
+            if (t && t.trim()) { const ed = loadEditable(); ed[eIdx].items[iIdx].subs[sIdx] = t.trim(); saveEditable(ed); render(); }
+          });
+
+          const subDel = document.createElement('button');
+          subDel.className = 'sub-delete';
+          subDel.innerHTML = '&times;';
+          subDel.addEventListener('click', e => {
+            e.stopPropagation();
+            if (confirm(`Remove "${subLabel}"?`)) { const ed = loadEditable(); ed[eIdx].items[iIdx].subs.splice(sIdx,1); saveEditable(ed); render(); }
+          });
+
+          subRow.appendChild(subCb);
+          subRow.appendChild(subLbl);
+          subRow.appendChild(subEditLbl);
+          subRow.appendChild(subDel);
+
+          subRow.addEventListener('click', () => {
+            if (editMode) return;
+            const s = loadState(); s[subKey] = !s[subKey]; saveState(s); saveToHistory(); render();
+          });
+
+          subList.appendChild(subRow);
+        });
+
+        // Add sub-task row
+        const addSubRow = document.createElement('div');
+        addSubRow.className = 'add-sub-row';
+        addSubRow.textContent = '+ Add sub-task';
+        addSubRow.addEventListener('click', () => {
+          const t = prompt('New sub-task:');
+          if (t && t.trim()) {
+            const ed = loadEditable();
+            ed[eIdx].items[iIdx].subs.push(t.trim());
+            saveEditable(ed);
+            expandState[expandKey] = true;
+            render();
+          }
+        });
+        subList.appendChild(addSubRow);
+        card.appendChild(subList);
       });
 
-      if (!isLocked) {
-        const addRow = document.createElement('div');
-        addRow.className = 'add-item-row';
-        addRow.innerHTML = '<span style="font-size:20px;line-height:1">+</span> Add item';
-        addRow.addEventListener('click', () => {
-          const t = prompt('New item:');
-          if (t && t.trim()) { const ed = loadEditable(); ed[eIdx].items.push(t.trim()); saveEditable(ed); render(); }
-        });
-        card.appendChild(addRow);
-      }
+      // Add new top-level item
+      const addRow = document.createElement('div');
+      addRow.className = 'add-item-row';
+      addRow.innerHTML = '<span style="font-size:20px;line-height:1">+</span> Add item';
+      addRow.addEventListener('click', () => {
+        const t = prompt('New item:');
+        if (t && t.trim()) { const ed = loadEditable(); ed[eIdx].items.push({ label: t.trim(), subs: [] }); saveEditable(ed); render(); }
+      });
+      card.appendChild(addRow);
 
       sec.appendChild(card);
       container.appendChild(sec);
