@@ -1366,71 +1366,76 @@
     renderSleepForDate();
   }
 
-  // ══ WIDGET SYNC ══
-  function loadBucketId() { return localStorage.getItem('kvdb-bucket'); }
-  function saveBucketId(id) { localStorage.setItem('kvdb-bucket', id); }
+  // ══ WIDGET — Scriptable URL scheme approach (no backend needed) ══
 
-  async function createBucket() {
-    try {
-      const res = await fetch('https://kvdb.io/', { method: 'POST' });
-      if (!res.ok) throw new Error('Failed');
-      const id = (await res.text()).trim();
-      saveBucketId(id);
-      return id;
-    } catch { return null; }
+  function syncToWidget(pct) {
+    // Silently open Scriptable sync script in background if app is installed
+    // (only called manually via Sync button — URL scheme can't be triggered silently)
   }
 
-  async function syncToWidget(pct) {
-    const id = loadBucketId();
-    if (!id) return;
-    try {
-      await fetch(`https://kvdb.io/${id}/afm`, {
-        method: 'PUT',
-        body: String(pct),
-        headers: { 'Content-Type': 'text/plain' }
-      });
-    } catch { /* silent fail */ }
+  function getSyncScript() {
+    return `// AFM Sync — run this from Daily Agent to update your widget
+// Save this script in Scriptable as: AFM Sync
+
+const pct = args.plainText || '0';
+const fm = FileManager.iCloud();
+const path = fm.joinPath(fm.documentsDirectory(), 'afm-data.json');
+fm.writeString(path, JSON.stringify({
+  pct: parseFloat(pct),
+  updated: new Date().toISOString()
+}));`;
   }
 
-  function getScriptableCode(bucketId) {
-    return `// AFM Daily Widget — Daily Agent
-const BUCKET = '${bucketId}';
-const URL = \`https://kvdb.io/\${BUCKET}/afm\`;
+  function getWidgetScript() {
+    return `// AFM Widget — add this as a Scriptable home screen widget
+// Save this script in Scriptable as: AFM Widget
 
 async function run() {
+  const fm = FileManager.iCloud();
+  const path = fm.joinPath(fm.documentsDirectory(), 'afm-data.json');
+  let pct = 0, updated = '';
+
+  try {
+    if (fm.fileExists(path)) {
+      await fm.downloadFileFromiCloud(path);
+      const data = JSON.parse(fm.readString(path));
+      pct = data.pct || 0;
+      updated = data.updated ? new Date(data.updated)
+        .toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit'}) : '';
+    }
+  } catch(e) {}
+
   const widget = new ListWidget();
   const grad = new LinearGradient();
   grad.locations = [0, 1];
   grad.colors = [new Color('#05090f'), new Color('#0b1422')];
   widget.backgroundGradient = grad;
   widget.setPadding(14, 16, 14, 16);
+  widget.refreshAfterDate = new Date(Date.now() + 5 * 60 * 1000);
 
-  try {
-    const req = new Request(URL);
-    const raw = await req.loadString();
-    const pct = parseFloat(raw) || 0;
-    const color = pct >= 70 ? '#00d46a' : pct >= 40 ? '#ffd60a' : '#ff453a';
+  const ticker = widget.addText('AFM');
+  ticker.textColor = new Color('#00d46a');
+  ticker.font = Font.boldMonospacedSystemFont(10);
 
-    const ticker = widget.addText('AFM');
-    ticker.textColor = new Color('#00d46a');
-    ticker.font = Font.boldMonospacedSystemFont(10);
+  widget.addSpacer(6);
 
-    widget.addSpacer(6);
+  const color = pct >= 70 ? '#00d46a' : pct >= 40 ? '#ffd60a' : '#ff453a';
+  const big = widget.addText(pct.toFixed(1) + '%');
+  big.textColor = new Color(color);
+  big.font = Font.boldMonospacedSystemFont(30);
+  big.minimumScaleFactor = 0.6;
 
-    const big = widget.addText(pct.toFixed(1) + '%');
-    big.textColor = new Color(color);
-    big.font = Font.boldMonospacedSystemFont(30);
-    big.minimumScaleFactor = 0.7;
+  widget.addSpacer(4);
 
-    widget.addSpacer(4);
+  const lbl = widget.addText('Daily Productivity');
+  lbl.textColor = new Color('#3a5570');
+  lbl.font = Font.systemFont(10);
 
-    const lbl = widget.addText('Daily Productivity');
-    lbl.textColor = new Color('#3a5570');
-    lbl.font = Font.systemFont(10);
-  } catch(e) {
-    const err = widget.addText('Tap to sync');
-    err.textColor = new Color('#3a5570');
-    err.font = Font.systemFont(12);
+  if (updated) {
+    widget.addSpacer(2);
+    const upd = widget.addText('Updated ' + updated);
+    upd.textColor = new Color('#2a3a50');
+    upd.font = Font.systemFont(9);
   }
 
   Script.setWidget(widget);
@@ -1440,80 +1445,60 @@ async function run() {
 await run();`;
   }
 
-  function renderWidgetCard() {
-    const inner = document.getElementById('widget-inner');
-    if (!inner) return;
-    const bucketId = loadBucketId();
-
-    if (!bucketId) {
-      inner.innerHTML = `
-        <div class="widget-sub">Sync your live productivity % to your iPhone home screen using the free Scriptable app.</div>
-        <div class="widget-steps">
-          <div class="widget-step"><span class="widget-step-num">1</span>Tap Setup below — this creates a private data bucket (no account needed)</div>
-          <div class="widget-step"><span class="widget-step-num">2</span>Download <strong>Scriptable</strong> from the App Store (free)</div>
-          <div class="widget-step"><span class="widget-step-num">3</span>Copy the generated code into a new Scriptable script</div>
-          <div class="widget-step"><span class="widget-step-num">4</span>Add a Scriptable widget to your home screen and select the script</div>
-        </div>
-        <button class="widget-setup-btn" onclick="setupWidget()">Set Up Widget</button>`;
-    } else {
-      const code = getScriptableCode(bucketId);
-      inner.innerHTML = `
-        <div class="widget-status">
-          <div class="widget-status-dot"></div>
-          <span>Live — syncing on every task completion</span>
-        </div>
-        <div class="widget-sub">Copy this code into a new script in the Scriptable app, then add a Scriptable widget to your home screen.</div>
-        <div class="widget-code-wrap"><div class="widget-code" id="widget-code-text">${escapeHtml(code)}</div></div>
-        <button class="widget-copy-btn" onclick="copyWidgetCode()">Copy Scriptable Code</button>
-        <div style="margin-top:10px;text-align:center;">
-          <span style="font-size:11px;color:var(--muted);cursor:pointer;" onclick="resetWidget()">Reset widget setup</span>
-        </div>`;
-    }
-  }
-
   function escapeHtml(str) {
     return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   }
 
-  async function setupWidget() {
-    const btn = document.querySelector('.widget-setup-btn');
-    if (btn) { btn.textContent = 'Setting up...'; btn.disabled = true; }
-    const id = await createBucket();
-    if (id) {
-      await syncToWidget(getCurrentPct());
-      renderWidgetCard();
-    } else {
-      if (btn) { btn.textContent = 'Set Up Widget'; btn.disabled = false; }
-      alert('Could not connect. Check your internet connection and try again.');
-    }
+  function syncNow() {
+    const pct = getCurrentPct();
+    const url = `scriptable:///run?scriptName=AFM%20Sync&input=${pct}`;
+    window.location.href = url;
   }
 
-  function copyWidgetCode() {
-    const id = loadBucketId();
-    if (!id) return;
-    const code = getScriptableCode(id);
+  function copyCode(which) {
+    const code = which === 'sync' ? getSyncScript() : getWidgetScript();
+    const btnId = which === 'sync' ? 'copy-sync-btn' : 'copy-widget-btn';
     if (navigator.clipboard) {
-      navigator.clipboard.writeText(code).then(() => {
-        const btn = document.querySelector('.widget-copy-btn');
-        if (btn) { btn.textContent = 'Copied!'; setTimeout(() => btn.textContent = 'Copy Scriptable Code', 2000); }
-      });
+      navigator.clipboard.writeText(code).then(() => flashCopy(btnId));
     } else {
       const ta = document.createElement('textarea');
-      ta.value = code;
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand('copy');
-      document.body.removeChild(ta);
-      const btn = document.querySelector('.widget-copy-btn');
-      if (btn) { btn.textContent = 'Copied!'; setTimeout(() => btn.textContent = 'Copy Scriptable Code', 2000); }
+      ta.value = code; document.body.appendChild(ta); ta.select();
+      document.execCommand('copy'); document.body.removeChild(ta);
+      flashCopy(btnId);
     }
   }
 
-  function resetWidget() {
-    if (confirm('Remove widget setup? You can set it up again anytime.')) {
-      localStorage.removeItem('kvdb-bucket');
-      renderWidgetCard();
-    }
+  function flashCopy(btnId) {
+    const btn = document.getElementById(btnId);
+    if (btn) { btn.textContent = 'Copied!'; setTimeout(() => btn.textContent = 'Copy Code', 2000); }
+  }
+
+  function renderWidgetCard() {
+    const inner = document.getElementById('widget-inner');
+    if (!inner) return;
+    const syncCode = getSyncScript();
+    const widgetCode = getWidgetScript();
+    inner.innerHTML = `
+      <div class="widget-sub">Uses the free Scriptable app — no accounts, no internet sync needed. Data is stored on your iCloud.</div>
+      <div class="widget-steps">
+        <div class="widget-step"><span class="widget-step-num">1</span>Download <strong>Scriptable</strong> from the App Store (free)</div>
+        <div class="widget-step"><span class="widget-step-num">2</span>Create a new script named <strong>AFM Sync</strong> — copy the code below into it</div>
+        <div class="widget-step"><span class="widget-step-num">3</span>Create a second script named <strong>AFM Widget</strong> — copy that code in</div>
+        <div class="widget-step"><span class="widget-step-num">4</span>Tap <strong>Sync Now</strong> below whenever you want to push your % to the widget</div>
+        <div class="widget-step"><span class="widget-step-num">5</span>Add a Scriptable small widget to your home screen and select <strong>AFM Widget</strong></div>
+      </div>
+
+      <div class="widget-title" style="margin-bottom:8px;">Script 1 — AFM Sync</div>
+      <div class="widget-code-wrap"><div class="widget-code">${escapeHtml(syncCode)}</div></div>
+      <button class="widget-copy-btn" id="copy-sync-btn" onclick="copyCode('sync')" style="margin-bottom:16px;">Copy Code</button>
+
+      <div class="widget-title" style="margin-bottom:8px;">Script 2 — AFM Widget</div>
+      <div class="widget-code-wrap"><div class="widget-code">${escapeHtml(widgetCode)}</div></div>
+      <button class="widget-copy-btn" id="copy-widget-btn" onclick="copyCode('widget')" style="margin-bottom:16px;">Copy Code</button>
+
+      <button class="widget-setup-btn" onclick="syncNow()">Sync Now — Push ${getCurrentPct()}% to Widget</button>
+      <div style="margin-top:10px;text-align:center;font-size:11px;color:var(--muted);">Tap Sync Now each time you want to update the widget</div>
+    `;
   }
 
   // ── Init ──
