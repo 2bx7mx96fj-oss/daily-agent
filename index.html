@@ -1497,7 +1497,7 @@ await run();`;
       <div class="widget-code-wrap"><div class="widget-code">${escapeHtml(widgetCode)}</div></div>
       <button class="widget-copy-btn" id="copy-widget-btn" onclick="copyCode('widget')" style="margin-bottom:16px;">Copy Code</button>
 
-      <button class="widget-setup-btn" onclick="syncNow()">Sync Now — Push ${getCurrentPct()}% to Widget</button>
+      <a href="scriptable:///run?scriptName=AFM%20Sync&input=${getCurrentPct()}" class="widget-setup-btn" style="display:block;text-align:center;text-decoration:none;">Sync Now — Push ${getCurrentPct()}% to Widget</a>
       <div style="margin-top:10px;text-align:center;font-size:11px;color:var(--muted);">Tap Sync Now each time you want to update the widget</div>
     `;
   }
