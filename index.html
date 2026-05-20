@@ -408,6 +408,24 @@
     .stat-card2 .stat-lbl { font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; }
     .stat-card2 .stat-big { font-size: 26px; font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: -0.5px; }
     .stat-card2 .stat-sub { font-size: 11px; color: var(--muted2); margin-top: 2px; }
+
+    /* Widget setup */
+    .widget-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 18px; margin-top: 16px; }
+    .widget-title { font-size: 10px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: 0.14em; margin-bottom: 4px; }
+    .widget-sub { font-size: 12px; color: var(--muted2); margin-bottom: 14px; line-height: 1.4; }
+    .widget-setup-btn { width: 100%; padding: 13px; border: none; border-radius: 10px; background: var(--navy2); color: var(--green); font-size: 14px; font-weight: 700; cursor: pointer; border: 1px solid rgba(0,212,106,0.2); -webkit-tap-highlight-color: transparent; letter-spacing: 0.04em; transition: opacity 0.2s; }
+    .widget-setup-btn:active { opacity: 0.7; }
+    .widget-status { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; font-size: 13px; color: var(--muted2); }
+    .widget-status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; flex-shrink: 0; }
+    .widget-status-dot.inactive { background: var(--muted); animation: none; }
+    .widget-code-wrap { background: #020508; border: 1px solid var(--border); border-radius: 10px; padding: 12px; margin-bottom: 12px; overflow-x: auto; }
+    .widget-code { font-family: 'SF Mono', Menlo, monospace; font-size: 11px; color: #7ab8f5; white-space: pre; line-height: 1.5; }
+    .widget-copy-btn { width: 100%; padding: 11px; border: 1px solid var(--border); border-radius: 10px; background: var(--navy); color: var(--text); font-size: 13px; font-weight: 700; cursor: pointer; -webkit-tap-highlight-color: transparent; letter-spacing: 0.04em; }
+    .widget-copy-btn:active { opacity: 0.7; }
+    .widget-steps { margin-bottom: 14px; }
+    .widget-step { display: flex; gap: 10px; align-items: flex-start; padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 13px; color: var(--muted2); line-height: 1.4; }
+    .widget-step:last-child { border-bottom: none; }
+    .widget-step-num { font-size: 11px; font-weight: 800; color: var(--green); background: var(--navy); width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
   </style>
 </head>
 <body>
@@ -551,6 +569,12 @@
       <div class="stat-card2"><div class="stat-lbl">All-Time High</div><div class="stat-big" id="s-ath">—</div><div class="stat-sub" id="s-ath-date"></div></div>
     </div>
   </div>
+
+  <!-- Widget Setup -->
+  <div class="widget-card" id="widget-setup-card">
+    <div class="widget-title">Home Screen Widget</div>
+    <div id="widget-inner"></div>
+  </div>
 </div>
 
 <!-- TAB BAR -->
@@ -639,6 +663,7 @@
     localStorage.setItem('history', JSON.stringify(h));
     const intra = loadIntraday(); intra.push({ t: Date.now(), pct });
     saveIntraday(intra);
+    syncToWidget(pct);
   }
 
   // ── Animated number counter ──
@@ -689,7 +714,7 @@
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.getElementById('page-'+name).classList.add('active');
     document.getElementById('tab-'+name).classList.add('active');
-    if (name === 'progress') renderStock();
+    if (name === 'progress') { renderStock(); renderWidgetCard(); }
     if (name === 'health') renderHealth();
   }
 
@@ -1339,6 +1364,156 @@
     h[key] = { bed, wake, hours, quality: currentSleepQuality || 0 };
     saveSleepHistory(h);
     renderSleepForDate();
+  }
+
+  // ══ WIDGET SYNC ══
+  function loadBucketId() { return localStorage.getItem('kvdb-bucket'); }
+  function saveBucketId(id) { localStorage.setItem('kvdb-bucket', id); }
+
+  async function createBucket() {
+    try {
+      const res = await fetch('https://kvdb.io/', { method: 'POST' });
+      if (!res.ok) throw new Error('Failed');
+      const id = (await res.text()).trim();
+      saveBucketId(id);
+      return id;
+    } catch { return null; }
+  }
+
+  async function syncToWidget(pct) {
+    const id = loadBucketId();
+    if (!id) return;
+    try {
+      await fetch(`https://kvdb.io/${id}/afm`, {
+        method: 'PUT',
+        body: String(pct),
+        headers: { 'Content-Type': 'text/plain' }
+      });
+    } catch { /* silent fail */ }
+  }
+
+  function getScriptableCode(bucketId) {
+    return `// AFM Daily Widget — Daily Agent
+const BUCKET = '${bucketId}';
+const URL = \`https://kvdb.io/\${BUCKET}/afm\`;
+
+async function run() {
+  const widget = new ListWidget();
+  const grad = new LinearGradient();
+  grad.locations = [0, 1];
+  grad.colors = [new Color('#05090f'), new Color('#0b1422')];
+  widget.backgroundGradient = grad;
+  widget.setPadding(14, 16, 14, 16);
+
+  try {
+    const req = new Request(URL);
+    const raw = await req.loadString();
+    const pct = parseFloat(raw) || 0;
+    const color = pct >= 70 ? '#00d46a' : pct >= 40 ? '#ffd60a' : '#ff453a';
+
+    const ticker = widget.addText('AFM');
+    ticker.textColor = new Color('#00d46a');
+    ticker.font = Font.boldMonospacedSystemFont(10);
+
+    widget.addSpacer(6);
+
+    const big = widget.addText(pct.toFixed(1) + '%');
+    big.textColor = new Color(color);
+    big.font = Font.boldMonospacedSystemFont(30);
+    big.minimumScaleFactor = 0.7;
+
+    widget.addSpacer(4);
+
+    const lbl = widget.addText('Daily Productivity');
+    lbl.textColor = new Color('#3a5570');
+    lbl.font = Font.systemFont(10);
+  } catch(e) {
+    const err = widget.addText('Tap to sync');
+    err.textColor = new Color('#3a5570');
+    err.font = Font.systemFont(12);
+  }
+
+  Script.setWidget(widget);
+  if (config.runsInApp) widget.presentSmall();
+}
+
+await run();`;
+  }
+
+  function renderWidgetCard() {
+    const inner = document.getElementById('widget-inner');
+    if (!inner) return;
+    const bucketId = loadBucketId();
+
+    if (!bucketId) {
+      inner.innerHTML = `
+        <div class="widget-sub">Sync your live productivity % to your iPhone home screen using the free Scriptable app.</div>
+        <div class="widget-steps">
+          <div class="widget-step"><span class="widget-step-num">1</span>Tap Setup below — this creates a private data bucket (no account needed)</div>
+          <div class="widget-step"><span class="widget-step-num">2</span>Download <strong>Scriptable</strong> from the App Store (free)</div>
+          <div class="widget-step"><span class="widget-step-num">3</span>Copy the generated code into a new Scriptable script</div>
+          <div class="widget-step"><span class="widget-step-num">4</span>Add a Scriptable widget to your home screen and select the script</div>
+        </div>
+        <button class="widget-setup-btn" onclick="setupWidget()">Set Up Widget</button>`;
+    } else {
+      const code = getScriptableCode(bucketId);
+      inner.innerHTML = `
+        <div class="widget-status">
+          <div class="widget-status-dot"></div>
+          <span>Live — syncing on every task completion</span>
+        </div>
+        <div class="widget-sub">Copy this code into a new script in the Scriptable app, then add a Scriptable widget to your home screen.</div>
+        <div class="widget-code-wrap"><div class="widget-code" id="widget-code-text">${escapeHtml(code)}</div></div>
+        <button class="widget-copy-btn" onclick="copyWidgetCode()">Copy Scriptable Code</button>
+        <div style="margin-top:10px;text-align:center;">
+          <span style="font-size:11px;color:var(--muted);cursor:pointer;" onclick="resetWidget()">Reset widget setup</span>
+        </div>`;
+    }
+  }
+
+  function escapeHtml(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  async function setupWidget() {
+    const btn = document.querySelector('.widget-setup-btn');
+    if (btn) { btn.textContent = 'Setting up...'; btn.disabled = true; }
+    const id = await createBucket();
+    if (id) {
+      await syncToWidget(getCurrentPct());
+      renderWidgetCard();
+    } else {
+      if (btn) { btn.textContent = 'Set Up Widget'; btn.disabled = false; }
+      alert('Could not connect. Check your internet connection and try again.');
+    }
+  }
+
+  function copyWidgetCode() {
+    const id = loadBucketId();
+    if (!id) return;
+    const code = getScriptableCode(id);
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(code).then(() => {
+        const btn = document.querySelector('.widget-copy-btn');
+        if (btn) { btn.textContent = 'Copied!'; setTimeout(() => btn.textContent = 'Copy Scriptable Code', 2000); }
+      });
+    } else {
+      const ta = document.createElement('textarea');
+      ta.value = code;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      const btn = document.querySelector('.widget-copy-btn');
+      if (btn) { btn.textContent = 'Copied!'; setTimeout(() => btn.textContent = 'Copy Scriptable Code', 2000); }
+    }
+  }
+
+  function resetWidget() {
+    if (confirm('Remove widget setup? You can set it up again anytime.')) {
+      localStorage.removeItem('kvdb-bucket');
+      renderWidgetCard();
+    }
   }
 
   // ── Init ──
