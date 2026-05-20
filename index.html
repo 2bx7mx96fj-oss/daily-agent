@@ -319,8 +319,52 @@
     }
     .health-link:active { background: var(--card2); }
     .health-link-left { display: flex; align-items: center; gap: 12px; }
-    .health-link-icon { font-size: 26px; }
+    .health-link-icon { font-size: 18px; color: var(--muted2); }
     .health-link-arrow { color: var(--muted); font-size: 18px; }
+
+    /* Sleep date nav */
+    .sleep-date-nav {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 8px; padding: 0 2px;
+    }
+    .sleep-nav-btn {
+      background: var(--card); border: 1px solid var(--border); color: var(--muted2);
+      font-size: 20px; width: 32px; height: 32px; border-radius: 8px;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      -webkit-tap-highlight-color: transparent; transition: all 0.15s;
+    }
+    .sleep-nav-btn:active { background: var(--card2); }
+    .sleep-nav-btn:disabled { opacity: 0.3; cursor: default; }
+    #sleep-date-label { font-size: 13px; font-weight: 700; color: var(--text); letter-spacing: 0.02em; }
+
+    /* Mood card */
+    .mood-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 16px; }
+    .mood-title { font-size: 10px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: 0.14em; margin-bottom: 12px; }
+    .mood-btns { display: flex; gap: 6px; }
+    .mood-btn {
+      flex: 1; background: var(--navy); border: 1px solid var(--border); border-radius: 8px;
+      color: var(--muted2); font-size: 11px; font-weight: 700; padding: 9px 4px;
+      cursor: pointer; text-align: center; transition: all 0.2s;
+      -webkit-tap-highlight-color: transparent; letter-spacing: 0.02em;
+    }
+    .mood-btn.active { background: var(--navy2); border-color: var(--green); color: var(--green); }
+    .mood-btn:active { opacity: 0.7; }
+    .mood-logged { font-size: 13px; color: var(--muted2); display: flex; align-items: center; justify-content: space-between; }
+    .mood-change-btn { font-size: 11px; font-weight: 700; color: #0a84ff; cursor: pointer; text-transform: uppercase; letter-spacing: 0.06em; -webkit-tap-highlight-color: transparent; }
+
+    /* Insights card */
+    .insights-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 16px; margin-top: 16px; }
+    .insights-title { font-size: 10px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: 0.14em; margin-bottom: 12px; }
+    .insight-row { display: flex; align-items: flex-start; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+    .insight-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .insight-row:first-of-type { padding-top: 0; }
+    .insight-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); flex-shrink: 0; margin-top: 5px; }
+    .insight-dot.warn { background: #ffd60a; }
+    .insight-dot.alert { background: #ff453a; }
+    .insight-text { font-size: 13px; color: var(--text); line-height: 1.4; flex: 1; }
+    .insight-text strong { color: var(--green); font-weight: 700; }
+    .insight-text .warn { color: #ffd60a; }
+    .insight-text .alert { color: #ff453a; }
 
     /* ══ STOCK PAGE ══ */
     .stock-header { padding: 22px 0 0; }
@@ -396,7 +440,11 @@
     </div>
   </div>
 
-  <div id="checklist" style="margin-top:20px;"></div>
+  <div id="mood-card" class="mood-card" style="margin-top:16px;"></div>
+
+  <div id="checklist" style="margin-top:16px;"></div>
+
+  <div id="insights-card" class="insights-card"></div>
 
   <a class="action-btn btn-chat" href="https://claude.ai/new" target="_blank">Open Claude to Plan My Day</a>
   <button class="action-btn btn-reset" onclick="resetDay()">Reset Today</button>
@@ -410,6 +458,11 @@
   </div>
   <div class="h-section">
     <div class="h-section-title">Sleep</div>
+    <div class="sleep-date-nav">
+      <button class="sleep-nav-btn" onclick="changeSleepDate(-1)">&#8249;</button>
+      <span id="sleep-date-label">Last Night</span>
+      <button class="sleep-nav-btn" onclick="changeSleepDate(1)" id="sleep-nav-next">&#8250;</button>
+    </div>
     <div class="sleep-card">
       <div class="sleep-main">
         <div>
@@ -417,11 +470,11 @@
           <div class="sleep-goal-lbl">Goal: 8h sleep</div>
         </div>
         <div class="sleep-quality" id="sleep-quality">
-          <span class="sleep-star" data-star="1">😴</span>
-          <span class="sleep-star" data-star="2">😴</span>
-          <span class="sleep-star" data-star="3">😴</span>
-          <span class="sleep-star" data-star="4">😴</span>
-          <span class="sleep-star" data-star="5">😴</span>
+          <span class="sleep-star" data-star="1">★</span>
+          <span class="sleep-star" data-star="2">★</span>
+          <span class="sleep-star" data-star="3">★</span>
+          <span class="sleep-star" data-star="4">★</span>
+          <span class="sleep-star" data-star="5">★</span>
         </div>
       </div>
       <div class="sleep-times">
@@ -459,9 +512,9 @@
   </div>
   <div class="h-section">
     <div class="h-section-title">Apple Health</div>
-    <a class="health-link" href="x-apple-health://"><div class="health-link-left"><span class="health-link-icon">❤️</span><span>Open Health App</span></div><span class="health-link-arrow">›</span></a>
-    <a class="health-link" href="x-apple-health://Sleep"><div class="health-link-left"><span class="health-link-icon">🌙</span><span>Sleep in Health App</span></div><span class="health-link-arrow">›</span></a>
-    <a class="health-link" href="x-apple-fitness://"><div class="health-link-left"><span class="health-link-icon">🏃</span><span>Open Fitness App</span></div><span class="health-link-arrow">›</span></a>
+    <a class="health-link" href="x-apple-health://"><div class="health-link-left"><span class="health-link-icon">♥</span><span>Open Health App</span></div><span class="health-link-arrow">›</span></a>
+    <a class="health-link" href="x-apple-health://Sleep"><div class="health-link-left"><span class="health-link-icon">◑</span><span>Sleep in Health App</span></div><span class="health-link-arrow">›</span></a>
+    <a class="health-link" href="x-apple-fitness://"><div class="health-link-left"><span class="health-link-icon">◎</span><span>Open Fitness App</span></div><span class="health-link-arrow">›</span></a>
   </div>
 </div>
 
@@ -503,8 +556,8 @@
 <!-- TAB BAR -->
 <nav class="tab-bar">
   <button class="tab-btn active" id="tab-today" onclick="showPage('today')"><span class="tab-icon">✓</span>Today</button>
-  <button class="tab-btn" id="tab-health" onclick="showPage('health')"><span class="tab-icon">❤️</span>Health</button>
-  <button class="tab-btn" id="tab-progress" onclick="showPage('progress')"><span class="tab-icon">📈</span>AFM</button>
+  <button class="tab-btn" id="tab-health" onclick="showPage('health')"><span class="tab-icon">♡</span>Health</button>
+  <button class="tab-btn" id="tab-progress" onclick="showPage('progress')"><span class="tab-icon">↗</span>AFM</button>
 </nav>
 
 <script>
@@ -1095,17 +1148,197 @@
   }
 
   function renderHealth() {
-    document.getElementById('health-date').textContent=new Date().toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});
-    const h=loadSleepHistory(),e=h[todayKey()];
-    const disp=document.getElementById('sleep-display');
-    if (e) {
-      const p=formatHours(e.hours).split(' ');
-      disp.innerHTML=p[0]+(p[1]?`<span> ${p[1]}</span>`:'');
-      currentSleepQuality=e.quality||0; updateStars(currentSleepQuality);
-      if(e.bed) document.getElementById('sleep-bed').value=e.bed;
-      if(e.wake) document.getElementById('sleep-wake').value=e.wake;
-    } else { disp.innerHTML='<span>—</span>'; }
-    renderSleepBars(); renderRings(loadRings());
+    document.getElementById('health-date').textContent = new Date().toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});
+    renderSleepForDate();
+    renderRings(loadRings());
+  }
+
+  // ══ MOOD ══
+  const MOOD_LABELS = ['Low','Below Avg','Okay','Good','Excellent'];
+
+  function moodKey(date) { return 'mood-' + (date || todayKey()); }
+
+  function loadMood(date) {
+    const s = localStorage.getItem(moodKey(date));
+    return s ? JSON.parse(s) : null;
+  }
+
+  function saveMood(score) {
+    localStorage.setItem(moodKey(), JSON.stringify({ score, label: MOOD_LABELS[score-1], t: Date.now() }));
+    renderMoodCard();
+  }
+
+  function renderMoodCard() {
+    const card = document.getElementById('mood-card');
+    if (!card) return;
+    const mood = loadMood();
+    if (mood) {
+      card.innerHTML = `
+        <div class="mood-logged">
+          <span>Mood today: <strong style="color:var(--green)">${mood.label}</strong></span>
+          <span class="mood-change-btn" onclick="clearMood()">Change</span>
+        </div>`;
+    } else {
+      card.innerHTML = `
+        <div class="mood-title">How are you feeling today?</div>
+        <div class="mood-btns">
+          ${MOOD_LABELS.map((l,i) => `<button class="mood-btn" onclick="saveMood(${i+1})">${l}</button>`).join('')}
+        </div>`;
+    }
+  }
+
+  function clearMood() {
+    localStorage.removeItem(moodKey());
+    renderMoodCard();
+  }
+
+  // ══ INSIGHTS ══
+  function generateInsights() {
+    const h = loadHistory();
+    const allDates = Object.keys(h).sort();
+    if (allDates.length < 2) return [];
+
+    const insights = [];
+    const last7 = allDates.slice(-7).map(d => h[d]);
+    const prev7 = allDates.slice(-14, -7).map(d => h[d]);
+    const avg7 = last7.length ? Math.round(last7.reduce((a,b)=>a+b,0)/last7.length) : null;
+    const avgPrev = prev7.length ? Math.round(prev7.reduce((a,b)=>a+b,0)/prev7.length) : null;
+    const today = h[todayKey()] ?? null;
+
+    // Trend vs last week
+    if (avg7 !== null && avgPrev !== null) {
+      const diff = avg7 - avgPrev;
+      if (diff >= 5) insights.push({ type:'good', text:`Your 7-day average is <strong>${avg7}%</strong> — up ${diff}pts from the week before. Keep the momentum.` });
+      else if (diff <= -5) insights.push({ type:'alert', text:`Your 7-day average has dropped to <strong>${avg7}%</strong>, down ${Math.abs(diff)}pts from last week. Time to refocus.` });
+      else insights.push({ type:'neutral', text:`Weekly average holding steady at <strong>${avg7}%</strong>. Consistency is progress.` });
+    } else if (avg7 !== null) {
+      insights.push({ type:'good', text:`7-day average: <strong>${avg7}%</strong>. Keep building your history.` });
+    }
+
+    // Today vs average
+    if (today !== null && avg7 !== null) {
+      if (today >= avg7 + 10) insights.push({ type:'good', text:`Today you're at <strong>${today}%</strong> — well above your average. Strong session.` });
+      else if (today < 30 && allDates.length > 3) insights.push({ type:'alert', text:`Today is at <strong class="alert">${today}%</strong>. Your average is ${avg7}% — there's still time to close the gap.` });
+    }
+
+    // Streak
+    let streak = 0;
+    for (let i=allDates.length-1;i>=0;i--) { if(h[allDates[i]]>=50) streak++; else break; }
+    if (streak >= 3) insights.push({ type:'good', text:`<strong>${streak}-day streak</strong> of 50%+ completion. Don't break the chain.` });
+    else if (streak === 0 && allDates.length > 2) insights.push({ type:'warn', text:`No active streak yet — aim for 50%+ today to start one.` });
+
+    // Best day of week pattern
+    const byDay = {};
+    allDates.forEach(d => {
+      const day = new Date(d+'T12:00:00').getDay();
+      if (!byDay[day]) byDay[day] = [];
+      byDay[day].push(h[d]);
+    });
+    const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    let bestDay = null, bestAvg = 0;
+    Object.entries(byDay).forEach(([day, vals]) => {
+      if (vals.length >= 2) {
+        const avg = vals.reduce((a,b)=>a+b,0)/vals.length;
+        if (avg > bestAvg) { bestAvg = avg; bestDay = parseInt(day); }
+      }
+    });
+    if (bestDay !== null) insights.push({ type:'neutral', text:`Your strongest day is typically <strong>${dayNames[bestDay]}</strong> (avg ${Math.round(bestAvg)}%). Use that energy.` });
+
+    // Mood vs productivity correlation
+    const moodsWithProd = allDates.filter(d => {
+      const m = loadMood(d);
+      return m && h[d] !== undefined;
+    });
+    if (moodsWithProd.length >= 3) {
+      const highMoodDays = moodsWithProd.filter(d => loadMood(d).score >= 4);
+      const lowMoodDays = moodsWithProd.filter(d => loadMood(d).score <= 2);
+      if (highMoodDays.length && lowMoodDays.length) {
+        const highAvg = Math.round(highMoodDays.map(d=>h[d]).reduce((a,b)=>a+b,0)/highMoodDays.length);
+        const lowAvg = Math.round(lowMoodDays.map(d=>h[d]).reduce((a,b)=>a+b,0)/lowMoodDays.length);
+        if (highAvg - lowAvg > 15) insights.push({ type:'neutral', text:`On high-mood days you average <strong>${highAvg}%</strong> vs <strong class="alert">${lowAvg}%</strong> on low days. Mood matters.` });
+      }
+    }
+
+    return insights.slice(0, 4);
+  }
+
+  function renderInsights() {
+    const card = document.getElementById('insights-card');
+    if (!card) return;
+    const insights = generateInsights();
+    if (!insights.length) { card.style.display = 'none'; return; }
+    card.style.display = 'block';
+    card.innerHTML = `<div class="insights-title">AFM Insights</div>` +
+      insights.map(i => `
+        <div class="insight-row">
+          <div class="insight-dot ${i.type==='alert'?'alert':i.type==='warn'?'warn':''}"></div>
+          <div class="insight-text">${i.text}</div>
+        </div>`).join('');
+  }
+
+  // ══ SLEEP DATE NAV ══
+  let sleepDateOffset = -1; // -1 = yesterday (last night)
+
+  function getSleepDateKey(offset) {
+    const d = new Date();
+    d.setDate(d.getDate() + offset);
+    return d.toISOString().slice(0,10);
+  }
+
+  function getSleepDateLabel(offset) {
+    if (offset === -1) return 'Last Night';
+    if (offset === 0) return 'Tonight';
+    const d = new Date();
+    d.setDate(d.getDate() + offset);
+    return d.toLocaleDateString('en-GB', { weekday:'short', day:'numeric', month:'short' });
+  }
+
+  function changeSleepDate(dir) {
+    const next = sleepDateOffset + dir;
+    if (next > 0 || next < -30) return;
+    sleepDateOffset = next;
+    renderSleepForDate();
+  }
+
+  function renderSleepForDate() {
+    const key = getSleepDateKey(sleepDateOffset);
+    const label = getSleepDateLabel(sleepDateOffset);
+    document.getElementById('sleep-date-label').textContent = label;
+    const nextBtn = document.getElementById('sleep-nav-next');
+    if (nextBtn) nextBtn.disabled = sleepDateOffset >= 0;
+
+    const h = loadSleepHistory();
+    const entry = h[key];
+    const disp = document.getElementById('sleep-display');
+    if (entry) {
+      const p = formatHours(entry.hours).split(' ');
+      disp.innerHTML = p[0] + (p[1] ? `<span> ${p[1]}</span>` : '');
+      currentSleepQuality = entry.quality || 0;
+      updateStars(currentSleepQuality);
+      if (entry.bed) document.getElementById('sleep-bed').value = entry.bed;
+      if (entry.wake) document.getElementById('sleep-wake').value = entry.wake;
+    } else {
+      disp.innerHTML = '<span>—</span>';
+      currentSleepQuality = 0;
+      updateStars(0);
+      document.getElementById('sleep-bed').value = '22:30';
+      document.getElementById('sleep-wake').value = '07:00';
+    }
+    renderSleepBars();
+  }
+
+  // Override logSleep to use current date offset
+  const _origLogSleep = window.logSleep;
+  function logSleep() {
+    const bed = document.getElementById('sleep-bed').value;
+    const wake = document.getElementById('sleep-wake').value;
+    if (!bed || !wake) return alert('Set both times.');
+    const hours = calcSleepHours(bed, wake);
+    const h = loadSleepHistory();
+    const key = getSleepDateKey(sleepDateOffset);
+    h[key] = { bed, wake, hours, quality: currentSleepQuality || 0 };
+    saveSleepHistory(h);
+    renderSleepForDate();
   }
 
   // ── Init ──
@@ -1117,6 +1350,8 @@
   setDateLabel();
   saveToHistory();
   render();
+  renderMoodCard();
+  renderInsights();
   initSleepStars();
 </script>
 </body>
