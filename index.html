@@ -453,23 +453,6 @@
     .stat-card2 .stat-big { font-size: 26px; font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: -0.5px; }
     .stat-card2 .stat-sub { font-size: 11px; color: var(--muted2); margin-top: 2px; }
 
-    /* Widget setup */
-    .widget-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 18px; margin-top: 16px; }
-    .widget-title { font-size: 10px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: 0.14em; margin-bottom: 4px; }
-    .widget-sub { font-size: 12px; color: var(--muted2); margin-bottom: 14px; line-height: 1.4; }
-    .widget-setup-btn { width: 100%; padding: 13px; border: none; border-radius: 10px; background: var(--navy2); color: var(--green); font-size: 14px; font-weight: 700; cursor: pointer; border: 1px solid rgba(0,212,106,0.2); -webkit-tap-highlight-color: transparent; letter-spacing: 0.04em; transition: opacity 0.2s; }
-    .widget-setup-btn:active { opacity: 0.7; }
-    .widget-status { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; font-size: 13px; color: var(--muted2); }
-    .widget-status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; flex-shrink: 0; }
-    .widget-status-dot.inactive { background: var(--muted); animation: none; }
-    .widget-code-wrap { background: #020508; border: 1px solid var(--border); border-radius: 10px; padding: 12px; margin-bottom: 12px; overflow-x: auto; }
-    .widget-code { font-family: 'SF Mono', Menlo, monospace; font-size: 11px; color: #7ab8f5; white-space: pre; line-height: 1.5; }
-    .widget-copy-btn { width: 100%; padding: 11px; border: 1px solid var(--border); border-radius: 10px; background: var(--navy); color: var(--text); font-size: 13px; font-weight: 700; cursor: pointer; -webkit-tap-highlight-color: transparent; letter-spacing: 0.04em; }
-    .widget-copy-btn:active { opacity: 0.7; }
-    .widget-steps { margin-bottom: 14px; }
-    .widget-step { display: flex; gap: 10px; align-items: flex-start; padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 13px; color: var(--muted2); line-height: 1.4; }
-    .widget-step:last-child { border-bottom: none; }
-    .widget-step-num { font-size: 11px; font-weight: 800; color: var(--green); background: var(--navy); width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
 
     /* ── SCHEDULE PAGE ── */
     .cal-header { display: flex; align-items: center; justify-content: space-between; padding: 22px 0 14px; }
@@ -706,11 +689,6 @@
     </div>
   </div>
 
-  <!-- Widget Setup -->
-  <div class="widget-card" id="widget-setup-card">
-    <div class="widget-title">Home Screen Widget</div>
-    <div id="widget-inner"></div>
-  </div>
 </div>
 
 <!-- ══ SCHEDULE PAGE ══ -->
@@ -937,7 +915,6 @@
     localStorage.setItem('history', JSON.stringify(h));
     const intra = loadIntraday(); intra.push({ t: Date.now(), pct });
     saveIntraday(intra);
-    syncToWidget(pct);
   }
 
   // ── Animated number counter ──
@@ -988,7 +965,7 @@
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.getElementById('page-'+name).classList.add('active');
     document.getElementById('tab-'+name).classList.add('active');
-    if (name === 'progress') { renderStock(); renderWidgetCard(); }
+    if (name === 'progress') { renderStock(); }
     if (name === 'health') renderHealth();
     if (name === 'schedule') renderSchedule();
     if (name === 'todo') renderTodos();
@@ -1966,140 +1943,6 @@
   }
 
   // ══ WIDGET — Scriptable URL scheme approach (no backend needed) ══
-
-  function syncToWidget(pct) {
-    // Silently open Scriptable sync script in background if app is installed
-    // (only called manually via Sync button — URL scheme can't be triggered silently)
-  }
-
-  function getSyncScript() {
-    return `// AFM Sync — run this from Daily Agent to update your widget
-// Save this script in Scriptable as: AFM Sync
-
-const pct = args.plainText || '0';
-const fm = FileManager.iCloud();
-const path = fm.joinPath(fm.documentsDirectory(), 'afm-data.json');
-fm.writeString(path, JSON.stringify({
-  pct: parseFloat(pct),
-  updated: new Date().toISOString()
-}));
-Safari.open('https://2bx7mx96fj-oss.github.io/daily-agent/');`;
-  }
-
-  function getWidgetScript() {
-    return `// AFM Widget — add this as a Scriptable home screen widget
-// Save this script in Scriptable as: AFM Widget
-
-async function run() {
-  const fm = FileManager.iCloud();
-  const path = fm.joinPath(fm.documentsDirectory(), 'afm-data.json');
-  let pct = 0, updated = '';
-
-  try {
-    if (fm.fileExists(path)) {
-      await fm.downloadFileFromiCloud(path);
-      const data = JSON.parse(fm.readString(path));
-      pct = data.pct || 0;
-      updated = data.updated ? new Date(data.updated)
-        .toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit'}) : '';
-    }
-  } catch(e) {}
-
-  const widget = new ListWidget();
-  const grad = new LinearGradient();
-  grad.locations = [0, 1];
-  grad.colors = [new Color('#05090f'), new Color('#0b1422')];
-  widget.backgroundGradient = grad;
-  widget.setPadding(14, 16, 14, 16);
-  widget.refreshAfterDate = new Date(Date.now() + 5 * 60 * 1000);
-
-  const ticker = widget.addText('AFM');
-  ticker.textColor = new Color('#00d46a');
-  ticker.font = Font.boldMonospacedSystemFont(10);
-
-  widget.addSpacer(6);
-
-  const color = pct >= 70 ? '#00d46a' : pct >= 40 ? '#ffd60a' : '#ff453a';
-  const big = widget.addText(pct.toFixed(1) + '%');
-  big.textColor = new Color(color);
-  big.font = Font.boldMonospacedSystemFont(30);
-  big.minimumScaleFactor = 0.6;
-
-  widget.addSpacer(4);
-
-  const lbl = widget.addText('Daily Productivity');
-  lbl.textColor = new Color('#3a5570');
-  lbl.font = Font.systemFont(10);
-
-  if (updated) {
-    widget.addSpacer(2);
-    const upd = widget.addText('Updated ' + updated);
-    upd.textColor = new Color('#2a3a50');
-    upd.font = Font.systemFont(9);
-  }
-
-  Script.setWidget(widget);
-  if (config.runsInApp) widget.presentSmall();
-}
-
-await run();`;
-  }
-
-  function escapeHtml(str) {
-    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  }
-
-  function syncNow() {
-    const pct = getCurrentPct();
-    const url = `scriptable:///run?scriptName=AFM%20Sync&input=${pct}`;
-    window.location.href = url;
-  }
-
-  function copyCode(which) {
-    const code = which === 'sync' ? getSyncScript() : getWidgetScript();
-    const btnId = which === 'sync' ? 'copy-sync-btn' : 'copy-widget-btn';
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(code).then(() => flashCopy(btnId));
-    } else {
-      const ta = document.createElement('textarea');
-      ta.value = code; document.body.appendChild(ta); ta.select();
-      document.execCommand('copy'); document.body.removeChild(ta);
-      flashCopy(btnId);
-    }
-  }
-
-  function flashCopy(btnId) {
-    const btn = document.getElementById(btnId);
-    if (btn) { btn.textContent = 'Copied!'; setTimeout(() => btn.textContent = 'Copy Code', 2000); }
-  }
-
-  function renderWidgetCard() {
-    const inner = document.getElementById('widget-inner');
-    if (!inner) return;
-    const syncCode = getSyncScript();
-    const widgetCode = getWidgetScript();
-    inner.innerHTML = `
-      <div class="widget-sub">Uses the free Scriptable app — no accounts, no internet sync needed. Data is stored on your iCloud.</div>
-      <div class="widget-steps">
-        <div class="widget-step"><span class="widget-step-num">1</span>Download <strong>Scriptable</strong> from the App Store (free)</div>
-        <div class="widget-step"><span class="widget-step-num">2</span>Create a new script named <strong>AFM Sync</strong> — copy the code below into it</div>
-        <div class="widget-step"><span class="widget-step-num">3</span>Create a second script named <strong>AFM Widget</strong> — copy that code in</div>
-        <div class="widget-step"><span class="widget-step-num">4</span>Tap <strong>Sync Now</strong> below whenever you want to push your % to the widget</div>
-        <div class="widget-step"><span class="widget-step-num">5</span>Add a Scriptable small widget to your home screen and select <strong>AFM Widget</strong></div>
-      </div>
-
-      <div class="widget-title" style="margin-bottom:8px;">Script 1 — AFM Sync</div>
-      <div class="widget-code-wrap"><div class="widget-code">${escapeHtml(syncCode)}</div></div>
-      <button class="widget-copy-btn" id="copy-sync-btn" onclick="copyCode('sync')" style="margin-bottom:16px;">Copy Code</button>
-
-      <div class="widget-title" style="margin-bottom:8px;">Script 2 — AFM Widget</div>
-      <div class="widget-code-wrap"><div class="widget-code">${escapeHtml(widgetCode)}</div></div>
-      <button class="widget-copy-btn" id="copy-widget-btn" onclick="copyCode('widget')" style="margin-bottom:16px;">Copy Code</button>
-
-      <a href="scriptable:///run?scriptName=AFM%20Sync&input=${getCurrentPct()}" class="widget-setup-btn" style="display:block;text-align:center;text-decoration:none;">Sync Now — Push ${getCurrentPct()}% to Widget</a>
-      <div style="margin-top:10px;text-align:center;font-size:11px;color:var(--muted);">Tap Sync Now each time you want to update the widget</div>
-    `;
-  }
 
   // ── Init ──
   function setDateLabel() {
