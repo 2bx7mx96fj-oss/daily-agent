@@ -426,6 +426,48 @@
     .widget-step { display: flex; gap: 10px; align-items: flex-start; padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 13px; color: var(--muted2); line-height: 1.4; }
     .widget-step:last-child { border-bottom: none; }
     .widget-step-num { font-size: 11px; font-weight: 800; color: var(--green); background: var(--navy); width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+
+    /* ── SCHEDULE PAGE ── */
+    .sch-nav { display: flex; align-items: center; justify-content: space-between; padding: 22px 0 16px; }
+    .sch-nav-date { font-size: 18px; font-weight: 800; letter-spacing: -0.3px; }
+    .sch-nav-sub { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 2px; }
+    .sch-nav-btn { background: var(--card); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-size: 18px; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+    .sch-nav-btn:active { opacity: 0.6; }
+    .sch-add-row { display: flex; gap: 8px; margin-bottom: 16px; }
+    .sch-time-input { background: var(--card); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-size: 14px; padding: 10px 10px; width: 100px; -webkit-appearance: none; }
+    .sch-text-input { flex: 1; background: var(--card); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-size: 14px; padding: 10px 12px; }
+    .sch-text-input::placeholder { color: var(--muted); }
+    .sch-add-btn { background: var(--green); border: none; border-radius: 10px; color: #000; font-size: 20px; font-weight: 700; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; -webkit-tap-highlight-color: transparent; }
+    .sch-add-btn:active { opacity: 0.7; }
+    .sch-empty { text-align: center; color: var(--muted); font-size: 13px; padding: 40px 0; }
+    .sch-event { display: flex; align-items: center; gap: 12px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; margin-bottom: 8px; animation: fadeIn 0.2s ease; }
+    .sch-event-time { font-size: 13px; font-weight: 700; color: var(--green); font-variant-numeric: tabular-nums; min-width: 48px; }
+    .sch-event-title { flex: 1; font-size: 14px; font-weight: 600; }
+    .sch-event-del { background: none; border: none; color: var(--muted); font-size: 18px; cursor: pointer; padding: 0 4px; -webkit-tap-highlight-color: transparent; line-height: 1; }
+    .sch-event-del:active { color: #ff453a; }
+    .sch-section-lbl { font-size: 10px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: 0.12em; margin: 16px 0 8px; }
+
+    /* ── TO-DO PAGE ── */
+    .todo-header { padding: 22px 0 16px; display: flex; align-items: center; justify-content: space-between; }
+    .todo-header-title { font-size: 26px; font-weight: 800; letter-spacing: -0.5px; }
+    .todo-clear-btn { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; background: none; border: none; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+    .todo-clear-btn:active { color: #ff453a; }
+    .todo-add-row { display: flex; gap: 8px; margin-bottom: 20px; }
+    .todo-input { flex: 1; background: var(--card); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-size: 14px; padding: 12px 14px; }
+    .todo-input::placeholder { color: var(--muted); }
+    .todo-add-btn { background: var(--green); border: none; border-radius: 10px; color: #000; font-size: 22px; font-weight: 700; width: 46px; height: 46px; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; -webkit-tap-highlight-color: transparent; }
+    .todo-add-btn:active { opacity: 0.7; }
+    .todo-section-lbl { font-size: 10px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: 0.12em; margin: 0 0 10px; }
+    .todo-item { display: flex; align-items: center; gap: 12px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px; margin-bottom: 8px; animation: fadeIn 0.2s ease; transition: opacity 0.3s; }
+    .todo-item.done { opacity: 0.45; }
+    .todo-check { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--border); background: none; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; -webkit-tap-highlight-color: transparent; transition: all 0.2s; }
+    .todo-check.checked { background: var(--green); border-color: var(--green); }
+    .todo-check.checked::after { content: '✓'; font-size: 12px; color: #000; font-weight: 800; }
+    .todo-text { flex: 1; font-size: 14px; font-weight: 500; line-height: 1.4; }
+    .todo-item.done .todo-text { text-decoration: line-through; color: var(--muted2); }
+    .todo-del { background: none; border: none; color: var(--muted); font-size: 18px; cursor: pointer; padding: 0 4px; -webkit-tap-highlight-color: transparent; }
+    .todo-del:active { color: #ff453a; }
+    .todo-empty { text-align: center; color: var(--muted); font-size: 13px; padding: 40px 0; }
   </style>
 </head>
 <body>
@@ -577,9 +619,42 @@
   </div>
 </div>
 
+<!-- ══ SCHEDULE PAGE ══ -->
+<div class="page" id="page-schedule">
+  <div class="sch-nav">
+    <button class="sch-nav-btn" onclick="changeSchDate(-1)">‹</button>
+    <div style="text-align:center;">
+      <div class="sch-nav-date" id="sch-date-label"></div>
+      <div class="sch-nav-sub" id="sch-date-sub"></div>
+    </div>
+    <button class="sch-nav-btn" onclick="changeSchDate(1)">›</button>
+  </div>
+  <div class="sch-add-row">
+    <input type="time" class="sch-time-input" id="sch-time" />
+    <input type="text" class="sch-text-input" id="sch-title" placeholder="Add event..." />
+    <button class="sch-add-btn" onclick="addEvent()">+</button>
+  </div>
+  <div id="sch-list"></div>
+</div>
+
+<!-- ══ TO-DO PAGE ══ -->
+<div class="page" id="page-todo">
+  <div class="todo-header">
+    <div class="todo-header-title">To-Do</div>
+    <button class="todo-clear-btn" onclick="clearDoneTodos()">Clear done</button>
+  </div>
+  <div class="todo-add-row">
+    <input type="text" class="todo-input" id="todo-input" placeholder="Add a task..." />
+    <button class="todo-add-btn" onclick="addTodo()">+</button>
+  </div>
+  <div id="todo-list"></div>
+</div>
+
 <!-- TAB BAR -->
 <nav class="tab-bar">
   <button class="tab-btn active" id="tab-today" onclick="showPage('today')"><span class="tab-icon">✓</span>Today</button>
+  <button class="tab-btn" id="tab-schedule" onclick="showPage('schedule')"><span class="tab-icon">◫</span>Schedule</button>
+  <button class="tab-btn" id="tab-todo" onclick="showPage('todo')"><span class="tab-icon">≡</span>To-Do</button>
   <button class="tab-btn" id="tab-health" onclick="showPage('health')"><span class="tab-icon">♡</span>Health</button>
   <button class="tab-btn" id="tab-progress" onclick="showPage('progress')"><span class="tab-icon">↗</span>AFM</button>
 </nav>
@@ -716,7 +791,164 @@
     document.getElementById('tab-'+name).classList.add('active');
     if (name === 'progress') { renderStock(); renderWidgetCard(); }
     if (name === 'health') renderHealth();
+    if (name === 'schedule') renderSchedule();
+    if (name === 'todo') renderTodos();
   }
+
+  // ── SCHEDULE ──
+  let schDateOffset = 0;
+
+  function schDateKey(offset) {
+    const d = new Date();
+    d.setDate(d.getDate() + offset);
+    return d.toISOString().slice(0, 10);
+  }
+
+  function loadEvents() {
+    const s = localStorage.getItem('schedule-events');
+    return s ? JSON.parse(s) : [];
+  }
+
+  function saveEvents(arr) {
+    localStorage.setItem('schedule-events', JSON.stringify(arr));
+  }
+
+  function changeSchDate(dir) {
+    schDateOffset += dir;
+    renderSchedule();
+  }
+
+  function addEvent() {
+    const time = document.getElementById('sch-time').value;
+    const title = document.getElementById('sch-title').value.trim();
+    if (!title) return;
+    const events = loadEvents();
+    events.push({ id: Date.now(), date: schDateKey(schDateOffset), time: time || '00:00', title });
+    saveEvents(events);
+    document.getElementById('sch-title').value = '';
+    renderSchedule();
+  }
+
+  function deleteEvent(id) {
+    saveEvents(loadEvents().filter(e => e.id !== id));
+    renderSchedule();
+  }
+
+  function renderSchedule() {
+    const offset = schDateOffset;
+    const key = schDateKey(offset);
+    const d = new Date(); d.setDate(d.getDate() + offset);
+    const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    document.getElementById('sch-date-label').textContent = `${dayNames[d.getDay()]} ${d.getDate()} ${monthNames[d.getMonth()]}`;
+    document.getElementById('sch-date-sub').textContent = offset === 0 ? 'Today' : offset === 1 ? 'Tomorrow' : offset === -1 ? 'Yesterday' : '';
+
+    const events = loadEvents().filter(e => e.date === key).sort((a,b) => a.time.localeCompare(b.time));
+    const list = document.getElementById('sch-list');
+
+    if (!events.length) {
+      list.innerHTML = '<div class="sch-empty">No events — add one above</div>';
+      return;
+    }
+
+    const now = new Date();
+    const upcoming = events.filter(e => offset !== 0 || e.time >= `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`);
+    const past = events.filter(e => !upcoming.includes(e));
+
+    let html = '';
+    if (upcoming.length) {
+      html += `<div class="sch-section-lbl">${offset === 0 ? 'Upcoming' : 'Events'}</div>`;
+      upcoming.forEach(e => {
+        const [h, m] = e.time.split(':');
+        const hr = parseInt(h); const ampm = hr >= 12 ? 'pm' : 'am'; const hr12 = hr % 12 || 12;
+        html += `<div class="sch-event"><div class="sch-event-time">${hr12}:${m}${ampm}</div><div class="sch-event-title">${escapeHtml(e.title)}</div><button class="sch-event-del" onclick="deleteEvent(${e.id})">×</button></div>`;
+      });
+    }
+    if (past.length) {
+      html += `<div class="sch-section-lbl">Earlier</div>`;
+      past.forEach(e => {
+        const [h, m] = e.time.split(':');
+        const hr = parseInt(h); const ampm = hr >= 12 ? 'pm' : 'am'; const hr12 = hr % 12 || 12;
+        html += `<div class="sch-event" style="opacity:0.45"><div class="sch-event-time">${hr12}:${m}${ampm}</div><div class="sch-event-title">${escapeHtml(e.title)}</div><button class="sch-event-del" onclick="deleteEvent(${e.id})">×</button></div>`;
+      });
+    }
+    list.innerHTML = html;
+  }
+
+  // Set time input to current time by default
+  function initSchTime() {
+    const now = new Date();
+    const h = String(now.getHours()).padStart(2,'0');
+    const m = String(now.getMinutes()).padStart(2,'0');
+    document.getElementById('sch-time').value = `${h}:${m}`;
+  }
+
+  // Allow Enter key to add event
+  document.getElementById('sch-title').addEventListener('keydown', e => { if (e.key === 'Enter') addEvent(); });
+
+  // ── TO-DO ──
+  function loadTodos() {
+    const s = localStorage.getItem('todos');
+    return s ? JSON.parse(s) : [];
+  }
+
+  function saveTodos(arr) {
+    localStorage.setItem('todos', JSON.stringify(arr));
+  }
+
+  function addTodo() {
+    const input = document.getElementById('todo-input');
+    const text = input.value.trim();
+    if (!text) return;
+    const todos = loadTodos();
+    todos.unshift({ id: Date.now(), text, done: false });
+    saveTodos(todos);
+    input.value = '';
+    renderTodos();
+  }
+
+  function toggleTodo(id) {
+    const todos = loadTodos().map(t => t.id === id ? { ...t, done: !t.done } : t);
+    saveTodos(todos);
+    renderTodos();
+  }
+
+  function deleteTodo(id) {
+    saveTodos(loadTodos().filter(t => t.id !== id));
+    renderTodos();
+  }
+
+  function clearDoneTodos() {
+    saveTodos(loadTodos().filter(t => !t.done));
+    renderTodos();
+  }
+
+  function renderTodos() {
+    const todos = loadTodos();
+    const list = document.getElementById('todo-list');
+    if (!todos.length) {
+      list.innerHTML = '<div class="todo-empty">Nothing here — add a task above</div>';
+      return;
+    }
+    const active = todos.filter(t => !t.done);
+    const done = todos.filter(t => t.done);
+    let html = '';
+    if (active.length) {
+      html += `<div class="todo-section-lbl">${active.length} task${active.length !== 1 ? 's' : ''}</div>`;
+      active.forEach(t => {
+        html += `<div class="todo-item"><div class="todo-check" onclick="toggleTodo(${t.id})"></div><div class="todo-text">${escapeHtml(t.text)}</div><button class="todo-del" onclick="deleteTodo(${t.id})">×</button></div>`;
+      });
+    }
+    if (done.length) {
+      html += `<div class="todo-section-lbl" style="margin-top:${active.length ? 16 : 0}px">Completed</div>`;
+      done.forEach(t => {
+        html += `<div class="todo-item done"><div class="todo-check checked" onclick="toggleTodo(${t.id})"></div><div class="todo-text">${escapeHtml(t.text)}</div><button class="todo-del" onclick="deleteTodo(${t.id})">×</button></div>`;
+      });
+    }
+    list.innerHTML = html;
+  }
+
+  document.getElementById('todo-input').addEventListener('keydown', e => { if (e.key === 'Enter') addTodo(); });
 
   // ── Edit mode ──
   function toggleEditMode() {
@@ -1514,6 +1746,9 @@ await run();`;
   renderMoodCard();
   renderInsights();
   initSleepStars();
+  initSchTime();
+  renderSchedule();
+  renderTodos();
 </script>
 </body>
 </html>
