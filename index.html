@@ -91,7 +91,20 @@
     .goal-empty { font-size: 12px; color: var(--muted); text-align: center; padding: 12px 0; }
 
     .page { display: none; }
-    .page.active { display: block; animation: fadeIn 0.2s ease; }
+    .page.active { display: block; }
+
+    @keyframes slideFromLeft   { from { opacity:0; transform: translateX(-28px); } to { opacity:1; transform: none; } }
+    @keyframes slideFromBottom { from { opacity:0; transform: translateY(28px);  } to { opacity:1; transform: none; } }
+    @keyframes slideFromRight  { from { opacity:0; transform: translateX(28px);  } to { opacity:1; transform: none; } }
+    @keyframes slideFromTop    { from { opacity:0; transform: translateY(-28px); } to { opacity:1; transform: none; } }
+    @keyframes zoomIn          { from { opacity:0; transform: scale(0.94);       } to { opacity:1; transform: none; } }
+
+    #page-today.active    { animation: slideFromLeft   0.28s cubic-bezier(.22,1,.36,1); }
+    #page-schedule.active { animation: slideFromBottom 0.28s cubic-bezier(.22,1,.36,1); }
+    #page-goals.active    { animation: zoomIn          0.28s cubic-bezier(.22,1,.36,1); }
+    #page-health.active   { animation: slideFromRight  0.28s cubic-bezier(.22,1,.36,1); }
+    #page-progress.active { animation: slideFromTop    0.28s cubic-bezier(.22,1,.36,1); }
+
     @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
 
     /* ── TODAY PAGE ── */
@@ -524,27 +537,6 @@
     .cal-dot[data-cat="event"] { background: #a855f7; }
     .cal-dot[data-cat="holiday"] { background: #ff6b47; }
 
-    /* ── TO-DO PAGE ── */
-    .todo-header { padding: 22px 0 16px; display: flex; align-items: center; justify-content: space-between; }
-    .todo-header-title { font-size: 26px; font-weight: 800; letter-spacing: -0.5px; }
-    .todo-clear-btn { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; background: none; border: none; cursor: pointer; -webkit-tap-highlight-color: transparent; }
-    .todo-clear-btn:active { color: #ff453a; }
-    .todo-add-row { display: flex; gap: 8px; margin-bottom: 20px; }
-    .todo-input { flex: 1; background: var(--card); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-size: 14px; padding: 12px 14px; }
-    .todo-input::placeholder { color: var(--muted); }
-    .todo-add-btn { background: var(--green); border: none; border-radius: 10px; color: #000; font-size: 22px; font-weight: 700; width: 46px; height: 46px; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; -webkit-tap-highlight-color: transparent; }
-    .todo-add-btn:active { opacity: 0.7; }
-    .todo-section-lbl { font-size: 10px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: 0.12em; margin: 0 0 10px; }
-    .todo-item { display: flex; align-items: center; gap: 12px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px; margin-bottom: 8px; animation: fadeIn 0.2s ease; transition: opacity 0.3s; }
-    .todo-item.done { opacity: 0.45; }
-    .todo-check { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--border); background: none; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; -webkit-tap-highlight-color: transparent; transition: all 0.2s; }
-    .todo-check.checked { background: var(--green); border-color: var(--green); }
-    .todo-check.checked::after { content: '✓'; font-size: 12px; color: #000; font-weight: 800; }
-    .todo-text { flex: 1; font-size: 14px; font-weight: 500; line-height: 1.4; }
-    .todo-item.done .todo-text { text-decoration: line-through; color: var(--muted2); }
-    .todo-del { background: none; border: none; color: var(--muted); font-size: 18px; cursor: pointer; padding: 0 4px; -webkit-tap-highlight-color: transparent; }
-    .todo-del:active { color: #ff453a; }
-    .todo-empty { text-align: center; color: var(--muted); font-size: 13px; padding: 40px 0; }
   </style>
 </head>
 <body>
@@ -733,18 +725,6 @@
   <div id="sch-list"></div>
 </div>
 
-<!-- ══ TO-DO PAGE ══ -->
-<div class="page" id="page-todo">
-  <div class="todo-header">
-    <div class="todo-header-title">To-Do</div>
-    <button class="todo-clear-btn" onclick="clearDoneTodos()">Clear done</button>
-  </div>
-  <div class="todo-add-row">
-    <input type="text" class="todo-input" id="todo-input" placeholder="Add a task..." />
-    <button class="todo-add-btn" onclick="addTodo()">+</button>
-  </div>
-  <div id="todo-list"></div>
-</div>
 
 <!-- ══ GOALS PAGE ══ -->
 <div class="page" id="page-goals">
@@ -831,7 +811,6 @@
   <button class="tab-btn active" id="tab-today" onclick="showPage('today')"><span class="tab-icon">✓</span>Today</button>
   <button class="tab-btn" id="tab-schedule" onclick="showPage('schedule')"><span class="tab-icon">◫</span>Cal</button>
   <button class="tab-btn" id="tab-goals" onclick="showPage('goals')"><span class="tab-icon">◎</span>Goals</button>
-  <button class="tab-btn" id="tab-todo" onclick="showPage('todo')"><span class="tab-icon">≡</span>To-Do</button>
   <button class="tab-btn" id="tab-health" onclick="showPage('health')"><span class="tab-icon">♡</span>Health</button>
   <button class="tab-btn" id="tab-progress" onclick="showPage('progress')"><span class="tab-icon">↗</span>AFM</button>
 </nav>
@@ -968,7 +947,6 @@
     if (name === 'progress') { renderStock(); }
     if (name === 'health') renderHealth();
     if (name === 'schedule') renderSchedule();
-    if (name === 'todo') renderTodos();
     if (name === 'goals') renderGoals();
   }
 
@@ -1231,68 +1209,6 @@
   document.getElementById('sch-title').addEventListener('keydown', e => { if (e.key === 'Enter') addEvent(); });
 
   // ── TO-DO ──
-  function loadTodos() {
-    const s = localStorage.getItem('todos');
-    return s ? JSON.parse(s) : [];
-  }
-
-  function saveTodos(arr) {
-    localStorage.setItem('todos', JSON.stringify(arr));
-  }
-
-  function addTodo() {
-    const input = document.getElementById('todo-input');
-    const text = input.value.trim();
-    if (!text) return;
-    const todos = loadTodos();
-    todos.unshift({ id: Date.now(), text, done: false });
-    saveTodos(todos);
-    input.value = '';
-    renderTodos();
-  }
-
-  function toggleTodo(id) {
-    const todos = loadTodos().map(t => t.id === id ? { ...t, done: !t.done } : t);
-    saveTodos(todos);
-    renderTodos();
-  }
-
-  function deleteTodo(id) {
-    saveTodos(loadTodos().filter(t => t.id !== id));
-    renderTodos();
-  }
-
-  function clearDoneTodos() {
-    saveTodos(loadTodos().filter(t => !t.done));
-    renderTodos();
-  }
-
-  function renderTodos() {
-    const todos = loadTodos();
-    const list = document.getElementById('todo-list');
-    if (!todos.length) {
-      list.innerHTML = '<div class="todo-empty">Nothing here — add a task above</div>';
-      return;
-    }
-    const active = todos.filter(t => !t.done);
-    const done = todos.filter(t => t.done);
-    let html = '';
-    if (active.length) {
-      html += `<div class="todo-section-lbl">${active.length} task${active.length !== 1 ? 's' : ''}</div>`;
-      active.forEach(t => {
-        html += `<div class="todo-item"><div class="todo-check" onclick="toggleTodo(${t.id})"></div><div class="todo-text">${escapeHtml(t.text)}</div><button class="todo-del" onclick="deleteTodo(${t.id})">×</button></div>`;
-      });
-    }
-    if (done.length) {
-      html += `<div class="todo-section-lbl" style="margin-top:${active.length ? 16 : 0}px">Completed</div>`;
-      done.forEach(t => {
-        html += `<div class="todo-item done"><div class="todo-check checked" onclick="toggleTodo(${t.id})"></div><div class="todo-text">${escapeHtml(t.text)}</div><button class="todo-del" onclick="deleteTodo(${t.id})">×</button></div>`;
-      });
-    }
-    list.innerHTML = html;
-  }
-
-  document.getElementById('todo-input').addEventListener('keydown', e => { if (e.key === 'Enter') addTodo(); });
 
   // ── Edit mode ──
   function toggleEditMode() {
@@ -2082,7 +1998,6 @@
   initSleepStars();
   initSchTime();
   renderSchedule();
-  renderTodos();
   renderGoals();
 </script>
 </body>
