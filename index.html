@@ -45,15 +45,50 @@
     }
     .tab-btn {
       flex: 1; background: none; border: none;
-      color: var(--muted); font-size: 10px; font-weight: 600;
-      letter-spacing: 0.04em; text-transform: uppercase;
-      padding: 10px 0 12px; cursor: pointer;
-      display: flex; flex-direction: column; align-items: center; gap: 4px;
+      color: var(--muted); font-size: 9px; font-weight: 600;
+      letter-spacing: 0.03em; text-transform: uppercase;
+      padding: 8px 0 10px; cursor: pointer;
+      display: flex; flex-direction: column; align-items: center; gap: 3px;
       transition: color 0.2s;
       -webkit-tap-highlight-color: transparent;
     }
     .tab-btn.active { color: var(--green); }
-    .tab-icon { font-size: 20px; line-height: 1; }
+    .tab-icon { font-size: 18px; line-height: 1; }
+
+    /* ── GOALS PAGE ── */
+    .goals-header { padding: 22px 0 6px; }
+    .goals-header-title { font-size: 26px; font-weight: 800; letter-spacing: -0.5px; }
+    .goals-header-sub { font-size: 12px; color: var(--muted); margin-top: 3px; }
+    .goal-period { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 16px; margin-bottom: 14px; }
+    .goal-period-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; }
+    .goal-period-name { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 4px; }
+    .goal-period-name.weekly  { color: #4a9eff; }
+    .goal-period-name.monthly { color: #a855f7; }
+    .goal-period-name.quarterly { color: #f0a500; }
+    .goal-period-name.yearly  { color: var(--green); }
+    .goal-countdown { text-align: right; }
+    .goal-countdown-time { font-size: 15px; font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: -0.3px; }
+    .goal-countdown-lbl { font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 1px; }
+    .goal-countdown-units { display: flex; gap: 6px; justify-content: flex-end; margin-top: 2px; }
+    .goal-unit { text-align: center; }
+    .goal-unit-val { font-size: 18px; font-weight: 800; font-variant-numeric: tabular-nums; line-height: 1; }
+    .goal-unit-lbl { font-size: 8px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+    .goal-unit-sep { font-size: 18px; font-weight: 300; color: var(--muted); align-self: flex-start; padding-top: 1px; }
+    .goal-add-row { display: flex; gap: 8px; margin-bottom: 10px; }
+    .goal-input { flex: 1; background: var(--card2); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-size: 13px; padding: 10px 12px; }
+    .goal-input::placeholder { color: var(--muted); }
+    .goal-add-btn { background: var(--navy2); border: 1px solid var(--border); border-radius: 10px; color: var(--green); font-size: 20px; font-weight: 700; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; -webkit-tap-highlight-color: transparent; }
+    .goal-add-btn:active { opacity: 0.7; }
+    .goal-item { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--border); }
+    .goal-item:last-child { border-bottom: none; }
+    .goal-check { width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--border); background: none; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; -webkit-tap-highlight-color: transparent; transition: all 0.2s; }
+    .goal-check.done { border-color: var(--green); background: var(--green); }
+    .goal-check.done::after { content: '✓'; font-size: 11px; font-weight: 900; color: #000; }
+    .goal-text { flex: 1; font-size: 13px; line-height: 1.4; }
+    .goal-item.done .goal-text { text-decoration: line-through; color: var(--muted); }
+    .goal-del { background: none; border: none; color: var(--muted); font-size: 16px; cursor: pointer; padding: 0 2px; -webkit-tap-highlight-color: transparent; }
+    .goal-del:active { color: #ff453a; }
+    .goal-empty { font-size: 12px; color: var(--muted); text-align: center; padding: 12px 0; }
 
     .page { display: none; }
     .page.active { display: block; animation: fadeIn 0.2s ease; }
@@ -723,10 +758,91 @@
   <div id="todo-list"></div>
 </div>
 
+<!-- ══ GOALS PAGE ══ -->
+<div class="page" id="page-goals">
+  <div class="goals-header">
+    <div class="goals-header-title">Goals</div>
+    <div class="goals-header-sub">Long-term to-do lists with countdowns</div>
+  </div>
+
+  <div class="goal-period" id="gp-weekly">
+    <div class="goal-period-header">
+      <div>
+        <div class="goal-period-name weekly">Weekly</div>
+        <div style="font-size:12px;color:var(--muted2);">Resets end of Sunday</div>
+      </div>
+      <div class="goal-countdown">
+        <div class="goal-countdown-units" id="cd-weekly"></div>
+        <div class="goal-countdown-lbl">remaining</div>
+      </div>
+    </div>
+    <div class="goal-add-row">
+      <input class="goal-input" id="gi-weekly" placeholder="Add weekly goal..." type="text" />
+      <button class="goal-add-btn" onclick="addGoal('weekly')">+</button>
+    </div>
+    <div id="gl-weekly"></div>
+  </div>
+
+  <div class="goal-period" id="gp-monthly">
+    <div class="goal-period-header">
+      <div>
+        <div class="goal-period-name monthly">Monthly</div>
+        <div style="font-size:12px;color:var(--muted2);" id="cd-monthly-lbl"></div>
+      </div>
+      <div class="goal-countdown">
+        <div class="goal-countdown-units" id="cd-monthly"></div>
+        <div class="goal-countdown-lbl">remaining</div>
+      </div>
+    </div>
+    <div class="goal-add-row">
+      <input class="goal-input" id="gi-monthly" placeholder="Add monthly goal..." type="text" />
+      <button class="goal-add-btn" onclick="addGoal('monthly')">+</button>
+    </div>
+    <div id="gl-monthly"></div>
+  </div>
+
+  <div class="goal-period" id="gp-quarterly">
+    <div class="goal-period-header">
+      <div>
+        <div class="goal-period-name quarterly">Quarterly</div>
+        <div style="font-size:12px;color:var(--muted2);" id="cd-quarterly-lbl"></div>
+      </div>
+      <div class="goal-countdown">
+        <div class="goal-countdown-units" id="cd-quarterly"></div>
+        <div class="goal-countdown-lbl">remaining</div>
+      </div>
+    </div>
+    <div class="goal-add-row">
+      <input class="goal-input" id="gi-quarterly" placeholder="Add quarterly goal..." type="text" />
+      <button class="goal-add-btn" onclick="addGoal('quarterly')">+</button>
+    </div>
+    <div id="gl-quarterly"></div>
+  </div>
+
+  <div class="goal-period" id="gp-yearly">
+    <div class="goal-period-header">
+      <div>
+        <div class="goal-period-name yearly">Yearly</div>
+        <div style="font-size:12px;color:var(--muted2);" id="cd-yearly-lbl"></div>
+      </div>
+      <div class="goal-countdown">
+        <div class="goal-countdown-units" id="cd-yearly"></div>
+        <div class="goal-countdown-lbl">remaining</div>
+      </div>
+    </div>
+    <div class="goal-add-row">
+      <input class="goal-input" id="gi-yearly" placeholder="Add yearly goal..." type="text" />
+      <button class="goal-add-btn" onclick="addGoal('yearly')">+</button>
+    </div>
+    <div id="gl-yearly"></div>
+  </div>
+</div>
+
 <!-- TAB BAR -->
 <nav class="tab-bar">
   <button class="tab-btn active" id="tab-today" onclick="showPage('today')"><span class="tab-icon">✓</span>Today</button>
-  <button class="tab-btn" id="tab-schedule" onclick="showPage('schedule')"><span class="tab-icon">◫</span>Schedule</button>
+  <button class="tab-btn" id="tab-schedule" onclick="showPage('schedule')"><span class="tab-icon">◫</span>Cal</button>
+  <button class="tab-btn" id="tab-goals" onclick="showPage('goals')"><span class="tab-icon">◎</span>Goals</button>
   <button class="tab-btn" id="tab-todo" onclick="showPage('todo')"><span class="tab-icon">≡</span>To-Do</button>
   <button class="tab-btn" id="tab-health" onclick="showPage('health')"><span class="tab-icon">♡</span>Health</button>
   <button class="tab-btn" id="tab-progress" onclick="showPage('progress')"><span class="tab-icon">↗</span>AFM</button>
@@ -866,6 +982,7 @@
     if (name === 'health') renderHealth();
     if (name === 'schedule') renderSchedule();
     if (name === 'todo') renderTodos();
+    if (name === 'goals') renderGoals();
   }
 
   // ── SCHEDULE / CALENDAR ──
@@ -1932,6 +2049,130 @@ await run();`;
     document.getElementById('ticker-date').textContent=new Date().toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'});
   }
 
+  // ── GOALS ──
+  const PERIODS = ['weekly','monthly','quarterly','yearly'];
+
+  function loadGoals(period) {
+    const s = localStorage.getItem('goals-' + period);
+    return s ? JSON.parse(s) : [];
+  }
+  function saveGoals(period, arr) {
+    localStorage.setItem('goals-' + period, JSON.stringify(arr));
+  }
+
+  function addGoal(period) {
+    const input = document.getElementById('gi-' + period);
+    const text = input.value.trim();
+    if (!text) return;
+    const goals = loadGoals(period);
+    goals.push({ id: Date.now(), text, done: false });
+    saveGoals(period, goals);
+    input.value = '';
+    renderGoalList(period);
+  }
+
+  function toggleGoal(period, id) {
+    const goals = loadGoals(period).map(g => g.id === id ? { ...g, done: !g.done } : g);
+    saveGoals(period, goals);
+    renderGoalList(period);
+  }
+
+  function deleteGoal(period, id) {
+    saveGoals(period, loadGoals(period).filter(g => g.id !== id));
+    renderGoalList(period);
+  }
+
+  function renderGoalList(period) {
+    const goals = loadGoals(period);
+    const el = document.getElementById('gl-' + period);
+    if (!goals.length) { el.innerHTML = '<div class="goal-empty">No goals yet — add one above</div>'; return; }
+    el.innerHTML = goals.map(g => `
+      <div class="goal-item ${g.done ? 'done' : ''}">
+        <div class="goal-check ${g.done ? 'done' : ''}" onclick="toggleGoal('${period}',${g.id})"></div>
+        <div class="goal-text">${escapeHtml(g.text)}</div>
+        <button class="goal-del" onclick="deleteGoal('${period}',${g.id})">×</button>
+      </div>`).join('');
+  }
+
+  function getDeadline(period) {
+    const now = new Date();
+    const y = now.getFullYear(), m = now.getMonth(), d = now.getDate();
+    if (period === 'weekly') {
+      const daysUntilSun = (7 - now.getDay()) % 7 || 7;
+      const end = new Date(y, m, d + daysUntilSun, 23, 59, 59);
+      return end;
+    }
+    if (period === 'monthly') {
+      return new Date(y, m + 1, 0, 23, 59, 59);
+    }
+    if (period === 'quarterly') {
+      const qEnd = [2, 5, 8, 11][Math.floor(m / 3)];
+      return new Date(y, qEnd + 1, 0, 23, 59, 59);
+    }
+    if (period === 'yearly') {
+      return new Date(y, 11, 31, 23, 59, 59);
+    }
+  }
+
+  function fmtCountdown(ms) {
+    if (ms <= 0) return [{ v: '0', l: 'days' }];
+    const s = Math.floor(ms / 1000);
+    const days = Math.floor(s / 86400);
+    const hrs  = Math.floor((s % 86400) / 3600);
+    const mins = Math.floor((s % 3600) / 60);
+    const secs = s % 60;
+    if (days > 0) return [
+      { v: String(days).padStart(2,'0'), l: 'd' },
+      { v: String(hrs).padStart(2,'0'), l: 'h' },
+      { v: String(mins).padStart(2,'0'), l: 'm' }
+    ];
+    return [
+      { v: String(hrs).padStart(2,'0'), l: 'h' },
+      { v: String(mins).padStart(2,'0'), l: 'm' },
+      { v: String(secs).padStart(2,'0'), l: 's' }
+    ];
+  }
+
+  function updateCountdowns() {
+    const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const qNames = ['Q1','Q2','Q3','Q4'];
+    const now = new Date();
+    PERIODS.forEach(period => {
+      const el = document.getElementById('cd-' + period);
+      if (!el) return;
+      const deadline = getDeadline(period);
+      const units = fmtCountdown(deadline - now);
+      el.innerHTML = units.map((u,i) =>
+        `${i > 0 ? '<span class="goal-unit-sep">:</span>' : ''}<div class="goal-unit"><div class="goal-unit-val">${u.v}</div><div class="goal-unit-lbl">${u.l}</div></div>`
+      ).join('');
+      // Set subtitle labels
+      if (period === 'monthly') {
+        const lbl = document.getElementById('cd-monthly-lbl');
+        if (lbl) lbl.textContent = `Ends ${monthNames[deadline.getMonth()]} ${deadline.getFullYear()}`;
+      }
+      if (period === 'quarterly') {
+        const lbl = document.getElementById('cd-quarterly-lbl');
+        if (lbl) lbl.textContent = `${qNames[Math.floor(now.getMonth()/3)]} ends ${monthNames[deadline.getMonth()]} ${deadline.getFullYear()}`;
+      }
+      if (period === 'yearly') {
+        const lbl = document.getElementById('cd-yearly-lbl');
+        if (lbl) lbl.textContent = `Ends 31 Dec ${deadline.getFullYear()}`;
+      }
+    });
+  }
+
+  function renderGoals() {
+    PERIODS.forEach(p => renderGoalList(p));
+    updateCountdowns();
+  }
+
+  PERIODS.forEach(period => {
+    const input = document.getElementById('gi-' + period);
+    if (input) input.addEventListener('keydown', e => { if (e.key === 'Enter') addGoal(period); });
+  });
+
+  setInterval(updateCountdowns, 1000);
+
   setDateLabel();
   saveToHistory();
   render();
@@ -1941,6 +2182,7 @@ await run();`;
   initSchTime();
   renderSchedule();
   renderTodos();
+  renderGoals();
 </script>
 </body>
 </html>
