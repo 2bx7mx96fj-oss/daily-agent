@@ -6,6 +6,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Daily Agent" />
+  <link rel="manifest" href="/daily-agent/manifest.json" />
   <title>Daily Agent</title>
   <style>
     :root {
@@ -485,6 +486,16 @@
     .cal-day.selected:not(.today) .cal-day-num { background: var(--navy2); border: 1.5px solid var(--green); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
     .cal-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--green); margin-top: 3px; }
     .cal-day.today .cal-dot { background: var(--green2); }
+    /* Event dots row on calendar cells */
+    .cal-dots-row { display: flex; gap: 2px; justify-content: center; margin-top: 3px; flex-wrap: wrap; max-width: 32px; }
+    .cal-edot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+    /* Multi-day event bar spans */
+    .cal-day { position: relative; }
+    .cal-span-bar { position: absolute; bottom: 3px; left: 0; right: 0; height: 3px; border-radius: 2px; }
+    .cal-span-bar.start { left: 4px; border-radius: 2px 0 0 2px; }
+    .cal-span-bar.end   { right: 4px; border-radius: 0 2px 2px 0; }
+    .cal-span-bar.mid   { left: 0; right: 0; border-radius: 0; }
+    .cal-span-bar.alone { left: 4px; right: 4px; border-radius: 2px; }
     .sch-selected-lbl { font-size: 13px; font-weight: 700; color: var(--muted2); margin-bottom: 12px; }
     .sch-form { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px; margin-bottom: 14px; }
     .sch-form-title { width: 100%; background: var(--card2); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-size: 15px; font-weight: 600; padding: 11px 13px; margin-bottom: 10px; }
@@ -537,6 +548,47 @@
     .cal-dot[data-cat="event"] { background: #a855f7; }
     .cal-dot[data-cat="holiday"] { background: #ff6b47; }
 
+    /* ── Apple Calendar sync ── */
+    .ical-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; padding: 0 2px; }
+    .ical-section-lbl { font-size: 10px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: 0.12em; }
+    .ical-status-dot { font-size: 10px; font-weight: 600; color: var(--muted); }
+    .ical-status-dot.live { color: var(--green); }
+    .ical-event { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; margin-bottom: 8px; animation: fadeIn 0.2s ease; display: flex; gap: 12px; align-items: flex-start; }
+    .ical-event-bar { width: 3px; border-radius: 2px; background: #0a84ff; align-self: stretch; flex-shrink: 0; min-height: 36px; }
+    .ical-event-body { flex: 1; min-width: 0; }
+    .ical-event-title { font-size: 14px; font-weight: 700; margin-bottom: 3px; }
+    .ical-event-time { font-size: 12px; color: #0a84ff; font-variant-numeric: tabular-nums; font-weight: 600; }
+    .ical-event-cal { font-size: 10px; color: var(--muted2); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; }
+    .ical-note { font-size: 12px; color: var(--muted); text-align: center; padding: 12px 14px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 8px; line-height: 1.6; }
+    .ical-note code { font-family: monospace; background: var(--navy); padding: 1px 6px; border-radius: 4px; color: var(--green); font-size: 11px; }
+
+    /* ── Today page goal summaries ── */
+    .tg-wrap { margin-top: 22px; margin-bottom: 6px; }
+    .tg-header { font-size: 10px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: 0.14em; margin-bottom: 10px; padding: 0 2px; }
+    .tg-panel { background: var(--card); border: 1px solid var(--border); border-radius: 14px; margin-bottom: 10px; overflow: hidden; }
+    .tg-panel-header { display: flex; align-items: center; justify-content: space-between; padding: 11px 14px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+    .tg-panel-header:active { background: var(--card2); }
+    .tg-period-name { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; }
+    .tg-period-name.weekly   { color: #4a9eff; }
+    .tg-period-name.monthly  { color: #a855f7; }
+    .tg-period-name.quarterly{ color: #f0a500; }
+    .tg-period-name.yearly   { color: var(--green); }
+    .tg-meta { display: flex; align-items: center; gap: 8px; }
+    .tg-count { font-size: 11px; font-weight: 700; color: var(--muted); font-variant-numeric: tabular-nums; }
+    .tg-count.all-done { color: var(--green); }
+    .tg-chevron { font-size: 12px; color: var(--muted); transition: transform 0.22s ease; }
+    .tg-panel.open .tg-chevron { transform: rotate(90deg); }
+    .tg-body { display: none; border-top: 1px solid var(--border); padding: 4px 0; }
+    .tg-panel.open .tg-body { display: block; animation: slideDown 0.18s ease; }
+    .tg-item { display: flex; align-items: center; gap: 10px; padding: 9px 14px; border-bottom: 1px solid var(--border); cursor: pointer; -webkit-tap-highlight-color: transparent; }
+    .tg-item:last-child { border-bottom: none; }
+    .tg-item:active { background: var(--card2); }
+    .tg-check { width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--border); flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+    .tg-item.done .tg-check { background: var(--green); border-color: var(--green); }
+    .tg-item.done .tg-check::after { content: '✓'; font-size: 10px; font-weight: 900; color: #000; }
+    .tg-text { font-size: 13px; flex: 1; line-height: 1.3; }
+    .tg-item.done .tg-text { text-decoration: line-through; color: var(--muted); }
+
   </style>
 </head>
 <body>
@@ -572,6 +624,8 @@
   <div id="mood-card" class="mood-card" style="margin-top:16px;"></div>
 
   <div id="checklist" style="margin-top:16px;"></div>
+
+  <div id="today-goals"></div>
 
   <div id="insights-card" class="insights-card"></div>
 
@@ -816,6 +870,10 @@
 </nav>
 
 <script>
+  function escapeHtml(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
   // ── Schedules ──
   const GYM = { 0:'Shoulders & Arms',1:'Push',2:'Legs',3:'Pull',4:'Shoulders & Arms' };
   const RUN = { 0:'Long run — 10km or half marathon',3:'Interval session — 5km time work',5:'5km run' };
@@ -980,19 +1038,58 @@
     document.getElementById('cal-month-title').innerHTML =
       `${MONTHS[calMonth]} <span class="cal-year">${calYear}</span>`;
 
-    const events = loadEvents();
-    const datesCatMap = {};
-    events.forEach(e => {
-      const start = e.startDate || e.date || '';
-      const end = e.endDate || start;
-      if (!start) return;
-      const cur = new Date(start);
-      const endD = new Date(end);
+    // Kick off month fetch if not cached
+    const monthKey = `${calYear}-${String(calMonth+1).padStart(2,'0')}`;
+    if (!appleMonthCache[monthKey]) fetchAppleMonth(calYear, calMonth);
+
+    // Build per-day maps from user events
+    const userEvents = loadEvents();
+
+    // Build map: date → array of { colour, isStart, isEnd, isMultiDay }
+    // For multi-day events we track spans; single-day events just get a dot
+    const dayDotsMap   = {}; // date → [colour, ...]  (single-day)
+    const daySpansMap  = {}; // date → [{ colour, pos: 'start'|'mid'|'end'|'alone' }, ...]
+
+    function addSpan(start, end, colour) {
+      const cur = new Date(start + 'T00:00:00');
+      const endD = new Date(end + 'T00:00:00');
+      const startStr = start;
+      const endStr   = end;
+      const multiDay = start !== end;
       while (cur <= endD) {
         const k = cur.toISOString().slice(0,10);
-        if (!datesCatMap[k]) datesCatMap[k] = e.cat || 'event';
+        if (multiDay) {
+          const pos = k === startStr ? 'start' : k === endStr ? 'end' : 'mid';
+          if (!daySpansMap[k]) daySpansMap[k] = [];
+          daySpansMap[k].push({ colour, pos });
+        } else {
+          if (!dayDotsMap[k]) dayDotsMap[k] = [];
+          if (!dayDotsMap[k].includes(colour)) dayDotsMap[k].push(colour);
+        }
         cur.setDate(cur.getDate() + 1);
       }
+    }
+
+    userEvents.forEach(e => {
+      const start = e.startDate || e.date || '';
+      const end   = e.endDate || start;
+      if (!start) return;
+      addSpan(start, end, catColour(e.cat || 'event'));
+    });
+
+    // Apple Calendar events for this month
+    const appleEvents = Array.isArray(appleMonthCache[monthKey]) ? appleMonthCache[monthKey] : [];
+    appleEvents.forEach(e => {
+      const start = e.startDate || '';
+      let end = e.endDate || start;
+      // Apple all-day end dates are exclusive (next day), pull back one day
+      if (e.allDay && end > start) {
+        const d = new Date(end + 'T00:00:00');
+        d.setDate(d.getDate() - 1);
+        end = d.toISOString().slice(0,10);
+      }
+      if (!start) return;
+      addSpan(start, end, CAT_COLOURS.apple);
     });
 
     const firstDay = new Date(calYear, calMonth, 1).getDay();
@@ -1000,35 +1097,48 @@
     const daysInPrev = new Date(calYear, calMonth, 0).getDate();
     const todayStr = todayKey2();
 
+    function cellHtml(key, dayNum, extraCls) {
+      const dots   = dayDotsMap[key]  || [];
+      const spans  = daySpansMap[key] || [];
+
+      let dotsHtml = '';
+      if (dots.length) {
+        dotsHtml = `<div class="cal-dots-row">${dots.slice(0,3).map(c =>
+          `<div class="cal-edot" style="background:${c}"></div>`).join('')}</div>`;
+      }
+
+      let spansHtml = spans.slice(0,2).map(s =>
+        `<div class="cal-span-bar ${s.pos}" style="background:${s.colour}"></div>`).join('');
+
+      return `<div class="cal-day${extraCls}" onclick="selectDay('${key}')">` +
+        `<div class="cal-day-num">${dayNum}</div>` +
+        dotsHtml + spansHtml +
+        `</div>`;
+    }
+
     let html = '';
     let cellCount = 0;
 
-    // Leading days from previous month
     for (let i = firstDay - 1; i >= 0; i--) {
       const d = daysInPrev - i;
       const key = dateKey(calMonth === 0 ? calYear-1 : calYear, calMonth === 0 ? 11 : calMonth-1, d);
-      const dot = datesCatMap[key] ? `<div class="cal-dot" data-cat="${datesCatMap[key]}"></div>` : '';
-      html += `<div class="cal-day other-month" onclick="selectDay('${key}')"><div class="cal-day-num">${d}</div>${dot}</div>`;
+      html += cellHtml(key, d, ' other-month');
       cellCount++;
     }
 
-    // Current month days
     for (let d = 1; d <= daysInMonth; d++) {
       const key = dateKey(calYear, calMonth, d);
-      const isToday = key === todayStr;
+      const isToday    = key === todayStr;
       const isSelected = key === calSelected;
-      const dot = datesCatMap[key] ? `<div class="cal-dot" data-cat="${datesCatMap[key]}"></div>` : '';
-      const cls = [isToday ? 'today' : '', isSelected ? 'selected' : ''].filter(Boolean).join(' ');
-      html += `<div class="cal-day ${cls}" onclick="selectDay('${key}')"><div class="cal-day-num">${d}</div>${dot}</div>`;
+      const cls = ' ' + [isToday ? 'today' : '', isSelected ? 'selected' : ''].filter(Boolean).join(' ');
+      html += cellHtml(key, d, cls);
       cellCount++;
     }
 
-    // Trailing days to complete grid
     let trail = 1;
     while (cellCount % 7 !== 0) {
       const key = dateKey(calMonth === 11 ? calYear+1 : calYear, calMonth === 11 ? 0 : calMonth+1, trail);
-      const dot = datesCatMap[key] ? `<div class="cal-dot" data-cat="${datesCatMap[key]}"></div>` : '';
-      html += `<div class="cal-day other-month" onclick="selectDay('${key}')"><div class="cal-day-num">${trail}</div>${dot}</div>`;
+      html += cellHtml(key, trail, ' other-month');
       trail++; cellCount++;
     }
 
@@ -1052,6 +1162,34 @@
 
   let activeCat = 'business';
   let editingEventId = null;
+  let appleCalCache = {}; // keyed by YYYY-MM-DD → [] | 'loading' | 'offline'
+  let appleMonthCache = {}; // keyed by 'YYYY-MM' → [] | 'loading'
+
+  const CAT_COLOURS = {
+    business: '#4a9eff',
+    work:     '#f0a500',
+    event:    '#a855f7',
+    holiday:  '#ff6b47',
+    apple:    '#0a84ff',
+  };
+
+  function catColour(cat) {
+    return CAT_COLOURS[cat] || CAT_COLOURS.apple;
+  }
+
+  async function fetchAppleMonth(year, month) {
+    const key = `${year}-${String(month+1).padStart(2,'0')}`;
+    if (appleMonthCache[key] === 'loading' || Array.isArray(appleMonthCache[key])) return;
+    appleMonthCache[key] = 'loading';
+    try {
+      const res = await fetch(`/api/calendar/month?year=${year}&month=${month+1}`, { signal: AbortSignal.timeout(15000) });
+      const data = await res.json();
+      appleMonthCache[key] = data.ok ? data.events : [];
+    } catch(e) {
+      appleMonthCache[key] = [];
+    }
+    renderCalendar();
+  }
 
   function selectCat(cat) {
     activeCat = cat;
@@ -1127,6 +1265,19 @@
     document.getElementById('sch-title').value = '';
     renderCalendar();
     renderEventList();
+    // Sync to Apple Calendar
+    fetch('/api/calendar', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ title, startDate, startTime, endDate, endTime })
+    }).then(r => r.json()).then(d => {
+      if (d.ok) {
+        // Bust the cache for affected dates so the live feed refreshes
+        delete appleCalCache[startDate];
+        if (endDate !== startDate) delete appleCalCache[endDate];
+        fetchAppleCalendar(calSelected);
+      }
+    }).catch(() => {});
   }
 
   function deleteEvent(id) {
@@ -1141,46 +1292,108 @@
     return dateStr >= start && dateStr <= end;
   }
 
+  function fmtIcalTime(isoStr) {
+    const d = new Date(isoStr);
+    const h = d.getHours(), m = String(d.getMinutes()).padStart(2,'0');
+    const ampm = h >= 12 ? 'pm' : 'am';
+    return `${h % 12 || 12}:${m} ${ampm}`;
+  }
+
   function renderEventList() {
-    const events = loadEvents()
+    const manualEvents = loadEvents()
       .filter(e => eventSpansDay(e, calSelected))
       .sort((a,b) => (a.startTime||'').localeCompare(b.startTime||''));
+    const appleState = appleCalCache[calSelected];
     const list = document.getElementById('sch-list');
-    if (!events.length) {
-      list.innerHTML = '<div class="sch-empty">No events — add one above</div>';
-      return;
-    }
     const nowStr = `${String(today.getHours()).padStart(2,'0')}:${String(today.getMinutes()).padStart(2,'0')}`;
-    const isToday = calSelected === todayKey2();
+    const isTodayView = calSelected === todayKey2();
     let html = '';
-    events.forEach(e => {
-      const start = e.startDate || e.date || '';
-      const end = e.endDate || start;
-      const multiDay = start !== end;
-      const past = isToday && (e.endTime || e.startTime || '23:59') < nowStr;
-      const timeStr = e.startTime ? `${fmtTime(e.startTime)}${e.endTime && e.endTime !== e.startTime ? ` — ${fmtTime(e.endTime)}` : ''}` : '';
-      const dateStr = multiDay ? `${fmtDate(start)} — ${fmtDate(end)}` : '';
+
+    // ── Apple Calendar section ──
+    let statusHtml = '';
+    if (appleState === 'loading') statusHtml = '<span class="ical-status-dot">Loading…</span>';
+    else if (appleState === 'offline') statusHtml = '<span class="ical-status-dot">Offline</span>';
+    else if (Array.isArray(appleState)) statusHtml = '<span class="ical-status-dot live">● Live</span>';
+
+    html += `<div class="ical-header"><div class="ical-section-lbl">Apple Calendar</div>${statusHtml}</div>`;
+
+    if (!appleState || appleState === 'offline') {
+      html += `<div class="ical-note">Run <code>node server.js</code> in the daily-agent folder to sync your Apple Calendar</div>`;
+    } else if (appleState === 'loading') {
+      html += `<div class="ical-note" style="opacity:0.5">Fetching events…</div>`;
+    } else if (Array.isArray(appleState)) {
+      if (!appleState.length) {
+        html += `<div class="ical-note" style="opacity:0.4">No Apple Calendar events today</div>`;
+      } else {
+        appleState.forEach(e => {
+          const timeStr = e.allDay ? 'All day' : `${fmtIcalTime(e.start)} — ${fmtIcalTime(e.end)}`;
+          const startIso = e.start;
+          const past = isTodayView && !e.allDay && new Date(e.end) < new Date();
+          html += `<div class="ical-event" style="${past ? 'opacity:0.4' : ''}">
+            <div class="ical-event-bar"></div>
+            <div class="ical-event-body">
+              <div class="ical-event-title">${escapeHtml(e.title)}</div>
+              <div class="ical-event-time">${timeStr}</div>
+              <div class="ical-event-cal">${escapeHtml(e.calendar)}</div>
+            </div>
+          </div>`;
+        });
+      }
+    }
+
+    // ── Manual events section ──
+    if (manualEvents.length) {
+      html += `<div class="sch-section-lbl" style="margin-top:16px">Added by you</div>`;
       const catLabels = { business:'Business', work:'Work Block', event:'Event', holiday:'Holiday' };
-      html += `<div class="sch-event" data-cat="${e.cat||'event'}" style="${past ? 'opacity:0.45' : ''}">
-        <div class="sch-event-bar"></div>
-        <div class="sch-event-body">
-          <div class="sch-event-title">${escapeHtml(e.title)}</div>
-          ${timeStr ? `<div class="sch-event-time">${timeStr}</div>` : ''}
-          ${dateStr ? `<div class="sch-event-dates">${dateStr}</div>` : ''}
-          <div class="sch-event-dates" style="margin-top:3px;text-transform:uppercase;letter-spacing:0.08em;font-size:10px;font-weight:700;">${catLabels[e.cat||'event']||''}</div>
-        </div>
-        <div class="sch-event-actions">
-          <button class="sch-event-edit" onclick="editEvent(${e.id})">✎</button>
-          <button class="sch-event-del" onclick="deleteEvent(${e.id})">×</button>
-        </div>
-      </div>`;
-    });
+      manualEvents.forEach(e => {
+        const start = e.startDate || e.date || '';
+        const end = e.endDate || start;
+        const multiDay = start !== end;
+        const past = isTodayView && (e.endTime || e.startTime || '23:59') < nowStr;
+        const timeStr = e.startTime ? `${fmtTime(e.startTime)}${e.endTime && e.endTime !== e.startTime ? ` — ${fmtTime(e.endTime)}` : ''}` : '';
+        const dateStr = multiDay ? `${fmtDate(start)} — ${fmtDate(end)}` : '';
+        html += `<div class="sch-event" data-cat="${e.cat||'event'}" style="${past ? 'opacity:0.45' : ''}">
+          <div class="sch-event-bar"></div>
+          <div class="sch-event-body">
+            <div class="sch-event-title">${escapeHtml(e.title)}</div>
+            ${timeStr ? `<div class="sch-event-time">${timeStr}</div>` : ''}
+            ${dateStr ? `<div class="sch-event-dates">${dateStr}</div>` : ''}
+            <div class="sch-event-dates" style="margin-top:3px;text-transform:uppercase;letter-spacing:0.08em;font-size:10px;font-weight:700;">${catLabels[e.cat||'event']||''}</div>
+          </div>
+          <div class="sch-event-actions">
+            <button class="sch-event-edit" onclick="editEvent(${e.id})">✎</button>
+            <button class="sch-event-del" onclick="deleteEvent(${e.id})">×</button>
+          </div>
+        </div>`;
+      });
+    }
+
+    if (!manualEvents.length && (!appleState || appleState === 'offline')) {
+      html += '<div class="sch-empty">No events — add one above</div>';
+    }
+
     list.innerHTML = html;
+  }
+
+  async function fetchAppleCalendar(dateStr) {
+    if (appleCalCache[dateStr] === 'loading') return;
+    appleCalCache[dateStr] = 'loading';
+    renderEventList();
+    try {
+      const res = await fetch(`/api/calendar?date=${dateStr}`, {
+        signal: AbortSignal.timeout(5000)
+      });
+      const data = await res.json();
+      appleCalCache[dateStr] = data.ok ? data.events : [];
+    } catch (e) {
+      appleCalCache[dateStr] = 'offline';
+    }
+    renderEventList();
   }
 
   function renderSchedule() {
     renderCalendar();
-    renderEventList();
+    fetchAppleCalendar(calSelected);
   }
 
   function initSchTime() {
@@ -1203,7 +1416,7 @@
     if (sd) sd.value = key;
     if (ed) ed.value = key;
     renderCalendar();
-    renderEventList();
+    fetchAppleCalendar(key);
   }
 
   document.getElementById('sch-title').addEventListener('keydown', e => { if (e.key === 'Enter') addEvent(); });
@@ -1886,17 +2099,20 @@
     saveGoals(period, goals);
     input.value = '';
     renderGoalList(period);
+    renderTodayGoals();
   }
 
   function toggleGoal(period, id) {
     const goals = loadGoals(period).map(g => g.id === id ? { ...g, done: !g.done } : g);
     saveGoals(period, goals);
     renderGoalList(period);
+    renderTodayGoals();
   }
 
   function deleteGoal(period, id) {
     saveGoals(period, loadGoals(period).filter(g => g.id !== id));
     renderGoalList(period);
+    renderTodayGoals();
   }
 
   function renderGoalList(period) {
@@ -1983,12 +2199,69 @@
     updateCountdowns();
   }
 
+  const PERIOD_LABELS = { weekly: 'Weekly', monthly: 'Monthly', quarterly: 'Quarterly', yearly: 'Yearly' };
+  const tgOpen = { weekly: true, monthly: true, quarterly: true, yearly: true };
+
+  function toggleTgPanel(period) {
+    tgOpen[period] = !tgOpen[period];
+    renderTodayGoals();
+  }
+
+  function renderTodayGoals() {
+    const wrap = document.getElementById('today-goals');
+    if (!wrap) return;
+
+    // Only render if at least one period has goals
+    const allGoals = PERIODS.map(p => loadGoals(p));
+    if (allGoals.every(g => g.length === 0)) { wrap.innerHTML = ''; return; }
+
+    let html = '<div class="tg-wrap"><div class="tg-header">Goals</div>';
+
+    PERIODS.forEach((period, i) => {
+      const goals = allGoals[i];
+      if (!goals.length) return;
+      const done = goals.filter(g => g.done).length;
+      const allDone = done === goals.length;
+      const isOpen = tgOpen[period];
+      html += `<div class="tg-panel${isOpen ? ' open' : ''}" id="tg-${period}">
+        <div class="tg-panel-header" onclick="toggleTgPanel('${period}')">
+          <div class="tg-period-name ${period}">${PERIOD_LABELS[period]}</div>
+          <div class="tg-meta">
+            <span class="tg-count${allDone ? ' all-done' : ''}">${done}/${goals.length}</span>
+            <span class="tg-chevron">›</span>
+          </div>
+        </div>
+        <div class="tg-body">
+          ${goals.map(g => `
+            <div class="tg-item${g.done ? ' done' : ''}" onclick="toggleGoalFromToday('${period}',${g.id})">
+              <div class="tg-check"></div>
+              <div class="tg-text">${escapeHtml(g.text)}</div>
+            </div>`).join('')}
+        </div>
+      </div>`;
+    });
+
+    html += '</div>';
+    wrap.innerHTML = html;
+  }
+
+  function toggleGoalFromToday(period, id) {
+    toggleGoal(period, id);
+    renderTodayGoals();
+  }
+
   PERIODS.forEach(period => {
     const input = document.getElementById('gi-' + period);
     if (input) input.addEventListener('keydown', e => { if (e.key === 'Enter') addGoal(period); });
   });
 
   setInterval(updateCountdowns, 1000);
+
+  // Register service worker for offline use
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/daily-agent/service-worker.js')
+      .catch(() => {});
+  }
 
   setDateLabel();
   saveToHistory();
@@ -1999,6 +2272,7 @@
   initSchTime();
   renderSchedule();
   renderGoals();
+  renderTodayGoals();
 </script>
 </body>
 </html>
