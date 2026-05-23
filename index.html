@@ -549,18 +549,6 @@
     .cal-dot[data-cat="holiday"] { background: #ff6b47; }
 
     /* ── Apple Calendar sync ── */
-    .ical-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; padding: 0 2px; }
-    .ical-section-lbl { font-size: 10px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: 0.12em; }
-    .ical-status-dot { font-size: 10px; font-weight: 600; color: var(--muted); }
-    .ical-status-dot.live { color: var(--green); }
-    .ical-event { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; margin-bottom: 8px; animation: fadeIn 0.2s ease; display: flex; gap: 12px; align-items: flex-start; }
-    .ical-event-bar { width: 3px; border-radius: 2px; background: #0a84ff; align-self: stretch; flex-shrink: 0; min-height: 36px; }
-    .ical-event-body { flex: 1; min-width: 0; }
-    .ical-event-title { font-size: 14px; font-weight: 700; margin-bottom: 3px; }
-    .ical-event-time { font-size: 12px; color: #0a84ff; font-variant-numeric: tabular-nums; font-weight: 600; }
-    .ical-event-cal { font-size: 10px; color: var(--muted2); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; }
-    .ical-note { font-size: 12px; color: var(--muted); text-align: center; padding: 12px 14px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 8px; line-height: 1.6; }
-    .ical-note code { font-family: monospace; background: var(--navy); padding: 1px 6px; border-radius: 4px; color: var(--green); font-size: 11px; }
 
     /* ── Today page goal summaries ── */
     .tg-wrap { margin-top: 22px; margin-bottom: 6px; }
@@ -1030,6 +1018,10 @@
 
   function selectDay(key) {
     calSelected = key;
+    const sd = document.getElementById('sch-start-date');
+    const ed = document.getElementById('sch-end-date');
+    if (sd) sd.value = key;
+    if (ed) ed.value = key;
     renderCalendar();
     renderEventList();
   }
@@ -1037,10 +1029,6 @@
   function renderCalendar() {
     document.getElementById('cal-month-title').innerHTML =
       `${MONTHS[calMonth]} <span class="cal-year">${calYear}</span>`;
-
-    // Kick off month fetch if not cached
-    const monthKey = `${calYear}-${String(calMonth+1).padStart(2,'0')}`;
-    if (!appleMonthCache[monthKey]) fetchAppleMonth(calYear, calMonth);
 
     // Build per-day maps from user events
     const userEvents = loadEvents();
@@ -1075,21 +1063,6 @@
       const end   = e.endDate || start;
       if (!start) return;
       addSpan(start, end, catColour(e.cat || 'event'));
-    });
-
-    // Apple Calendar events for this month
-    const appleEvents = Array.isArray(appleMonthCache[monthKey]) ? appleMonthCache[monthKey] : [];
-    appleEvents.forEach(e => {
-      const start = e.startDate || '';
-      let end = e.endDate || start;
-      // Apple all-day end dates are exclusive (next day), pull back one day
-      if (e.allDay && end > start) {
-        const d = new Date(end + 'T00:00:00');
-        d.setDate(d.getDate() - 1);
-        end = d.toISOString().slice(0,10);
-      }
-      if (!start) return;
-      addSpan(start, end, CAT_COLOURS.apple);
     });
 
     const firstDay = new Date(calYear, calMonth, 1).getDay();
@@ -1162,33 +1135,16 @@
 
   let activeCat = 'business';
   let editingEventId = null;
-  let appleCalCache = {}; // keyed by YYYY-MM-DD → [] | 'loading' | 'offline'
-  let appleMonthCache = {}; // keyed by 'YYYY-MM' → [] | 'loading'
 
   const CAT_COLOURS = {
     business: '#4a9eff',
     work:     '#f0a500',
     event:    '#a855f7',
     holiday:  '#ff6b47',
-    apple:    '#0a84ff',
   };
 
   function catColour(cat) {
     return CAT_COLOURS[cat] || CAT_COLOURS.apple;
-  }
-
-  async function fetchAppleMonth(year, month) {
-    const key = `${year}-${String(month+1).padStart(2,'0')}`;
-    if (appleMonthCache[key] === 'loading' || Array.isArray(appleMonthCache[key])) return;
-    appleMonthCache[key] = 'loading';
-    try {
-      const res = await fetch(`/api/calendar/month?year=${year}&month=${month+1}`, { signal: AbortSignal.timeout(15000) });
-      const data = await res.json();
-      appleMonthCache[key] = data.ok ? data.events : [];
-    } catch(e) {
-      appleMonthCache[key] = [];
-    }
-    renderCalendar();
   }
 
   function selectCat(cat) {
@@ -1265,19 +1221,6 @@
     document.getElementById('sch-title').value = '';
     renderCalendar();
     renderEventList();
-    // Sync to Apple Calendar
-    fetch('/api/calendar', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title, startDate, startTime, endDate, endTime })
-    }).then(r => r.json()).then(d => {
-      if (d.ok) {
-        // Bust the cache for affected dates so the live feed refreshes
-        delete appleCalCache[startDate];
-        if (endDate !== startDate) delete appleCalCache[endDate];
-        fetchAppleCalendar(calSelected);
-      }
-    }).catch(() => {});
   }
 
   function deleteEvent(id) {
@@ -1292,58 +1235,16 @@
     return dateStr >= start && dateStr <= end;
   }
 
-  function fmtIcalTime(isoStr) {
-    const d = new Date(isoStr);
-    const h = d.getHours(), m = String(d.getMinutes()).padStart(2,'0');
-    const ampm = h >= 12 ? 'pm' : 'am';
-    return `${h % 12 || 12}:${m} ${ampm}`;
-  }
-
-  function renderEventList() {
+function renderEventList() {
     const manualEvents = loadEvents()
       .filter(e => eventSpansDay(e, calSelected))
       .sort((a,b) => (a.startTime||'').localeCompare(b.startTime||''));
-    const appleState = appleCalCache[calSelected];
     const list = document.getElementById('sch-list');
-    const nowStr = `${String(today.getHours()).padStart(2,'0')}:${String(today.getMinutes()).padStart(2,'0')}`;
+    const nowStr = `${String(new Date().getHours()).padStart(2,'0')}:${String(new Date().getMinutes()).padStart(2,'0')}`;
     const isTodayView = calSelected === todayKey2();
     let html = '';
 
-    // ── Apple Calendar section ──
-    let statusHtml = '';
-    if (appleState === 'loading') statusHtml = '<span class="ical-status-dot">Loading…</span>';
-    else if (appleState === 'offline') statusHtml = '<span class="ical-status-dot">Offline</span>';
-    else if (Array.isArray(appleState)) statusHtml = '<span class="ical-status-dot live">● Live</span>';
-
-    html += `<div class="ical-header"><div class="ical-section-lbl">Apple Calendar</div>${statusHtml}</div>`;
-
-    if (!appleState || appleState === 'offline') {
-      html += `<div class="ical-note">Run <code>node server.js</code> in the daily-agent folder to sync your Apple Calendar</div>`;
-    } else if (appleState === 'loading') {
-      html += `<div class="ical-note" style="opacity:0.5">Fetching events…</div>`;
-    } else if (Array.isArray(appleState)) {
-      if (!appleState.length) {
-        html += `<div class="ical-note" style="opacity:0.4">No Apple Calendar events today</div>`;
-      } else {
-        appleState.forEach(e => {
-          const timeStr = e.allDay ? 'All day' : `${fmtIcalTime(e.start)} — ${fmtIcalTime(e.end)}`;
-          const startIso = e.start;
-          const past = isTodayView && !e.allDay && new Date(e.end) < new Date();
-          html += `<div class="ical-event" style="${past ? 'opacity:0.4' : ''}">
-            <div class="ical-event-bar"></div>
-            <div class="ical-event-body">
-              <div class="ical-event-title">${escapeHtml(e.title)}</div>
-              <div class="ical-event-time">${timeStr}</div>
-              <div class="ical-event-cal">${escapeHtml(e.calendar)}</div>
-            </div>
-          </div>`;
-        });
-      }
-    }
-
-    // ── Manual events section ──
     if (manualEvents.length) {
-      html += `<div class="sch-section-lbl" style="margin-top:16px">Added by you</div>`;
       const catLabels = { business:'Business', work:'Work Block', event:'Event', holiday:'Holiday' };
       manualEvents.forEach(e => {
         const start = e.startDate || e.date || '';
@@ -1368,32 +1269,16 @@
       });
     }
 
-    if (!manualEvents.length && (!appleState || appleState === 'offline')) {
+    if (!manualEvents.length) {
       html += '<div class="sch-empty">No events — add one above</div>';
     }
 
     list.innerHTML = html;
   }
 
-  async function fetchAppleCalendar(dateStr) {
-    if (appleCalCache[dateStr] === 'loading') return;
-    appleCalCache[dateStr] = 'loading';
-    renderEventList();
-    try {
-      const res = await fetch(`/api/calendar?date=${dateStr}`, {
-        signal: AbortSignal.timeout(5000)
-      });
-      const data = await res.json();
-      appleCalCache[dateStr] = data.ok ? data.events : [];
-    } catch (e) {
-      appleCalCache[dateStr] = 'offline';
-    }
-    renderEventList();
-  }
-
   function renderSchedule() {
     renderCalendar();
-    fetchAppleCalendar(calSelected);
+    renderEventList();
   }
 
   function initSchTime() {
@@ -1407,17 +1292,6 @@
     document.getElementById('sch-end-time').value = `${endH}:${m}`;
   }
 
-  // When calendar day changes, update date inputs
-  const origSelectDay = selectDay;
-  function selectDay(key) {
-    calSelected = key;
-    const sd = document.getElementById('sch-start-date');
-    const ed = document.getElementById('sch-end-date');
-    if (sd) sd.value = key;
-    if (ed) ed.value = key;
-    renderCalendar();
-    fetchAppleCalendar(key);
-  }
 
   document.getElementById('sch-title').addEventListener('keydown', e => { if (e.key === 'Enter') addEvent(); });
 
