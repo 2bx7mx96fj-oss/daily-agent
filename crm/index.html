@@ -304,6 +304,36 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',sa
 .tpl-list{margin:0 0 16px 16px;font-size:13px;line-height:1.8;color:#333}
 .tpl-sig-line{border-top:1px solid #111;width:200px;margin-top:40px;padding-top:6px;font-size:11px;color:#666}
 
+/* Report template — Johnsons-style layout */
+.rpt-banner{background:linear-gradient(135deg,#0a2040 0%,#0d2a52 60%,#1a3a6a 100%);border-radius:10px;padding:28px 24px;margin-bottom:24px;text-align:center}
+.rpt-title{font-size:20px;font-weight:900;letter-spacing:.06em;text-transform:uppercase;color:#fff;margin-bottom:8px;font-family:'Arial',sans-serif}
+.rpt-date{font-size:17px;font-weight:700;color:#c8a840;margin-bottom:6px;font-style:italic}
+.rpt-subtitle{font-size:11px;color:#8aaccc;letter-spacing:.04em}
+.rpt-exec{font-size:13px;line-height:1.8;color:#222;margin-bottom:24px}
+.rpt-sec-hd{font-size:13px;font-weight:900;text-transform:uppercase;letter-spacing:.1em;color:#0a2040;border-bottom:2px solid #0a2040;padding-bottom:7px;margin:24px 0 16px;font-family:'Arial',sans-serif}
+.rpt-sec-num{color:#c8a840;margin-right:6px}
+.rpt-stats{display:grid;gap:8px;margin-bottom:18px}
+.rpt-stat{background:#f0f2f8;border-radius:8px;padding:14px 10px;text-align:center;border:1px solid #dde3f0}
+.rpt-stat-val{font-size:24px;font-weight:900;color:#0a2040;line-height:1}
+.rpt-stat-lbl{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:#446;margin-top:4px}
+.rpt-stat-note{font-size:10px;color:#889;margin-top:3px}
+.rpt-card{border-radius:8px;padding:14px 16px;margin-bottom:10px}
+.rpt-card-green{background:#0f2e18;color:#c8f0d0}
+.rpt-card-amber{background:#2e2a08;color:#f0e8b0}
+.rpt-card-navy{background:#0a1428;color:#c0d4f0;border:1px solid #1e3056}
+.rpt-card-title{font-size:13px;font-weight:800;margin-bottom:7px;line-height:1.4}
+.rpt-card-body{font-size:12px;line-height:1.7}
+.rpt-subsec-hd{font-size:15px;font-weight:800;color:#0a2040;border-bottom:1px solid #ccd;padding-bottom:7px;margin:22px 0 12px;font-family:'Arial',sans-serif}
+.rpt-tbl{width:100%;border-collapse:collapse;margin-bottom:18px;font-size:12px}
+.rpt-tbl th{background:#0a2040;color:#c8a840;padding:8px 10px;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.08em;font-weight:700}
+.rpt-tbl th.num,.rpt-tbl td.num{text-align:right}
+.rpt-tbl td{padding:8px 10px;border-bottom:1px solid #eaeef8;color:#111;vertical-align:top}
+.rpt-tbl tr:nth-child(even) td{background:#f5f7fc}
+.rpt-tbl tr.rpt-total td{background:#0a2040;color:#fff;font-weight:700;border-bottom:none}
+.rpt-tbl td.hi-green{background:#ddf5e6;color:#0a3a18;font-weight:700}
+.rpt-tbl td.hi-red{background:#fde8e8;color:#7a0000;font-weight:700}
+.rpt-tbl td.hi-gold{background:#fdf4d0;color:#5a4000;font-weight:700}
+
 /* Toast */
 .toast{position:fixed;bottom:104px;left:50%;transform:translateX(-50%);background:#0a2e1a;color:var(--green);border:1px solid rgba(0,212,106,.3);border-radius:10px;padding:10px 20px;font-size:13px;font-weight:700;z-index:300;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
 .toast.show{opacity:1}
@@ -978,25 +1008,61 @@ const DOC_TEMPLATES={
 <textarea class="f-area" id="dt-pnext" rows="2">Please review this proposal and sign below to proceed. We're excited to work with you.</textarea>`
   },
   report:{
-    title:'Monthly Report',
+    title:'Performance Report',
     fields:()=>{
       const now=new Date();
-      const period=now.toLocaleDateString('en-GB',{month:'long',year:'numeric'});
       const cl=loadClients().find(x=>x.id===docClientId);
-      const kpiCount=(cl?.kpis||[]).length;
-      return`<label class="f-lbl">Report Period</label>
-<input type="text" class="f" id="dt-period" value="${period}"/>
-<div style="background:#0b1422;border:1px solid #162540;border-radius:8px;padding:10px 12px;font-size:12px;color:#5a7590;margin-bottom:14px">📊 KPI table auto-generated from <strong style="color:#c8a840">${kpiCount} KPI${kpiCount===1?'':'s'}</strong> in client profile — add or edit KPIs in the client dashboard</div>
+      return`<label class="f-lbl">Report Title</label>
+<input type="text" class="f" id="dt-rtitle" value="Google Ads Performance Report"/>
+<label class="f-lbl">Date Range</label>
+<input type="text" class="f" id="dt-rdate" placeholder="17 – 23 May 2026"/>
+<label class="f-lbl">Campaign / Context</label>
+<input type="text" class="f" id="dt-rcampaign" placeholder="In Person Valuation Campaign | Evesham, WR11, WR10"/>
 <label class="f-lbl">Executive Summary</label>
-<textarea class="f-area" id="dt-summary" rows="4">This month has seen strong progress across key performance areas. Client engagement and content performance have remained consistent with our agreed targets, with several initiatives delivering above-average results.</textarea>
-<label class="f-lbl">Work Completed This Month</label>
-<textarea class="f-area" id="dt-work" rows="5" placeholder="Content created: 12 posts across Instagram and LinkedIn&#10;Campaigns managed: 2 paid campaigns&#10;Engagement rate: +12% vs last month&#10;New followers: +340"></textarea>
-<label class="f-lbl">Highlights &amp; Wins</label>
-<textarea class="f-area" id="dt-wins" rows="3" placeholder="Top performing post reached 8,400 organic impressions&#10;LinkedIn follower count surpassed 1,000 milestone"></textarea>
-<label class="f-lbl">Next Month Focus</label>
-<textarea class="f-area" id="dt-next" rows="3" placeholder="Launch Q3 campaign&#10;Increase video content frequency&#10;A/B test new ad creative"></textarea>
+<textarea class="f-area" id="dt-rexec" rows="4" placeholder="The campaign delivered its strongest weekly CTR to date during this period…"></textarea>
+<div style="background:#0b1422;border:1px solid #c8a840;border-radius:8px;padding:10px 12px;font-size:12px;color:#8aaccc;margin-bottom:14px">📊 <strong style="color:#c8a840">Key Metrics Strip</strong> — enter each metric on its own line:<br><span style="opacity:.7">Label | Value | Benchmark note</span><br><span style="opacity:.5;font-size:11px">e.g. Clicks | 77 | Week Total</span></div>
+<textarea class="f-area" id="dt-rmetrics" rows="6" placeholder="Clicks | 77 | Week Total&#10;Impressions | 571 | Week Total&#10;CTR | 13.49% | ▲ UK avg 4.7%&#10;Avg. CPC | £1.16 | ▼ vs £1.95 UK avg&#10;Conversions | 53 | Google-tracked&#10;Confirmed | 1 ✅ | Booked"></textarea>
+<div style="font-size:11px;color:#3a5570;margin-bottom:14px">Tip: up to 6 metrics display side by side</div>
+
+<div style="font-size:12px;font-weight:700;color:#c8a840;margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em">Insight Cards (colour-coded analysis)</div>
+<div style="background:#0b1422;border:1px solid #162540;border-radius:8px;padding:10px 12px;font-size:11px;color:#5a7590;margin-bottom:12px">Each card needs: Type → Title → Body. Leave title blank to skip a card.</div>
+
+<div class="f-row"><div><label class="f-lbl">Card 1 colour</label><select class="f" id="dt-rc1t"><option value="green">🟢 Green (positive)</option><option value="amber">🟡 Amber (attention)</option><option value="navy">🔵 Navy (note)</option></select></div></div>
+<label class="f-lbl">Card 1 Title</label>
+<input type="text" class="f" id="dt-rc1h" placeholder="CTR Performance — Best Week to Date"/>
+<label class="f-lbl">Card 1 Body</label>
+<textarea class="f-area" id="dt-rc1b" rows="3" placeholder="At 13.49%, the campaign's CTR is running at nearly three times the UK Google Search Ads average of 4.7%…"></textarea>
+
+<div class="f-row"><div><label class="f-lbl">Card 2 colour</label><select class="f" id="dt-rc2t"><option value="amber">🟡 Amber (attention)</option><option value="green">🟢 Green (positive)</option><option value="navy">🔵 Navy (note)</option></select></div></div>
+<label class="f-lbl">Card 2 Title</label>
+<input type="text" class="f" id="dt-rc2h" placeholder="Real-World Result: 1 Confirmed Booking"/>
+<label class="f-lbl">Card 2 Body</label>
+<textarea class="f-area" id="dt-rc2b" rows="3" placeholder="One confirmed booking was directly attributed to the campaign this week…"></textarea>
+
+<div class="f-row"><div><label class="f-lbl">Card 3 colour</label><select class="f" id="dt-rc3t"><option value="navy">🔵 Navy (note)</option><option value="green">🟢 Green (positive)</option><option value="amber">🟡 Amber (attention)</option></select></div></div>
+<label class="f-lbl">Card 3 Title (leave blank to omit)</label>
+<input type="text" class="f" id="dt-rc3h" placeholder="Budget Note — Campaign Limited by Daily Spend"/>
+<label class="f-lbl">Card 3 Body</label>
+<textarea class="f-area" id="dt-rc3b" rows="3" placeholder="Google continues to flag the campaign as Limited by budget…"></textarea>
+
+<div style="font-size:12px;font-weight:700;color:#c8a840;margin-top:16px;margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em">Week-on-Week Table (optional)</div>
+<div style="background:#0b1422;border:1px solid #162540;border-radius:8px;padding:10px 12px;font-size:11px;color:#5a7590;margin-bottom:10px">First line = column headers (pipe-separated). Each following line = a data row. Add * before a cell value to highlight it gold. Add + before a value for green, - for red.<br><span style="opacity:.6">e.g. Metric|5–11 Apr|17–23 May|WoW Change</span></div>
+<textarea class="f-area" id="dt-rwowtbl" rows="7" placeholder="Metric | 5–11 Apr | 26 Apr–2 May | 17–23 May | WoW Change&#10;Clicks | 45 | 84 | 77 | -7 (-8%)&#10;Impressions | 519 | 660 | 571 | -89 (-13%)&#10;CTR | 8.67% | 12.73% | *13.49% ▲ | +0.76pp&#10;Total Spend | ~£101 | ~£81 | £88.96 | +£8&#10;Conversions | 6 | 43 | *53 | +10&#10;Optimisation Score | 83.4% | — | *90% ▲ | Improved"></textarea>
+
+<div style="font-size:12px;font-weight:700;color:#c8a840;margin-top:16px;margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em">Section 2 (optional — e.g. Keyword Performance)</div>
+<label class="f-lbl">Section 2 Title (leave blank to omit)</label>
+<input type="text" class="f" id="dt-rs2title" placeholder="KEYWORD PERFORMANCE"/>
+<label class="f-lbl">Section 2 Intro</label>
+<textarea class="f-area" id="dt-rs2intro" rows="2" placeholder="The keyword report covers 71 clicks and £82.04 spend from named keywords…"></textarea>
+<div style="background:#0b1422;border:1px solid #162540;border-radius:8px;padding:10px 12px;font-size:11px;color:#5a7590;margin-bottom:10px">Same format: first line = headers, rows below. Use * + - prefixes to colour cells.</div>
+<textarea class="f-area" id="dt-rs2tbl" rows="6" placeholder="Keyword | Match | Clicks | Impr. | CTR | Conv. | Cost&#10;property selling house | Broad | 28 | 229 | 12.23% | +26 | £39.87&#10;house valuation evesham | Phrase | 15 | 126 | 11.90% | *+15 | £26.48&#10;TOTAL | — | 77 | 571 | 13.49% | 53 | £88.96"></textarea>
+<label class="f-lbl">Section 2 Insight Cards (same format — title blank to skip)</label>
+<input type="text" class="f" id="dt-rs2c1h" placeholder="Top Performer insight title…"/>
+<textarea class="f-area" id="dt-rs2c1b" rows="2" placeholder="Top performer body…"></textarea>
+<div class="f-row"><div><label class="f-lbl">Card colour</label><select class="f" id="dt-rs2c1t"><option value="green">🟢 Green</option><option value="amber">🟡 Amber</option><option value="navy">🔵 Navy</option></select></div></div>
+
 <label class="f-lbl">Notes / Recommendations</label>
-<textarea class="f-area" id="dt-rnotes" rows="2" placeholder="Any additional recommendations or notes for the client…"></textarea>`;
+<textarea class="f-area" id="dt-rnotes" rows="2" placeholder="Any additional recommendations…"></textarea>`;
     }
   },
   agreement:{
@@ -1187,37 +1253,80 @@ function previewDoc(){
       </div>
     </div>`;
   } else if(docType==='report'){
-    const period=document.getElementById('dt-period').value;
-    const summary=document.getElementById('dt-summary').value;
-    const work=document.getElementById('dt-work').value.trim().split('\n').filter(Boolean);
-    const wins=document.getElementById('dt-wins').value.trim().split('\n').filter(Boolean);
-    const next=document.getElementById('dt-next').value.trim().split('\n').filter(Boolean);
+    const rtitle=document.getElementById('dt-rtitle').value||'Performance Report';
+    const rdate=document.getElementById('dt-rdate').value;
+    const rcampaign=document.getElementById('dt-rcampaign').value;
+    const rexec=document.getElementById('dt-rexec').value;
+    const rmetricsRaw=document.getElementById('dt-rmetrics').value.trim().split('\n').filter(Boolean);
+    const rc1t=document.getElementById('dt-rc1t').value;
+    const rc1h=document.getElementById('dt-rc1h').value;
+    const rc1b=document.getElementById('dt-rc1b').value;
+    const rc2t=document.getElementById('dt-rc2t').value;
+    const rc2h=document.getElementById('dt-rc2h').value;
+    const rc2b=document.getElementById('dt-rc2b').value;
+    const rc3t=document.getElementById('dt-rc3t').value;
+    const rc3h=document.getElementById('dt-rc3h').value;
+    const rc3b=document.getElementById('dt-rc3b').value;
+    const rwowtbl=document.getElementById('dt-rwowtbl').value.trim();
+    const rs2title=document.getElementById('dt-rs2title').value;
+    const rs2intro=document.getElementById('dt-rs2intro').value;
+    const rs2tbl=document.getElementById('dt-rs2tbl').value.trim();
+    const rs2c1t=document.getElementById('dt-rs2c1t').value;
+    const rs2c1h=document.getElementById('dt-rs2c1h').value;
+    const rs2c1b=document.getElementById('dt-rs2c1b').value;
     const rnotes=document.getElementById('dt-rnotes').value;
-    const clData=loadClients().find(x=>x.id===docClientId);
-    const kpis=clData?.kpis||[];
     const todayFmt=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
-    const kpiTable=kpis.length
-      ?`<table class="tpl-table"><thead><tr><th>Metric</th><th class="num">Target</th><th class="num">Actual</th><th class="num">Attainment</th></tr></thead><tbody>${kpis.map(k=>{const pct=parseFloat(k.target)>0?Math.round(parseFloat(k.value||0)/parseFloat(k.target)*100):0;const col=pct>=100?'#007a3d':pct>=75?'#7a6000':pct>=50?'#8a4400':'#8a0000';return`<tr><td>${esc(k.label||k.metric||'')}</td><td class="num">${k.unit||''}${parseFloat(k.target||0).toLocaleString()}</td><td class="num">${k.unit||''}${parseFloat(k.value||k.actual||0).toLocaleString()}</td><td class="num" style="color:${col};font-weight:700">${pct}%</td></tr>`}).join('')}</tbody></table>`
-      :`<div class="tpl-para" style="color:#999;font-style:italic">No KPIs recorded — add them in the client dashboard.</div>`;
-    docTitle=`Monthly Report — ${period} — ${clientName}`;
-    html=`<div class="tpl">
-      <div class="tpl-header">
-        <div><div class="tpl-brand">${esc(bn)}</div><div class="tpl-brand-tag">${esc(addr)}</div></div>
-        <div class="tpl-doc-type"><div class="tpl-doc-name" style="font-size:16px">Monthly Report</div><div class="tpl-doc-num">Prepared for ${esc(clientName)}</div><div class="tpl-doc-num">${esc(period)}</div></div>
+
+    // Helper: parse pipe table with * + - cell highlighting
+    const parseTbl=(raw)=>{
+      if(!raw.trim())return'';
+      const lines=raw.trim().split('\n').filter(Boolean);
+      if(!lines.length)return'';
+      const heads=lines[0].split('|').map(h=>h.trim());
+      const rows=lines.slice(1).map(l=>l.split('|').map(c=>c.trim()));
+      const isNum=v=>!isNaN(parseFloat(v.replace(/[£%+\-▲▼,]/g,'')));
+      const cellHtml=(v,isHd)=>{
+        let cls='',val=v;
+        if(v.startsWith('*')){cls='hi-gold';val=v.slice(1)}
+        else if(v.startsWith('+')){cls='hi-green';val=v}
+        else if(v.startsWith('-')&&v.length>1&&!isNaN(parseFloat(v.slice(1)))){cls='hi-red';val=v}
+        const align=isNum(val)?'num':'';
+        if(isHd)return`<th class="${align}">${esc(val)}</th>`;
+        return`<td class="${[cls,align].filter(Boolean).join(' ')}">${esc(val)}</td>`;
+      };
+      const isTotalRow=r=>r[0]&&r[0].toUpperCase().includes('TOTAL');
+      return`<table class="rpt-tbl"><thead><tr>${heads.map(h=>cellHtml(h,true)).join('')}</tr></thead><tbody>${rows.map(r=>`<tr${isTotalRow(r)?' class="rpt-total"':''}>${r.map(c=>cellHtml(c,false)).join('')}</tr>`).join('')}</tbody></table>`;
+    };
+
+    // Helper: render a coloured insight card
+    const card=(type,title,body)=>title?`<div class="rpt-card rpt-card-${type}"><div class="rpt-card-title">${type==='green'?'✅':type==='amber'?'📌':'🔲'} ${esc(title)}</div><div class="rpt-card-body">${esc(body).replace(/\n/g,'<br>')}</div></div>`:'';
+
+    // Metrics strip — up to 6
+    const metrics=rmetricsRaw.map(m=>{const p=m.split('|');return{label:(p[0]||'').trim(),val:(p[1]||'').trim(),note:(p[2]||'').trim()}});
+    const cols=Math.min(metrics.length,6)||3;
+    const statStrip=metrics.length?`<div class="rpt-stats" style="grid-template-columns:repeat(${cols},1fr)">${metrics.map(m=>`<div class="rpt-stat"><div class="rpt-stat-val">${esc(m.val)}</div><div class="rpt-stat-lbl">${esc(m.label)}</div>${m.note?`<div class="rpt-stat-note">${esc(m.note)}</div>`:''}</div>`).join('')}</div>`:'' ;
+
+    docTitle=`${rtitle}${rdate?' — '+rdate:''} — ${clientName}`;
+    html=`<div class="tpl" style="padding:20px 18px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <div><div class="tpl-brand" style="font-size:14px">${esc(bn)}</div>${addr?`<div class="tpl-brand-tag">${esc(addr)}</div>`:''}</div>
+        <div style="font-size:10px;color:#999;text-align:right">Prepared for ${esc(clientName)}<br>${todayFmt}</div>
       </div>
-      <div class="tpl-2col">
-        <div><div class="tpl-block-label">Prepared By</div><div class="tpl-block-val"><strong>${esc(bn)}</strong></div></div>
-        <div><div class="tpl-block-label">Date Issued</div><div class="tpl-block-val"><strong>${todayFmt}</strong></div></div>
+      <div class="rpt-banner">
+        <div class="rpt-title">${esc(rtitle)}</div>
+        ${rdate?`<div class="rpt-date">${esc(rdate)}</div>`:''}
+        ${rcampaign?`<div class="rpt-subtitle">${esc(rcampaign)}</div>`:''}
       </div>
-      <div class="tpl-section-title">Executive Summary</div>
-      <div class="tpl-para">${esc(summary).replace(/\n/g,'<br>')}</div>
-      <div class="tpl-section-title">KPI Performance</div>
-      ${kpiTable}
-      ${work.length?`<div class="tpl-section-title">Work Completed</div><ul class="tpl-list">${work.map(w=>`<li>${esc(w)}</li>`).join('')}</ul>`:''}
-      ${wins.length?`<div class="tpl-section-title">Highlights &amp; Wins</div><ul class="tpl-list">${wins.map(w=>`<li>${esc(w)}</li>`).join('')}</ul>`:''}
-      ${next.length?`<div class="tpl-section-title">Next Month Focus</div><ul class="tpl-list">${next.map(n=>`<li>${esc(n)}</li>`).join('')}</ul>`:''}
-      ${rnotes?`<div class="tpl-section-title">Notes &amp; Recommendations</div><div class="tpl-para">${esc(rnotes).replace(/\n/g,'<br>')}</div>`:''}
-      <div class="tpl-footer">Prepared by ${esc(bn)} · ${todayFmt}</div>
+      ${rexec?`<div class="rpt-exec">${esc(rexec).replace(/\n/g,'<br>')}</div>`:''}
+      <div class="rpt-sec-hd"><span class="rpt-sec-num">1.</span> KEY METRICS</div>
+      ${statStrip}
+      ${card(rc1t,rc1h,rc1b)}
+      ${card(rc2t,rc2h,rc2b)}
+      ${card(rc3t,rc3h,rc3b)}
+      ${rwowtbl?`<div class="rpt-subsec-hd">Week-on-Week Comparison</div>${parseTbl(rwowtbl)}`:''}
+      ${rs2title?`<div class="rpt-sec-hd" style="margin-top:24px"><span class="rpt-sec-num">2.</span> ${esc(rs2title.toUpperCase())}</div>${rs2intro?`<div class="rpt-exec">${esc(rs2intro)}</div>`:''}${parseTbl(rs2tbl)}${card(rs2c1t,rs2c1h,rs2c1b)}`:''}
+      ${rnotes?`<div class="rpt-sec-hd" style="margin-top:20px">NOTES &amp; RECOMMENDATIONS</div><div class="rpt-exec">${esc(rnotes).replace(/\n/g,'<br>')}</div>`:''}
+      <div class="tpl-footer" style="margin-top:24px">Prepared by ${esc(bn)} · ${todayFmt}</div>
     </div>`;
   } else if(docType==='agreement'){
     const service=document.getElementById('dt-service').value;
