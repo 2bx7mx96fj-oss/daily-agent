@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-  <meta name="apple-mobile-web-app-title" content="OAK MARK"/>
+  <meta name="apple-mobile-web-app-title" content="OAKDEN CREATIVE"/>
   <link rel="manifest" href="manifest.json"/>
-  <title>OAK MARK CRM</title>
+  <title>OAKDEN CREATIVE CRM</title>
 <style>
 :root {
   --bg:#05090f; --card:#0b1422; --card2:#0f1d30; --border:#162540;
@@ -347,7 +347,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',sa
     <div class="brand-left">
       <div class="brand-mark" id="bmark">OM</div>
       <div>
-        <div class="brand-name" id="bname">Oak Mark</div>
+        <div class="brand-name" id="bname">Oakden Creative</div>
         <div class="brand-tagline" id="btagline">Client Management</div>
       </div>
     </div>
@@ -490,7 +490,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',sa
     <div class="sec-hd">Brand</div>
     <div class="card" style="padding:16px">
       <label class="sf-lbl">Business Name</label>
-      <input type="text" class="sf" id="s-name" placeholder="OAK MARK"/>
+      <input type="text" class="sf" id="s-name" placeholder="OAKDEN CREATIVE"/>
       <label class="sf-lbl">Tagline</label>
       <input type="text" class="sf" id="s-tag" placeholder="Client Management"/>
       <label class="sf-lbl">Business Address</label>
@@ -511,7 +511,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',sa
       <label class="sf-lbl">Calendly / Meeting Link</label>
       <input type="url" class="sf" id="s-cal" placeholder="https://calendly.com/…"/>
       <label class="sf-lbl">Email</label>
-      <input type="email" class="sf" id="s-email" placeholder="you@oakmark.co.uk"/>
+      <input type="email" class="sf" id="s-email" placeholder="you@oakdencreative.co.uk"/>
       <label class="sf-lbl">Phone / WhatsApp</label>
       <input type="tel" class="sf" id="s-phone" placeholder="+44 7700 000000"/>
       <label class="sf-lbl">Bank / Payment Details (for invoices)</label>
@@ -520,7 +520,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',sa
   </div>
   <button class="btn-full gold" onclick="saveSettings()">Save Settings</button>
   <button class="btn-full navy" style="margin-top:10px" onclick="exportData()">Export Data (JSON)</button>
-  <div class="settings-ver">OAK MARK CRM · v1.0</div>
+  <div class="settings-ver">OAKDEN CREATIVE CRM · v1.0</div>
 </div>
 
 <!-- ══ ADD/EDIT CLIENT OVERLAY ══ -->
@@ -610,11 +610,11 @@ function toast(msg='Saved'){
 // ── Data ──
 const lsGet=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))||d}catch{return d}};
 const lsSet=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
-const loadClients=()=>lsGet('om-clients',[]);
-const saveClients=a=>lsSet('om-clients',a);
-const loadGoals=p=>lsGet('om-goals-'+p,[]);
-const saveGoals=(p,a)=>lsSet('om-goals-'+p,a);
-const loadSettings=()=>lsGet('om-settings',{});
+const loadClients=()=>lsGet('oakden-clients',[]);
+const saveClients=a=>lsSet('oakden-clients',a);
+const loadGoals=p=>lsGet('oakden-goals-'+p,[]);
+const saveGoals=(p,a)=>lsSet('oakden-goals-'+p,a);
+const loadSettings=()=>lsGet('oakden-settings',{});
 
 // ── Status helpers ──
 const SL={active:'Active',prospect:'Prospect',paused:'Paused',completed:'Completed'};
@@ -643,7 +643,7 @@ function renderHub(){
   const overdue=allDocs.filter(d=>d.status==='overdue').length;
   const draft=allDocs.filter(d=>d.status==='draft').length;
   // Brand
-  const bn=s.brandName||'OAK MARK';
+  const bn=s.brandName||'OAKDEN CREATIVE';
   document.getElementById('bname').textContent=bn.toUpperCase();
   document.getElementById('btagline').textContent=s.tagline||'Client Management';
   document.getElementById('bmark').style.cssText=`border-color:${pc};color:${pc};width:38px;height:38px;border:2px solid ${pc};border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;letter-spacing:-.5px;flex-shrink:0`;
@@ -995,7 +995,7 @@ const DOC_TEMPLATES={
   <div><label class="f-lbl">Valid Until</label><input type="date" class="f" id="dt-pvalid" value="${new Date(Date.now()+30*864e5).toISOString().slice(0,10)}"/></div>
 </div>
 <label class="f-lbl">Introduction (pre-filled — edit as needed)</label>
-<textarea class="f-area" id="dt-intro" rows="4">Thank you for considering Oak Mark for your project. We specialise in delivering high-quality creative and digital services tailored to your brand's objectives. This proposal outlines the scope, timeline, and investment required to achieve your goals.</textarea>
+<textarea class="f-area" id="dt-intro" rows="4">Thank you for considering Oakden Creative for your project. We specialise in delivering high-quality creative and digital services tailored to your brand's objectives. This proposal outlines the scope, timeline, and investment required to achieve your goals.</textarea>
 <label class="f-lbl">Scope of Work (one item per line)</label>
 <textarea class="f-area" id="dt-scope" rows="5" placeholder="Social media strategy and content calendar&#10;Monthly content creation (12 posts)&#10;Community management and engagement&#10;Monthly performance reporting&#10;Bi-weekly check-in calls"></textarea>
 <label class="f-lbl">Timeline</label>
@@ -1084,7 +1084,7 @@ const DOC_TEMPLATES={
 <label class="f-lbl">Termination Clause</label>
 <textarea class="f-area" id="dt-aterm" rows="2">Either party may terminate this agreement with 30 days' written notice. All outstanding invoices remain payable upon termination.</textarea>
 <label class="f-lbl">Intellectual Property</label>
-<textarea class="f-area" id="dt-aip" rows="2">All creative work produced under this agreement remains the property of the client upon full payment. Oak Mark retains the right to showcase work in its portfolio unless otherwise agreed.</textarea>`;
+<textarea class="f-area" id="dt-aip" rows="2">All creative work produced under this agreement remains the property of the client upon full payment. Oakden Creative retains the right to showcase work in its portfolio unless otherwise agreed.</textarea>`;
     }
   },
   welcome:{
@@ -1095,17 +1095,17 @@ const DOC_TEMPLATES={
 <label class="f-lbl">Start Date</label>
 <input type="date" class="f" id="dt-wstart" value="${new Date().toISOString().slice(0,10)}"/>
 <label class="f-lbl">Welcome Message (pre-filled — personalise)</label>
-<textarea class="f-area" id="dt-wmsg" rows="4">Welcome to Oak Mark! We're genuinely excited to be working with you. This pack contains everything you need to get started — how we work, who to contact, and what to expect over the coming weeks.</textarea>
+<textarea class="f-area" id="dt-wmsg" rows="4">Welcome to Oakden Creative! We're genuinely excited to be working with you. This pack contains everything you need to get started — how we work, who to contact, and what to expect over the coming weeks.</textarea>
 <label class="f-lbl">What to Expect (one item per line)</label>
 <textarea class="f-area" id="dt-wexpect" rows="5" placeholder="Weekly update emails every Friday&#10;Monthly performance reports on the 5th&#10;Bi-weekly 30-min check-in calls&#10;Slack/WhatsApp for quick questions&#10;All content delivered 48hrs before publishing">Weekly update emails every Friday
 Monthly performance reports on the 5th
 Bi-weekly 30-minute check-in calls
 Access to shared content calendar
 All assets delivered 48 hours before publishing</textarea>
-<label class="f-lbl">Your Key Contact at Oak Mark</label>
-<input type="text" class="f" id="dt-wcontact" placeholder="e.g. Alex McMillan · alex@oakmark.co.uk"/>
+<label class="f-lbl">Your Key Contact at Oakden Creative</label>
+<input type="text" class="f" id="dt-wcontact" placeholder="e.g. Alex McMillan · alex@oakdencreative.co.uk"/>
 <label class="f-lbl">How to Reach Us</label>
-<textarea class="f-area" id="dt-wreach" rows="2" placeholder="Email: alex@oakmark.co.uk&#10;WhatsApp: +44 7700 000000&#10;Book a call: calendly.com/alexmcmillan"></textarea>
+<textarea class="f-area" id="dt-wreach" rows="2" placeholder="Email: alex@oakdencreative.co.uk&#10;WhatsApp: +44 7700 000000&#10;Book a call: calendly.com/alexmcmillan"></textarea>
 <label class="f-lbl">First Steps / Onboarding Checklist</label>
 <textarea class="f-area" id="dt-wsteps" rows="4" placeholder="Sign and return this welcome pack&#10;Complete the brand questionnaire (link below)&#10;Share brand assets: logo, fonts, brand guidelines&#10;Schedule kick-off call via Calendly">Sign and return this welcome pack
 Complete the brand questionnaire (link provided separately)
@@ -1176,7 +1176,7 @@ function openDocGlobal(){
 function previewDoc(){
   const s=loadSettings();
   const cl=loadClients().find(x=>x.id===docClientId);
-  const bn=s.brandName||'OAK MARK';
+  const bn=s.brandName||'OAKDEN CREATIVE';
   const addr=s.address||'';
   const clientName=cl?cl.company:'Client';
   let html='',docTitle='',docStatus='draft';
@@ -1547,14 +1547,14 @@ function renderSettingsForm(){
   document.querySelectorAll('.cpick[onclick^="pickSC"]').forEach(d=>d.classList.toggle('active',d.dataset.c===sColor));
 }
 function saveSettings(){
-  lsSet('om-settings',{brandName:document.getElementById('s-name').value.trim()||'Oak Mark',tagline:document.getElementById('s-tag').value.trim(),address:document.getElementById('s-addr').value.trim(),primaryColor:sColor,calendly:document.getElementById('s-cal').value.trim(),email:document.getElementById('s-email').value.trim(),phone:document.getElementById('s-phone').value.trim(),bank:document.getElementById('s-bank').value.trim()});
+  lsSet('oakden-settings',{brandName:document.getElementById('s-name').value.trim()||'Oakden Creative',tagline:document.getElementById('s-tag').value.trim(),address:document.getElementById('s-addr').value.trim(),primaryColor:sColor,calendly:document.getElementById('s-cal').value.trim(),email:document.getElementById('s-email').value.trim(),phone:document.getElementById('s-phone').value.trim(),bank:document.getElementById('s-bank').value.trim()});
   toast('Settings saved');renderHub();
 }
 function exportData(){
   const data={clients:loadClients(),goals:{q:loadGoals('q'),y:loadGoals('y'),l:loadGoals('l')},settings:loadSettings(),exportedAt:new Date().toISOString()};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');a.href=url;a.download='oakmark-crm.json';a.click();
+  const a=document.createElement('a');a.href=url;a.download='oakden-crm.json';a.click();
   URL.revokeObjectURL(url);toast('Exported');
 }
 

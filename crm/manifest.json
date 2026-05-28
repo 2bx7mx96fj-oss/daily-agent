@@ -1,7 +1,7 @@
 {
-  "name": "OAK MARK CRM",
-  "short_name": "OAK MARK",
-  "description": "Client management for Oak Mark",
+  "name": "Oakden Creative CRM",
+  "short_name": "Oakden",
+  "description": "Client management for Oakden Creative",
   "start_url": "/daily-agent/crm/",
   "display": "standalone",
   "background_color": "#05090f",
