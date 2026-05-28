@@ -381,6 +381,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',sa
         <button class="doc-type-btn" onclick="openDocTpl('invoice')">📄 Invoice</button>
         <button class="doc-type-btn" onclick="openDocTpl('proposal')">📋 Proposal</button>
         <button class="doc-type-btn" onclick="openDocTpl('report')">📊 Report</button>
+        <button class="doc-type-btn" onclick="openDocTpl('project')">🗂 By Project</button>
         <button class="doc-type-btn" onclick="openDocTpl('welcome')">👋 Welcome</button>
         <button class="doc-type-btn" onclick="openDocTpl('agreement')">✍ Agreement</button>
         <button class="doc-type-btn" onclick="openDocTpl('other')">📁 Other</button>
@@ -410,6 +411,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',sa
     <button class="chip" data-t="invoice" onclick="setDT('invoice',this)">Invoices</button>
     <button class="chip" data-t="proposal" onclick="setDT('proposal',this)">Proposals</button>
     <button class="chip" data-t="report" onclick="setDT('report',this)">Reports</button>
+    <button class="chip" data-t="project" onclick="setDT('project',this)">By Project</button>
     <button class="chip" data-t="welcome" onclick="setDT('welcome',this)">Welcome</button>
     <button class="chip" data-t="agreement" onclick="setDT('agreement',this)">Agreements</button>
     <button class="chip" data-t="other" onclick="setDT('other',this)">Other</button>
@@ -586,7 +588,7 @@ const loadSettings=()=>lsGet('om-settings',{});
 
 // ── Status helpers ──
 const SL={active:'Active',prospect:'Prospect',paused:'Paused',completed:'Completed'};
-const DI={invoice:'📄',proposal:'📋',report:'📊',welcome:'👋',agreement:'✍️',other:'📁'};
+const DI={invoice:'📄',proposal:'📋',report:'📊',project:'🗂',welcome:'👋',agreement:'✍️',other:'📁'};
 
 // ── Navigation ──
 function showPage(n){
@@ -981,16 +983,15 @@ const DOC_TEMPLATES={
       const now=new Date();
       const period=now.toLocaleDateString('en-GB',{month:'long',year:'numeric'});
       const cl=loadClients().find(x=>x.id===docClientId);
-      const kpiRows=(cl?.kpis||[]).map(k=>`${k.label}: ${k.unit||''}${k.value||'—'} (target: ${k.unit||''}${k.target||'—'})`).join('\n');
+      const kpiCount=(cl?.kpis||[]).length;
       return`<label class="f-lbl">Report Period</label>
 <input type="text" class="f" id="dt-period" value="${period}"/>
+<div style="background:#0b1422;border:1px solid #162540;border-radius:8px;padding:10px 12px;font-size:12px;color:#5a7590;margin-bottom:14px">📊 KPI table auto-generated from <strong style="color:#c8a840">${kpiCount} KPI${kpiCount===1?'':'s'}</strong> in client profile — add or edit KPIs in the client dashboard</div>
 <label class="f-lbl">Executive Summary</label>
-<textarea class="f-area" id="dt-summary" rows="4" placeholder="Brief overview of this month's performance and key highlights…">This month has seen strong progress across key performance areas. Client engagement and content performance have remained consistent with our agreed targets, with several initiatives delivering above-average results.</textarea>
-<label class="f-lbl">KPI Performance (auto-filled from client data — edit as needed)</label>
-<textarea class="f-area" id="dt-kpis" rows="5" placeholder="Add KPI results here…">${kpiRows||'No KPIs recorded — add them in the client profile'}</textarea>
+<textarea class="f-area" id="dt-summary" rows="4">This month has seen strong progress across key performance areas. Client engagement and content performance have remained consistent with our agreed targets, with several initiatives delivering above-average results.</textarea>
 <label class="f-lbl">Work Completed This Month</label>
 <textarea class="f-area" id="dt-work" rows="5" placeholder="Content created: 12 posts across Instagram and LinkedIn&#10;Campaigns managed: 2 paid campaigns&#10;Engagement rate: +12% vs last month&#10;New followers: +340"></textarea>
-<label class="f-lbl">Highlights & Wins</label>
+<label class="f-lbl">Highlights &amp; Wins</label>
 <textarea class="f-area" id="dt-wins" rows="3" placeholder="Top performing post reached 8,400 organic impressions&#10;LinkedIn follower count surpassed 1,000 milestone"></textarea>
 <label class="f-lbl">Next Month Focus</label>
 <textarea class="f-area" id="dt-next" rows="3" placeholder="Launch Q3 campaign&#10;Increase video content frequency&#10;A/B test new ad creative"></textarea>
@@ -1045,6 +1046,32 @@ Complete the brand questionnaire (link provided separately)
 Share brand assets (logo, fonts, colour palette, brand guidelines)
 Schedule your kick-off call via Calendly
 Grant access to social media accounts</textarea>`,
+  },
+  project:{
+    title:'Project Brief',
+    fields:()=>{
+      const now=new Date();
+      return`<label class="f-lbl">Project Name</label>
+<input type="text" class="f" id="dt-pjname" placeholder="e.g. Brand Refresh — Q3 2026"/>
+<div class="f-row">
+  <div><label class="f-lbl">Start Date</label><input type="date" class="f" id="dt-pjstart" value="${now.toISOString().slice(0,10)}"/></div>
+  <div><label class="f-lbl">Deadline</label><input type="date" class="f" id="dt-pjend"/></div>
+</div>
+<label class="f-lbl">Project Fee / Budget</label>
+<input type="text" class="f" id="dt-pjfee" placeholder="e.g. £3,500 fixed fee"/>
+<label class="f-lbl">Project Overview</label>
+<textarea class="f-area" id="dt-pjoverview" rows="3" placeholder="A brief description of the project and its objectives…"></textarea>
+<label class="f-lbl">Deliverables (one per line)</label>
+<textarea class="f-area" id="dt-pjdeliverables" rows="5" placeholder="Brand identity (logo, colour palette, typography)&#10;Brand guidelines document&#10;Social media asset templates (x10)&#10;Updated website homepage design"></textarea>
+<label class="f-lbl">Milestones / Timeline (one per line)</label>
+<textarea class="f-area" id="dt-pjmilestones" rows="4" placeholder="Week 1: Discovery &amp; brand audit&#10;Week 2–3: Concepts &amp; revisions&#10;Week 4: Final delivery &amp; handover"></textarea>
+<label class="f-lbl">Revision Policy</label>
+<textarea class="f-area" id="dt-pjrevisions" rows="2">This project includes up to 2 rounds of revisions per deliverable. Additional revisions are charged at £75/hr.</textarea>
+<label class="f-lbl">Payment Terms</label>
+<textarea class="f-area" id="dt-pjpay" rows="2">50% deposit required before work begins. Remaining 50% due upon final delivery. Payment within 14 days of invoice.</textarea>
+<label class="f-lbl">Notes</label>
+<textarea class="f-area" id="dt-pjnotes" rows="2" placeholder="Any additional notes or agreements…"></textarea>`;
+    }
   },
   other:{
     title:'New Document',
@@ -1162,28 +1189,35 @@ function previewDoc(){
   } else if(docType==='report'){
     const period=document.getElementById('dt-period').value;
     const summary=document.getElementById('dt-summary').value;
-    const kpis=document.getElementById('dt-kpis').value;
     const work=document.getElementById('dt-work').value.trim().split('\n').filter(Boolean);
     const wins=document.getElementById('dt-wins').value.trim().split('\n').filter(Boolean);
     const next=document.getElementById('dt-next').value.trim().split('\n').filter(Boolean);
     const rnotes=document.getElementById('dt-rnotes').value;
+    const clData=loadClients().find(x=>x.id===docClientId);
+    const kpis=clData?.kpis||[];
+    const todayFmt=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+    const kpiTable=kpis.length
+      ?`<table class="tpl-table"><thead><tr><th>Metric</th><th class="num">Target</th><th class="num">Actual</th><th class="num">Attainment</th></tr></thead><tbody>${kpis.map(k=>{const pct=parseFloat(k.target)>0?Math.round(parseFloat(k.value||0)/parseFloat(k.target)*100):0;const col=pct>=100?'#007a3d':pct>=75?'#7a6000':pct>=50?'#8a4400':'#8a0000';return`<tr><td>${esc(k.label||k.metric||'')}</td><td class="num">${k.unit||''}${parseFloat(k.target||0).toLocaleString()}</td><td class="num">${k.unit||''}${parseFloat(k.value||k.actual||0).toLocaleString()}</td><td class="num" style="color:${col};font-weight:700">${pct}%</td></tr>`}).join('')}</tbody></table>`
+      :`<div class="tpl-para" style="color:#999;font-style:italic">No KPIs recorded — add them in the client dashboard.</div>`;
     docTitle=`Monthly Report — ${period} — ${clientName}`;
     html=`<div class="tpl">
       <div class="tpl-header">
-        <div><div class="tpl-brand">${esc(bn)}</div><div class="tpl-brand-tag">Monthly Report</div></div>
-        <div class="tpl-doc-type"><div class="tpl-doc-name" style="font-size:16px">${esc(period)}</div><div class="tpl-doc-num">Prepared for ${esc(clientName)}</div></div>
+        <div><div class="tpl-brand">${esc(bn)}</div><div class="tpl-brand-tag">${esc(addr)}</div></div>
+        <div class="tpl-doc-type"><div class="tpl-doc-name" style="font-size:16px">Monthly Report</div><div class="tpl-doc-num">Prepared for ${esc(clientName)}</div><div class="tpl-doc-num">${esc(period)}</div></div>
+      </div>
+      <div class="tpl-2col">
+        <div><div class="tpl-block-label">Prepared By</div><div class="tpl-block-val"><strong>${esc(bn)}</strong></div></div>
+        <div><div class="tpl-block-label">Date Issued</div><div class="tpl-block-val"><strong>${todayFmt}</strong></div></div>
       </div>
       <div class="tpl-section-title">Executive Summary</div>
       <div class="tpl-para">${esc(summary).replace(/\n/g,'<br>')}</div>
       <div class="tpl-section-title">KPI Performance</div>
-      <div class="tpl-para" style="white-space:pre-line">${esc(kpis)}</div>
-      <div class="tpl-section-title">Work Completed</div>
-      <ul class="tpl-list">${work.map(w=>`<li>${esc(w)}</li>`).join('')}</ul>
+      ${kpiTable}
+      ${work.length?`<div class="tpl-section-title">Work Completed</div><ul class="tpl-list">${work.map(w=>`<li>${esc(w)}</li>`).join('')}</ul>`:''}
       ${wins.length?`<div class="tpl-section-title">Highlights &amp; Wins</div><ul class="tpl-list">${wins.map(w=>`<li>${esc(w)}</li>`).join('')}</ul>`:''}
-      <div class="tpl-section-title">Next Month Focus</div>
-      <ul class="tpl-list">${next.map(n=>`<li>${esc(n)}</li>`).join('')}</ul>
+      ${next.length?`<div class="tpl-section-title">Next Month Focus</div><ul class="tpl-list">${next.map(n=>`<li>${esc(n)}</li>`).join('')}</ul>`:''}
       ${rnotes?`<div class="tpl-section-title">Notes &amp; Recommendations</div><div class="tpl-para">${esc(rnotes).replace(/\n/g,'<br>')}</div>`:''}
-      <div class="tpl-footer">Prepared by ${esc(bn)} · ${new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}</div>
+      <div class="tpl-footer">Prepared by ${esc(bn)} · ${todayFmt}</div>
     </div>`;
   } else if(docType==='agreement'){
     const service=document.getElementById('dt-service').value;
@@ -1246,6 +1280,41 @@ function previewDoc(){
       <div class="tpl-section-title">Getting Started — Your Checklist</div>
       <ul class="tpl-list">${wsteps.map(s=>`<li>☐ ${esc(s)}</li>`).join('')}</ul>
       <div class="tpl-footer">Welcome aboard — we look forward to building something great together. · ${esc(bn)}</div>
+    </div>`;
+  } else if(docType==='project'){
+    const pjname=document.getElementById('dt-pjname').value||'Project Brief';
+    const pjstart=document.getElementById('dt-pjstart').value;
+    const pjend=document.getElementById('dt-pjend').value;
+    const pjfee=document.getElementById('dt-pjfee').value;
+    const pjoverview=document.getElementById('dt-pjoverview').value;
+    const pjdeliverables=document.getElementById('dt-pjdeliverables').value.trim().split('\n').filter(Boolean);
+    const pjmilestones=document.getElementById('dt-pjmilestones').value.trim().split('\n').filter(Boolean);
+    const pjrevisions=document.getElementById('dt-pjrevisions').value;
+    const pjpay=document.getElementById('dt-pjpay').value;
+    const pjnotes=document.getElementById('dt-pjnotes').value;
+    const fmtDate=d=>{if(!d)return'';const[y,m,da]=d.split('-');return`${da}/${m}/${y}`};
+    docTitle=`${pjname} — ${clientName}`;
+    html=`<div class="tpl">
+      <div class="tpl-header">
+        <div><div class="tpl-brand">${esc(bn)}</div><div class="tpl-brand-tag">${esc(addr)}</div></div>
+        <div class="tpl-doc-type"><div class="tpl-doc-name" style="font-size:16px">Project Brief</div><div class="tpl-doc-num">For ${esc(clientName)}</div></div>
+      </div>
+      <div style="font-size:20px;font-weight:900;margin-bottom:20px">${esc(pjname)}</div>
+      <div class="tpl-2col">
+        <div><div class="tpl-block-label">Start Date</div><div class="tpl-block-val"><strong>${fmtDate(pjstart)||'TBC'}</strong></div></div>
+        <div><div class="tpl-block-label">Deadline</div><div class="tpl-block-val"><strong>${fmtDate(pjend)||'TBC'}</strong></div></div>
+      </div>
+      ${pjfee?`<div class="tpl-2col" style="margin-top:-8px"><div><div class="tpl-block-label">Project Fee</div><div class="tpl-block-val" style="font-size:16px;font-weight:700">${esc(pjfee)}</div></div><div></div></div>`:''}
+      ${pjoverview?`<div class="tpl-section-title">Overview</div><div class="tpl-para">${esc(pjoverview).replace(/\n/g,'<br>')}</div>`:''}
+      ${pjdeliverables.length?`<div class="tpl-section-title">Deliverables</div><ul class="tpl-list">${pjdeliverables.map(d=>`<li>${esc(d)}</li>`).join('')}</ul>`:''}
+      ${pjmilestones.length?`<div class="tpl-section-title">Milestones &amp; Timeline</div><ul class="tpl-list">${pjmilestones.map(m=>`<li>${esc(m)}</li>`).join('')}</ul>`:''}
+      ${pjrevisions?`<div class="tpl-section-title">Revision Policy</div><div class="tpl-para">${esc(pjrevisions).replace(/\n/g,'<br>')}</div>`:''}
+      ${pjpay?`<div class="tpl-section-title">Payment Terms</div><div class="tpl-para">${esc(pjpay).replace(/\n/g,'<br>')}</div>`:''}
+      ${pjnotes?`<div class="tpl-section-title">Notes</div><div class="tpl-para">${esc(pjnotes).replace(/\n/g,'<br>')}</div>`:''}
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:50px">
+        <div><div class="tpl-sig-line">${esc(clientName)} · Date</div></div>
+        <div><div class="tpl-sig-line">${esc(bn)} · Date</div></div>
+      </div>
     </div>`;
   } else {
     const otitle=document.getElementById('dt-otitle').value||'Document';
