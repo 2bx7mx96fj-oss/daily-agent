@@ -1,0 +1,14 @@
+{
+  "name": "OAK MARK CRM",
+  "short_name": "OAK MARK",
+  "description": "Client management for Oak Mark",
+  "start_url": "/daily-agent/crm/",
+  "display": "standalone",
+  "background_color": "#05090f",
+  "theme_color": "#05090f",
+  "orientation": "portrait",
+  "icons": [
+    { "src": "/daily-agent/crm/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/daily-agent/crm/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
