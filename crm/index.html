@@ -635,9 +635,9 @@ const lsSet=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
 })();
 
 const loadClients=()=>lsGet('oakden-clients',[]);
-const saveClients=a=>lsSet('oakden-clients',a);
+const saveClients=a=>{lsSet('oakden-clients',a);setTimeout(()=>{const cfg=getSBConfig&&getSBConfig();if(cfg&&cfg.url&&cfg.key&&cfg.sync)pushToCloud();},0);};
 const loadGoals=p=>lsGet('oakden-goals-'+p,[]);
-const saveGoals=(p,a)=>lsSet('oakden-goals-'+p,a);
+const saveGoals=(p,a)=>{lsSet('oakden-goals-'+p,a);setTimeout(()=>{const cfg=getSBConfig&&getSBConfig();if(cfg&&cfg.url&&cfg.key&&cfg.sync)pushToCloud();},0);};
 const loadSettings=()=>lsGet('oakden-settings',{});
 
 // ── Status helpers ──
@@ -1629,12 +1629,6 @@ async function saveAndSync(){
   if(ok)syncStatus('✓ Synced to cloud',true);
 }
 
-// Auto-push after every client save
-const _origSaveClients=saveClients;
-function saveClients(a){_origSaveClients(a);const{url,key,sync}=getSBConfig();if(url&&key&&sync)pushToCloud();}
-// Auto-push after every goal save
-const _origSaveGoals=saveGoals;
-function saveGoals(p,a){_origSaveGoals(p,a);const{url,key,sync}=getSBConfig();if(url&&key&&sync)pushToCloud();}
 function exportData(){
   const data={clients:loadClients(),goals:{q:loadGoals('q'),y:loadGoals('y'),l:loadGoals('l')},settings:loadSettings(),exportedAt:new Date().toISOString()};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
