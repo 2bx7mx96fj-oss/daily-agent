@@ -610,6 +610,16 @@ function toast(msg='Saved'){
 // ── Data ──
 const lsGet=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))||d}catch{return d}};
 const lsSet=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+
+// One-time migration from old om-* keys to oakden-* keys
+(()=>{
+  const migrations=[['om-clients','oakden-clients'],['om-goals-q','oakden-goals-q'],['om-goals-y','oakden-goals-y'],['om-goals-l','oakden-goals-l'],['om-settings','oakden-settings']];
+  migrations.forEach(([oldKey,newKey])=>{
+    const old=localStorage.getItem(oldKey);
+    if(old&&!localStorage.getItem(newKey)){localStorage.setItem(newKey,old);localStorage.removeItem(oldKey);}
+  });
+})();
+
 const loadClients=()=>lsGet('oakden-clients',[]);
 const saveClients=a=>lsSet('oakden-clients',a);
 const loadGoals=p=>lsGet('oakden-goals-'+p,[]);
