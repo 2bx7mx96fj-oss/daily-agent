@@ -519,6 +519,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',sa
     </div>
   </div>
   <button class="btn-full gold" onclick="saveSettings()">Save Settings</button>
+  <div class="section" style="margin-top:16px">
+    <div class="sec-hd">Cloud Sync</div>
+    <div class="card" style="padding:16px">
+      <div id="sync-status-bar" style="display:none;border-radius:8px;padding:10px 12px;font-size:12px;font-weight:700;margin-bottom:14px;text-align:center"></div>
+      <label class="sf-lbl">Supabase Project URL</label>
+      <input type="url" class="sf" id="s-sb-url" placeholder="https://xxxxxxxxxxxx.supabase.co"/>
+      <label class="sf-lbl">Supabase Anon Key</label>
+      <input type="text" class="sf" id="s-sb-key" placeholder="eyJhbGci…" style="font-size:11px"/>
+      <label class="sf-lbl">Sync Key <span style="font-weight:400;color:var(--muted2)">(a password shared across your devices)</span></label>
+      <input type="text" class="sf" id="s-sb-sync" placeholder="e.g. oakden-my-crm-2026"/>
+      <button class="btn-full gold" style="margin-top:4px" onclick="saveAndSync()">Save &amp; Sync Now</button>
+      <button class="btn-full navy" style="margin-top:8px" onclick="pullFromCloud()">Pull from Cloud</button>
+    </div>
+  </div>
   <button class="btn-full navy" style="margin-top:10px" onclick="exportData()">Export Data (JSON)</button>
   <div class="settings-ver">OAKDEN CREATIVE CRM · v1.0</div>
 </div>
@@ -1553,13 +1567,74 @@ function renderSettingsForm(){
   document.getElementById('s-email').value=s.email||'';
   document.getElementById('s-phone').value=s.phone||'';
   document.getElementById('s-bank').value=s.bank||'';
+  document.getElementById('s-sb-url').value=s.sbUrl||'';
+  document.getElementById('s-sb-key').value=s.sbKey||'';
+  document.getElementById('s-sb-sync').value=s.sbSync||'';
   sColor=s.primaryColor||'#c8a840';
   document.querySelectorAll('.cpick[onclick^="pickSC"]').forEach(d=>d.classList.toggle('active',d.dataset.c===sColor));
+  const last=localStorage.getItem('oakden-last-sync');
+  if(last){const el=document.getElementById('sync-status-bar');if(el){el.style.display='block';el.style.background='rgba(200,168,64,0.1)';el.style.color='var(--muted2)';el.style.border='1px solid var(--border)';el.textContent=`Last synced: ${new Date(last).toLocaleString('en-GB',{dateStyle:'short',timeStyle:'short'})}`;}}
 }
 function saveSettings(){
-  lsSet('oakden-settings',{brandName:document.getElementById('s-name').value.trim()||'Oakden Creative',tagline:document.getElementById('s-tag').value.trim(),address:document.getElementById('s-addr').value.trim(),primaryColor:sColor,calendly:document.getElementById('s-cal').value.trim(),email:document.getElementById('s-email').value.trim(),phone:document.getElementById('s-phone').value.trim(),bank:document.getElementById('s-bank').value.trim()});
+  lsSet('oakden-settings',{brandName:document.getElementById('s-name').value.trim()||'Oakden Creative',tagline:document.getElementById('s-tag').value.trim(),address:document.getElementById('s-addr').value.trim(),primaryColor:sColor,calendly:document.getElementById('s-cal').value.trim(),email:document.getElementById('s-email').value.trim(),phone:document.getElementById('s-phone').value.trim(),bank:document.getElementById('s-bank').value.trim(),sbUrl:document.getElementById('s-sb-url').value.trim(),sbKey:document.getElementById('s-sb-key').value.trim(),sbSync:document.getElementById('s-sb-sync').value.trim()});
   toast('Settings saved');renderHub();
 }
+
+// ── Supabase Sync ──
+function getSBConfig(){
+  const s=loadSettings();
+  return{url:s.sbUrl||'',key:s.sbKey||'',sync:s.sbSync||''};
+}
+function syncStatus(msg,ok){
+  const el=document.getElementById('sync-status-bar');
+  if(!el)return;
+  el.style.display='block';
+  el.style.background=ok?'rgba(0,212,106,0.15)':ok===false?'rgba(255,69,58,0.15)':'rgba(200,168,64,0.12)';
+  el.style.color=ok?'var(--green)':ok===false?'#ff453a':'var(--gold)';
+  el.style.border=`1px solid ${ok?'rgba(0,212,106,0.3)':ok===false?'rgba(255,69,58,0.3)':'rgba(200,168,64,0.3)'}`;
+  el.textContent=msg;
+}
+async function pushToCloud(){
+  const {url,key,sync}=getSBConfig();
+  if(!url||!key||!sync){syncStatus('⚠ Enter Supabase URL, key and sync key first',false);return false;}
+  const payload={sync_key:sync,clients:loadClients(),goals:{q:loadGoals('q'),y:loadGoals('y'),l:loadGoals('l')},settings:loadSettings(),updated_at:new Date().toISOString()};
+  try{
+    const r=await fetch(`${url}/rest/v1/crm_data`,{method:'POST',headers:{'Content-Type':'application/json','apikey':key,'Authorization':`Bearer ${key}`,'Prefer':'resolution=merge-duplicates'},body:JSON.stringify(payload)});
+    if(!r.ok){const t=await r.text();syncStatus(`✗ Sync failed: ${r.status}`,false);console.error(t);return false;}
+    lsSet('oakden-last-sync',new Date().toISOString());
+    return true;
+  }catch(e){syncStatus(`✗ Network error: ${e.message}`,false);return false;}
+}
+async function pullFromCloud(){
+  const {url,key,sync}=getSBConfig();
+  if(!url||!key||!sync){syncStatus('⚠ Enter Supabase URL, key and sync key first',false);return;}
+  syncStatus('⟳ Pulling from cloud…',null);
+  try{
+    const r=await fetch(`${url}/rest/v1/crm_data?sync_key=eq.${encodeURIComponent(sync)}&select=*`,{headers:{'apikey':key,'Authorization':`Bearer ${key}`}});
+    if(!r.ok){syncStatus(`✗ Pull failed: ${r.status}`,false);return;}
+    const rows=await r.json();
+    if(!rows.length){syncStatus('ℹ No data in cloud yet — push first',null);return;}
+    const d=rows[0];
+    if(d.clients)lsSet('oakden-clients',d.clients);
+    if(d.goals){if(d.goals.q)lsSet('oakden-goals-q',d.goals.q);if(d.goals.y)lsSet('oakden-goals-y',d.goals.y);if(d.goals.l)lsSet('oakden-goals-l',d.goals.l);}
+    lsSet('oakden-last-sync',new Date().toISOString());
+    syncStatus('✓ Pulled — refreshing…',true);
+    setTimeout(()=>{renderHub();renderCL();},600);
+  }catch(e){syncStatus(`✗ Network error: ${e.message}`,false);}
+}
+async function saveAndSync(){
+  saveSettings();
+  syncStatus('⟳ Syncing…',null);
+  const ok=await pushToCloud();
+  if(ok)syncStatus('✓ Synced to cloud',true);
+}
+
+// Auto-push after every client save
+const _origSaveClients=saveClients;
+function saveClients(a){_origSaveClients(a);const{url,key,sync}=getSBConfig();if(url&&key&&sync)pushToCloud();}
+// Auto-push after every goal save
+const _origSaveGoals=saveGoals;
+function saveGoals(p,a){_origSaveGoals(p,a);const{url,key,sync}=getSBConfig();if(url&&key&&sync)pushToCloud();}
 function exportData(){
   const data={clients:loadClients(),goals:{q:loadGoals('q'),y:loadGoals('y'),l:loadGoals('l')},settings:loadSettings(),exportedAt:new Date().toISOString()};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
@@ -1572,6 +1647,8 @@ function exportData(){
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 renderHub();
 renderSettingsForm();
+// Auto-pull from cloud on load if configured
+(async()=>{const{url,key,sync}=getSBConfig();if(url&&key&&sync){try{const r=await fetch(`${url}/rest/v1/crm_data?sync_key=eq.${encodeURIComponent(sync)}&select=*`,{headers:{'apikey':key,'Authorization':`Bearer ${key}`}});if(r.ok){const rows=await r.json();if(rows.length){const d=rows[0];if(d.clients)lsSet('oakden-clients',d.clients);if(d.goals){if(d.goals.q)lsSet('oakden-goals-q',d.goals.q);if(d.goals.y)lsSet('oakden-goals-y',d.goals.y);if(d.goals.l)lsSet('oakden-goals-l',d.goals.l);}lsSet('oakden-last-sync',new Date().toISOString());renderHub();renderCL();}}}catch(e){}}})();
 </script>
 </body>
 </html>
