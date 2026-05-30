@@ -1609,7 +1609,7 @@ async function pullFromCloud(){
   saveSettings();
   const {url,key,sync}=getSBConfig();
   if(!url||!key||!sync){syncStatus('⚠ Enter Supabase URL, key and sync key first',false);return;}
-  syncStatus('⟳ Pulling from cloud…',null);
+  syncStatus(`⟳ Pulling… key="${sync}" url="${url.slice(-20)}"`,null);
   try{
     const r=await fetch(`${url}/rest/v1/crm_data?sync_key=eq.${encodeURIComponent(sync)}&select=*`,{headers:{'apikey':key,'Authorization':`Bearer ${key}`}});
     if(!r.ok){syncStatus(`✗ Pull failed: ${r.status}`,false);return;}
