@@ -1619,8 +1619,8 @@ async function pullFromCloud(){
     if(d.clients)lsSet('oakden-clients',d.clients);
     if(d.goals){if(d.goals.q)lsSet('oakden-goals-q',d.goals.q);if(d.goals.y)lsSet('oakden-goals-y',d.goals.y);if(d.goals.l)lsSet('oakden-goals-l',d.goals.l);}
     lsSet('oakden-last-sync',new Date().toISOString());
-    syncStatus('✓ Pulled — refreshing…',true);
-    setTimeout(()=>{renderHub();renderCL();},600);
+    syncStatus('✓ Pulled — reloading…',true);
+    setTimeout(()=>location.reload(),800);
   }catch(e){syncStatus(`✗ Network error: ${e.message}`,false);}
 }
 async function saveAndSync(){
