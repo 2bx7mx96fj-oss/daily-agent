@@ -1606,6 +1606,7 @@ async function pushToCloud(){
   }catch(e){syncStatus(`✗ Network error: ${e.message}`,false);return false;}
 }
 async function pullFromCloud(){
+  saveSettings();
   const {url,key,sync}=getSBConfig();
   if(!url||!key||!sync){syncStatus('⚠ Enter Supabase URL, key and sync key first',false);return;}
   syncStatus('⟳ Pulling from cloud…',null);
