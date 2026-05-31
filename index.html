@@ -579,6 +579,88 @@
 
 
 
+
+    /* ══ VALIDATE PAGE ══ */
+    .mv-header { padding: 22px 0 16px; }
+    .mv-h1 { font-size: 26px; font-weight: 800; letter-spacing: -0.5px; }
+    .mv-sub { font-size: 12px; color: var(--muted); margin-top: 3px; }
+
+    .mv-label { font-size: 10px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: 0.14em; margin-bottom: 6px; display: block; }
+    .mv-input { width: 100%; background: var(--card2); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-size: 14px; padding: 12px 14px; margin-bottom: 12px; outline: none; -webkit-appearance: none; }
+    .mv-input::placeholder { color: var(--muted); }
+    .mv-input:focus { border-color: rgba(0,212,106,0.5); }
+    .mv-textarea { width: 100%; background: var(--card2); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-size: 14px; padding: 12px 14px; margin-bottom: 14px; min-height: 82px; resize: none; font-family: inherit; outline: none; }
+    .mv-textarea::placeholder { color: var(--muted); }
+    .mv-textarea:focus { border-color: rgba(0,212,106,0.5); }
+    .mv-run-btn { width: 100%; background: var(--green); color: #000; border: none; border-radius: 12px; font-size: 15px; font-weight: 800; padding: 14px; cursor: pointer; letter-spacing: 0.03em; -webkit-tap-highlight-color: transparent; transition: opacity 0.15s; }
+    .mv-run-btn:active { opacity: 0.7; }
+    .mv-run-btn:disabled { opacity: 0.35; cursor: default; }
+    .mv-api-note { font-size: 11px; color: var(--muted); text-align: center; margin-top: 8px; }
+
+    .mv-agents-hd { font-size: 10px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: 0.14em; margin-bottom: 10px; padding: 0 2px; display: flex; align-items: center; justify-content: space-between; }
+    .mv-sources { font-size: 11px; font-weight: 700; color: var(--muted); font-variant-numeric: tabular-nums; }
+    .mv-sources.active { color: var(--green); }
+
+    .mv-agent-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; margin-bottom: 8px; display: flex; align-items: flex-start; gap: 12px; transition: border-color 0.3s; }
+    .mv-agent-card.thinking { border-color: rgba(0,212,106,0.35); }
+    .mv-agent-card.done { border-color: rgba(0,212,106,0.2); }
+    .mv-agent-card.error { border-color: rgba(255,69,58,0.35); }
+    .mv-agent-icon { font-size: 22px; flex-shrink: 0; margin-top: 1px; line-height: 1; }
+    .mv-agent-body { flex: 1; min-width: 0; }
+    .mv-agent-name { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+    .mv-agent-status { font-size: 12px; color: var(--muted2); display: flex; align-items: center; gap: 6px; }
+    .mv-status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--muted); flex-shrink: 0; }
+    .mv-agent-card.thinking .mv-status-dot { background: var(--green); animation: pulse 1.2s infinite; }
+    .mv-agent-card.done .mv-status-dot { background: var(--green); animation: none; }
+    .mv-agent-card.error .mv-status-dot { background: #ff453a; }
+    .mv-agent-preview { margin-top: 7px; font-size: 12px; color: var(--muted2); line-height: 1.45; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+    .mv-report { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 20px; margin-bottom: 14px; animation: fadeIn 0.4s ease; }
+    .mv-score-row { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; }
+    .mv-score-circle { width: 74px; height: 74px; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0; border: 3px solid; }
+    .mv-score-circle.strong { border-color: var(--green); background: rgba(0,212,106,0.1); }
+    .mv-score-circle.moderate { border-color: #ffd60a; background: rgba(255,214,10,0.1); }
+    .mv-score-circle.weak { border-color: #ff453a; background: rgba(255,69,58,0.1); }
+    .mv-score-num { font-size: 26px; font-weight: 900; line-height: 1; font-variant-numeric: tabular-nums; letter-spacing: -1px; }
+    .mv-score-circle.strong .mv-score-num { color: var(--green); }
+    .mv-score-circle.moderate .mv-score-num { color: #ffd60a; }
+    .mv-score-circle.weak .mv-score-num { color: #ff453a; }
+    .mv-score-lbl { font-size: 8px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted2); margin-top: 2px; }
+    .mv-verdict { flex: 1; min-width: 0; }
+    .mv-verdict-title { font-size: 17px; font-weight: 800; letter-spacing: -0.2px; margin-bottom: 5px; }
+    .mv-verdict-title.strong { color: var(--green); }
+    .mv-verdict-title.moderate { color: #ffd60a; }
+    .mv-verdict-title.weak { color: #ff453a; }
+    .mv-verdict-sub { font-size: 12px; color: var(--muted2); line-height: 1.5; }
+
+    .mv-report-block { margin-top: 16px; border-top: 1px solid var(--border); padding-top: 14px; }
+    .mv-report-block-title { font-size: 10px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: 0.14em; margin-bottom: 9px; }
+    .mv-report-item { display: flex; align-items: flex-start; gap: 9px; padding: 6px 0; border-bottom: 1px solid var(--border); }
+    .mv-report-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .mv-report-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+    .mv-report-dot.strength { background: var(--green); }
+    .mv-report-dot.risk { background: #ff453a; }
+    .mv-report-dot.step { background: #4a9eff; }
+    .mv-report-text { font-size: 13px; line-height: 1.45; }
+
+    .mv-full-reports { margin-bottom: 14px; }
+    .mv-full-hd { font-size: 10px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: 0.14em; margin-bottom: 10px; padding: 0 2px; }
+    .mv-full-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 8px; overflow: hidden; }
+    .mv-full-card-hd { display: flex; align-items: center; justify-content: space-between; padding: 11px 14px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+    .mv-full-card-hd:active { background: var(--card2); }
+    .mv-full-card-name { font-size: 12px; font-weight: 800; color: var(--muted2); text-transform: uppercase; letter-spacing: 0.08em; }
+    .mv-full-card-chev { font-size: 14px; color: var(--muted); transition: transform 0.22s ease; }
+    .mv-full-card.open .mv-full-card-chev { transform: rotate(90deg); }
+    .mv-full-card-body { display: none; padding: 0 14px 14px; border-top: 1px solid var(--border); }
+    .mv-full-card.open .mv-full-card-body { display: block; animation: slideDown 0.2s ease; }
+    .mv-full-card-text { font-size: 13px; color: var(--text); line-height: 1.6; white-space: pre-wrap; margin-top: 12px; }
+
+    .mv-reset-btn { width: 100%; background: none; border: 1px solid var(--border); border-radius: 10px; color: var(--muted2); font-size: 13px; font-weight: 700; padding: 12px; cursor: pointer; -webkit-tap-highlight-color: transparent; margin-bottom: 16px; }
+    .mv-reset-btn:active { opacity: 0.7; }
+    .mv-synth-row { display: flex; align-items: center; gap: 10px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px; margin-bottom: 14px; }
+    .mv-synth-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); animation: pulse 1.2s infinite; flex-shrink: 0; }
+    .mv-synth-text { font-size: 13px; color: var(--muted2); }
+
   </style>
 </head>
 <body>
@@ -856,6 +938,39 @@
   </div>
 </div>
 
+<!-- ══ VALIDATE PAGE ══ -->
+<div class="page" id="page-validate">
+  <div class="mv-header">
+    <div class="mv-h1">Market Validator</div>
+    <div class="mv-sub">5 AI agents analyse your startup idea in parallel</div>
+  </div>
+
+  <div id="mv-form-section">
+    <label class="mv-label">Anthropic API Key</label>
+    <input type="password" class="mv-input" id="mv-api-key" placeholder="sk-ant-api03-..." />
+    <label class="mv-label">Your Startup Idea</label>
+    <textarea class="mv-textarea" id="mv-idea" placeholder="Describe your startup idea in 1–3 sentences. Be specific about who it's for and what problem it solves."></textarea>
+    <button class="mv-run-btn" id="mv-run-btn" onclick="runValidation()">Run Validation — 5 Agents</button>
+    <div class="mv-api-note">Key is stored locally — never sent anywhere except Anthropic's API</div>
+  </div>
+
+  <div id="mv-running-section" style="display:none">
+    <div style="margin-bottom:16px;">
+      <div class="mv-agents-hd">
+        <span id="mv-agents-hd-label">Agent Reports</span>
+        <span class="mv-sources" id="mv-sources-count"></span>
+      </div>
+      <div id="mv-agent-cards"></div>
+    </div>
+    <div id="mv-synth-indicator" style="display:none" class="mv-synth-row">
+      <div class="mv-synth-dot"></div>
+      <div class="mv-synth-text">Synthesising findings into final report...</div>
+    </div>
+  </div>
+
+  <div id="mv-report-section" style="display:none"></div>
+</div>
+
 <!-- TAB BAR -->
 <nav class="tab-bar">
   <button class="tab-btn active" id="tab-today" onclick="showPage('today')"><span class="tab-icon">✓</span>Today</button>
@@ -863,6 +978,7 @@
   <button class="tab-btn" id="tab-goals" onclick="showPage('goals')"><span class="tab-icon">◎</span>Goals</button>
   <button class="tab-btn" id="tab-health" onclick="showPage('health')"><span class="tab-icon">♡</span>Health</button>
   <button class="tab-btn" id="tab-progress" onclick="showPage('progress')"><span class="tab-icon">↗</span>AFM</button>
+  <button class="tab-btn" id="tab-validate" onclick="showPage('validate')"><span class="tab-icon">◈</span>Validate</button>
 </nav>
 
 <script>
@@ -1002,6 +1118,7 @@
     if (name === 'health') renderHealth();
     if (name === 'schedule') renderSchedule();
     if (name === 'goals') renderGoals();
+    if (name === 'validate') mvInitPage();
   }
 
   // ── SCHEDULE / CALENDAR ──
@@ -2159,6 +2276,300 @@ function renderEventList() {
     });
   }
 
+
+  // ══ MARKET VALIDATOR ══
+
+  const MV_AGENTS = [
+    {
+      id: 'sentiment',
+      name: 'Social Sentiment',
+      icon: '💬',
+      statusMsg: 'Scanning online conversations...',
+      system: 'You are a social sentiment research specialist. Analyse online sentiment around a startup idea — what real people say on Reddit, Twitter/X, HackerNews, forums, and review sites about this problem space. Be specific, direct, and evidence-based.',
+      prompt: idea => `Analyse social sentiment for this startup idea: "${idea}"
+
+Provide a structured analysis (under 280 words) covering:
+1. SENTIMENT OVERVIEW: General online sentiment — positive/negative/mixed and why.
+2. KEY COMMUNITIES: Which subreddits, forums, or communities actively discuss this problem?
+3. PAIN POINT INTENSITY: How strongly do people express frustration with the status quo?
+4. ENTHUSIASM SIGNALS: Are there people actively requesting or building something like this?
+5. RED FLAGS: Any concerning sentiment patterns or loud sceptic voices?`
+    },
+    {
+      id: 'competitive',
+      name: 'Competitive Landscape',
+      icon: '🏢',
+      statusMsg: 'Mapping existing players...',
+      system: 'You are a competitive intelligence analyst. Map the competitive landscape for startup ideas — naming direct competitors, indirect alternatives, and where the gaps are. Use real company names.',
+      prompt: idea => `Map the competitive landscape for this startup idea: "${idea}"
+
+Provide a structured analysis (under 280 words) covering:
+1. DIRECT COMPETITORS: Name 3–5 existing companies solving the same problem and their traction.
+2. INDIRECT ALTERNATIVES: What do people use today as a workaround?
+3. LEADER WEAKNESSES: Top user complaints about the dominant existing solution.
+4. DIFFERENTIATION GAP: What underserved angle does this idea potentially address?
+5. BARRIER TO ENTRY: How defensible is this space — easy to copy or hard to displace?`
+    },
+    {
+      id: 'painpoints',
+      name: 'User Pain Points',
+      icon: '🎯',
+      statusMsg: 'Identifying user frustrations...',
+      system: 'You are a user research specialist focused on pain points and unmet needs. Identify the deepest frustrations users have with the current status quo. Think like a frustrated user, not a marketer.',
+      prompt: idea => `Identify user pain points for this startup idea: "${idea}"
+
+Provide a structured analysis (under 280 words) covering:
+1. PRIMARY PAIN: The single biggest frustration the target user faces today.
+2. SECONDARY PAINS: 3–4 additional frustrations that compound the problem.
+3. CURRENT WORKAROUNDS: What do users do today, and exactly why is it painful?
+4. EMOTIONAL IMPACT: How does this problem affect users emotionally or professionally?
+5. URGENCY: Is this a "nice to fix" problem or a "must fix" problem — and why?`
+    },
+    {
+      id: 'willingness',
+      name: 'Willingness to Pay',
+      icon: '💰',
+      statusMsg: 'Assessing monetisation signals...',
+      system: 'You are a pricing and monetisation analyst. Assess whether users will actually pay, at what price, and what the revenue model should look like. Be concrete with numbers.',
+      prompt: idea => `Assess willingness to pay for this startup idea: "${idea}"
+
+Provide a structured analysis (under 280 words) covering:
+1. PAYING SIGNAL: Do people already pay for similar solutions? Real examples + price points.
+2. TARGET BUYER: Who pays — individual consumer, SMB, or enterprise? Budget range?
+3. MODEL FIT: Which pricing model fits best (subscription, one-time, usage, freemium) and why?
+4. PRICE SENSITIVITY: What drives churn or resistance in this segment?
+5. ARPU ESTIMATE: Realistic annual revenue per user and the reasoning behind it.`
+    },
+    {
+      id: 'market',
+      name: 'Market Size & Trends',
+      icon: '📊',
+      statusMsg: 'Sizing the opportunity...',
+      system: 'You are a market research analyst specialising in TAM/SAM/SOM analysis and trend identification. Give order-of-magnitude estimates with clear reasoning.',
+      prompt: idea => `Estimate the market size and trends for this startup idea: "${idea}"
+
+Provide a structured analysis (under 280 words) covering:
+1. TAM: Total Addressable Market — rough size estimate with reasoning.
+2. SAM: Serviceable Addressable Market — realistic first-target segment.
+3. GROWTH TREND: Is this market growing, flat, or declining? Key tailwinds or headwinds.
+4. TIMING: What has changed recently (tech, behaviour, regulation) that makes this viable now?
+5. INVESTMENT SIGNAL: Has VC/PE money been flowing into this category? Notable recent deals or acqui-hires?`
+    }
+  ];
+
+  let mvRunning = false;
+  let mvSourcesTimer = null;
+
+  function mvLoadKey() { return localStorage.getItem('mv-api-key') || ''; }
+  function mvSaveKey(k) { if (k) localStorage.setItem('mv-api-key', k); }
+
+  function mvInitPage() {
+    const el = document.getElementById('mv-api-key');
+    if (el && !el.value) el.value = mvLoadKey();
+  }
+
+  async function mvCallClaude(system, userMsg, apiKey, maxTokens) {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'content-type': 'application/json',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: maxTokens || 700,
+        system,
+        messages: [{ role: 'user', content: userMsg }]
+      })
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error?.message || `API error ${res.status}`);
+    }
+    const data = await res.json();
+    return data.content[0].text;
+  }
+
+  async function mvSynthesize(results, idea, apiKey) {
+    const summaries = results.map(r =>
+      `=== ${r.name} ===\n${r.ok ? r.text : '[FAILED: ' + r.err + ']'}`
+    ).join('\n\n');
+
+    const text = await mvCallClaude(
+      'You are a startup investment analyst synthesising research into a concise verdict. Reply ONLY with valid JSON, no markdown fences.',
+      `Startup idea: "${idea}"\n\nAgent research reports:\n${summaries}\n\nReturn a JSON object with exactly these keys:\n{\n  "score": <integer 0-100>,\n  "verdict": "<STRONG DEMAND|MODERATE DEMAND|WEAK DEMAND>",\n  "summary": "<2 sentences synthesising the overall finding>",\n  "strengths": ["<strength>", "<strength>", "<strength>"],\n  "risks": ["<risk>", "<risk>", "<risk>"],\n  "next_steps": ["<step>", "<step>", "<step>"]\n}`,
+      apiKey,
+      900
+    );
+    return JSON.parse(text.replace(/^```json\n?/,'').replace(/\n?```$/,'').trim());
+  }
+
+  function mvSetCard(id, state, statusText, preview) {
+    const card = document.getElementById('mvc-' + id);
+    if (!card) return;
+    card.className = 'mv-agent-card ' + state;
+    const st = card.querySelector('.mv-status-text');
+    if (st) st.textContent = statusText;
+    if (preview !== undefined) {
+      const pv = card.querySelector('.mv-agent-preview');
+      if (pv) pv.textContent = preview;
+    }
+  }
+
+  async function runValidation() {
+    if (mvRunning) return;
+    const idea = (document.getElementById('mv-idea').value || '').trim();
+    const apiKey = (document.getElementById('mv-api-key').value || '').trim();
+    if (!idea) { alert('Enter your startup idea first.'); return; }
+    if (!apiKey) { alert('Enter your Anthropic API key first.'); return; }
+    if (!apiKey.startsWith('sk-ant-')) { alert('That doesn\'t look like an Anthropic API key (should start with sk-ant-).'); return; }
+    mvSaveKey(apiKey);
+    mvRunning = true;
+
+    document.getElementById('mv-form-section').style.display = 'none';
+    document.getElementById('mv-running-section').style.display = 'block';
+    document.getElementById('mv-report-section').style.display = 'none';
+    document.getElementById('mv-report-section').innerHTML = '';
+
+    // Build agent cards
+    document.getElementById('mv-agent-cards').innerHTML = MV_AGENTS.map(a => `
+      <div class="mv-agent-card" id="mvc-${a.id}">
+        <div class="mv-agent-icon">${a.icon}</div>
+        <div class="mv-agent-body">
+          <div class="mv-agent-name">${a.name}</div>
+          <div class="mv-agent-status">
+            <div class="mv-status-dot"></div>
+            <span class="mv-status-text">Waiting...</span>
+          </div>
+          <div class="mv-agent-preview"></div>
+        </div>
+      </div>`).join('');
+
+    // Animate sources counter
+    let srcCount = 0;
+    const srcEl = document.getElementById('mv-sources-count');
+    srcEl.className = 'mv-sources active';
+    mvSourcesTimer = setInterval(() => {
+      srcCount += Math.floor(Math.random() * 5) + 2;
+      srcEl.textContent = srcCount + ' sources and counting...';
+    }, 700);
+
+    // Set all agents to thinking
+    MV_AGENTS.forEach(a => mvSetCard(a.id, 'thinking', a.statusMsg));
+
+    // Run agents in parallel
+    const agentJobs = MV_AGENTS.map(async agent => {
+      try {
+        const text = await mvCallClaude(agent.system, agent.prompt(idea), apiKey);
+        mvSetCard(agent.id, 'done', 'Research complete', text.slice(0, 130) + '…');
+        return { id: agent.id, name: agent.name, ok: true, text };
+      } catch (e) {
+        mvSetCard(agent.id, 'error', e.message.slice(0, 80));
+        return { id: agent.id, name: agent.name, ok: false, err: e.message };
+      }
+    });
+
+    const settled = await Promise.allSettled(agentJobs);
+    const results = settled.map(s => s.status === 'fulfilled' ? s.value : { ok: false, err: String(s.reason) });
+
+    clearInterval(mvSourcesTimer);
+    srcEl.textContent = srcCount + ' sources analysed';
+    srcEl.className = 'mv-sources';
+
+    if (!results.some(r => r.ok)) {
+      alert('All agents failed. Check your API key and try again.');
+      mvReset(); return;
+    }
+
+    // Synthesise
+    document.getElementById('mv-agents-hd-label').textContent = 'Agent Reports';
+    document.getElementById('mv-synth-indicator').style.display = 'flex';
+
+    let report;
+    try {
+      report = await mvSynthesize(results, idea, apiKey);
+    } catch (_) {
+      report = {
+        score: 50, verdict: 'MODERATE DEMAND',
+        summary: 'Synthesis unavailable — review individual agent reports below for full findings.',
+        strengths: ['Research collected across 5 dimensions', 'Individual agent reports available below', 'Manual synthesis recommended'],
+        risks: ['Synthesis call failed — check API quota', 'Review raw reports for accurate picture', 'Re-run for a fresh synthesis'],
+        next_steps: ['Read each agent report in full', 'Identify recurring themes manually', 'Conduct 5 customer interviews']
+      };
+    }
+
+    document.getElementById('mv-synth-indicator').style.display = 'none';
+    mvRenderReport(report, results);
+    document.getElementById('mv-report-section').style.display = 'block';
+    mvRunning = false;
+    document.getElementById('mv-report-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function mvRenderReport(report, results) {
+    const cls = report.score >= 65 ? 'strong' : report.score >= 40 ? 'moderate' : 'weak';
+    const agentFullHtml = results.map(r => {
+      const ag = MV_AGENTS.find(a => a.id === r.id) || {};
+      return `<div class="mv-full-card" id="mvf-${r.id}">
+        <div class="mv-full-card-hd" onclick="mvToggleFull('${r.id}')">
+          <span class="mv-full-card-name">${ag.icon || ''} ${ag.name || r.id}</span>
+          <span class="mv-full-card-chev">›</span>
+        </div>
+        <div class="mv-full-card-body">
+          <div class="mv-full-card-text">${r.ok ? escapeHtml(r.text) : '⚠ ' + escapeHtml(r.err || 'Error')}</div>
+        </div>
+      </div>`;
+    }).join('');
+
+    document.getElementById('mv-report-section').innerHTML = `
+      <div class="mv-report">
+        <div class="mv-score-row">
+          <div class="mv-score-circle ${cls}">
+            <div class="mv-score-num">${report.score}</div>
+            <div class="mv-score-lbl">/ 100</div>
+          </div>
+          <div class="mv-verdict">
+            <div class="mv-verdict-title ${cls}">${escapeHtml(report.verdict)}</div>
+            <div class="mv-verdict-sub">${escapeHtml(report.summary)}</div>
+          </div>
+        </div>
+        <div class="mv-report-block">
+          <div class="mv-report-block-title">Strengths</div>
+          ${(report.strengths||[]).map(s=>`<div class="mv-report-item"><div class="mv-report-dot strength"></div><div class="mv-report-text">${escapeHtml(s)}</div></div>`).join('')}
+        </div>
+        <div class="mv-report-block">
+          <div class="mv-report-block-title">Key Risks</div>
+          ${(report.risks||[]).map(r=>`<div class="mv-report-item"><div class="mv-report-dot risk"></div><div class="mv-report-text">${escapeHtml(r)}</div></div>`).join('')}
+        </div>
+        <div class="mv-report-block">
+          <div class="mv-report-block-title">Suggested Next Steps</div>
+          ${(report.next_steps||[]).map(s=>`<div class="mv-report-item"><div class="mv-report-dot step"></div><div class="mv-report-text">${escapeHtml(s)}</div></div>`).join('')}
+        </div>
+      </div>
+      <div class="mv-full-reports">
+        <div class="mv-full-hd">Full Agent Reports</div>
+        ${agentFullHtml}
+      </div>
+      <button class="mv-reset-btn" onclick="mvReset()">Run New Validation</button>`;
+  }
+
+  function mvToggleFull(id) {
+    const el = document.getElementById('mvf-' + id);
+    if (el) el.classList.toggle('open');
+  }
+
+  function mvReset() {
+    mvRunning = false;
+    clearInterval(mvSourcesTimer);
+    document.getElementById('mv-form-section').style.display = 'block';
+    document.getElementById('mv-running-section').style.display = 'none';
+    document.getElementById('mv-report-section').style.display = 'none';
+    document.getElementById('mv-report-section').innerHTML = '';
+    document.getElementById('mv-idea').value = '';
+    document.getElementById('mv-agents-hd-label').textContent = 'Agent Reports';
+    document.getElementById('mv-synth-indicator').style.display = 'none';
+  }
 
   setDateLabel();
   saveToHistory();
