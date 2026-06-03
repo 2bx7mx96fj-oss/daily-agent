@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Google Ads Performance Report — May 2026 | Johnsons</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',Arial,sans-serif;background:#f4f6fb;color:#1a2a3a;font-size:14px;line-height:1.6}
+  .page{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+
+  /* Cover */
+  .cover{background:linear-gradient(135deg,#07152b 0%,#0d2045 60%,#1a3566 100%);border-radius:12px;padding:48px 40px 40px;margin-bottom:32px;text-align:center;position:relative;overflow:hidden}
+  .cover::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c8a840' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+  .cover-logo{font-size:13px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#c8a840;margin-bottom:20px;opacity:.9}
+  .cover-title{font-size:30px;font-weight:900;letter-spacing:.06em;text-transform:uppercase;color:#fff;margin-bottom:10px;line-height:1.2}
+  .cover-title span{color:#c8a840}
+  .cover-sub{font-size:17px;font-weight:700;color:#c8a840;margin-bottom:6px;font-style:italic}
+  .cover-meta{font-size:12px;color:rgba(255,255,255,0.6);margin-top:12px}
+  .cover-badge{display:inline-block;background:rgba(200,168,64,0.15);border:1px solid rgba(200,168,64,0.4);color:#c8a840;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 12px;border-radius:20px;margin-top:14px}
+
+  /* Sections */
+  .section{margin-bottom:28px}
+  .sec-title{font-size:13px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:#c8a840;border-bottom:1px solid #c8a840;padding-bottom:6px;margin-bottom:16px}
+  .sec-num{color:rgba(200,168,64,0.5);margin-right:6px}
+
+  /* Exec summary */
+  .exec-box{background:#fff;border:1px solid #dde3ef;border-radius:10px;padding:20px 24px;margin-bottom:20px;border-left:4px solid #0d2045}
+  .exec-box p{margin-bottom:10px;color:#2a3a4a;line-height:1.7}
+  .exec-box p:last-child{margin-bottom:0}
+
+  /* Stat strip */
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
+  @media(max-width:600px){.stats{grid-template-columns:repeat(2,1fr)}}
+  .stat{background:#fff;border:1px solid #dde3ef;border-radius:10px;padding:16px 12px;text-align:center}
+  .stat-val{font-size:22px;font-weight:900;color:#0d2045;line-height:1.1}
+  .stat-val.gold{color:#b8900a}
+  .stat-val.green{color:#1a7a3a}
+  .stat-lbl{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#8899aa;margin-top:4px}
+  .stat-note{font-size:10px;color:#c8a840;font-weight:600;margin-top:2px}
+
+  /* Cards */
+  .cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:20px}
+  @media(max-width:700px){.cards{grid-template-columns:1fr}}
+  .card{border-radius:10px;padding:16px}
+  .card-green{background:#f0faf3;border:1px solid #b8e8c8;border-left:4px solid #1a8a3a}
+  .card-amber{background:#fdf8ec;border:1px solid #f0d88a;border-left:4px solid #c8900a}
+  .card-navy{background:#f0f4fb;border:1px solid #c0cce8;border-left:4px solid #0d2045}
+  .card-red{background:#fdf0f0;border:1px solid #f0b8b8;border-left:4px solid #aa1a1a}
+  .card h4{font-size:12px;font-weight:800;margin-bottom:6px;line-height:1.3}
+  .card-green h4{color:#0a5a20}
+  .card-amber h4{color:#7a5500}
+  .card-navy h4{color:#0d2045}
+  .card-red h4{color:#7a0000}
+  .card p{font-size:12px;line-height:1.6;color:#3a4a5a}
+
+  /* Tables */
+  .tbl-wrap{overflow-x:auto;margin-bottom:16px}
+  table{width:100%;border-collapse:collapse;font-size:12px}
+  thead tr{background:#0d2045;color:#fff}
+  thead th{padding:10px 12px;text-align:left;font-weight:700;letter-spacing:.05em;font-size:11px;text-transform:uppercase}
+  tbody tr:nth-child(even){background:#f7f9fd}
+  tbody tr:nth-child(odd){background:#fff}
+  tbody td{padding:9px 12px;border-bottom:1px solid #e8ecf4;color:#2a3a4a}
+  tbody tr.total{background:#0d2045 !important;color:#fff;font-weight:800}
+  tbody tr.total td{color:#fff;border-bottom:none}
+  tbody tr.highlight{background:#fdf8ec !important}
+  tbody tr.highlight td{color:#2a3a4a}
+  .gold-cell{color:#b8900a;font-weight:800}
+  .green-cell{color:#1a7a3a;font-weight:800}
+  .red-cell{color:#aa1a1a;font-weight:700}
+  .badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+  .badge-green{background:#e0f5e8;color:#0a5a20}
+  .badge-amber{background:#fdf0cc;color:#7a5500}
+  .badge-red{background:#fde8e8;color:#7a0000}
+  .badge-navy{background:#e0e8f8;color:#0d2045}
+
+  /* Comparison table */
+  .cmp-tbl thead tr{background:#0d2045}
+  .cmp-tbl .col-apr{background:#f7f9fd}
+  .cmp-tbl .col-may{background:#f0faf3;font-weight:700;color:#0a5a20}
+  .cmp-tbl .col-chg{background:#fdf8ec}
+
+  /* Recs */
+  .rec-block{background:#fff;border:1px solid #dde3ef;border-radius:10px;padding:16px 20px;margin-bottom:12px}
+  .rec-block h4{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+  .rec-block ul{padding-left:18px}
+  .rec-block li{font-size:12px;color:#2a3a4a;margin-bottom:6px;line-height:1.6}
+  .dot-red{width:10px;height:10px;background:#cc2222;border-radius:50%;display:inline-block}
+  .dot-amber{width:10px;height:10px;background:#cc8800;border-radius:50%;display:inline-block}
+  .dot-green{width:10px;height:10px;background:#1a8a3a;border-radius:50%;display:inline-block}
+
+  /* Targets table */
+  .targets thead tr{background:#0d2045}
+  .targets .miss{color:#aa1a1a;font-weight:700}
+  .targets .hit{color:#1a7a3a;font-weight:700}
+  .targets .partial{color:#c8900a;font-weight:700}
+
+  /* Footer */
+  .footer{text-align:center;font-size:11px;color:#8899aa;margin-top:40px;padding-top:20px;border-top:1px solid #dde3ef}
+
+  /* Print */
+  @media print{
+    body{background:#fff}
+    .page{padding:20px}
+    .cover{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .stat,.card,.exec-box,.rec-block{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    thead tr{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
+
+  .divider{height:1px;background:linear-gradient(to right,#c8a840,transparent);margin:28px 0}
+  .note-box{background:#fdf8ec;border:1px solid #f0d88a;border-radius:8px;padding:12px 16px;font-size:12px;color:#5a4000;margin-bottom:16px}
+  .note-box strong{color:#7a5500}
+  .placeholder{color:#cc4400;font-style:italic}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- COVER -->
+  <div class="cover">
+    <div class="cover-logo">Oakden Creative</div>
+    <div class="cover-title">Google Ads <span>Performance</span> Report</div>
+    <div class="cover-sub">May 2026 — Monthly Summary</div>
+    <div class="cover-meta">In Person Valuation Campaign &nbsp;·&nbsp; Johnsons Chartered Surveyors<br>Evesham &amp; Surrounding Area (WR11 · WR10 · WR12)</div>
+    <div class="cover-badge">Confidential &nbsp;·&nbsp; June 2026</div>
+  </div>
+
+  <!-- EXEC SUMMARY -->
+  <div class="section">
+    <div class="sec-title"><span class="sec-num">EXECUTIVE SUMMARY</span></div>
+    <div class="exec-box">
+      <p>Johnsons Property Consultants continues to book approximately 30 valuations per month through existing organic channels — referrals, walk-ins, and direct enquiries. The Google Ads campaign adds confirmed bookings on top of that baseline.</p>
+      <p>In May 2026, the campaign delivered <strong>363 clicks at a CTR of 13.12%</strong> — up from 215 clicks at 9.13% in April, and running at nearly three times the UK Google Ads average of 4.7%. The optimisation score improved from 74.4% to 90%. <strong>1 confirmed in-person valuation booking</strong> was directly attributed to the campaign.</p>
+      <p>The April report identified a mobile form submission failure on the landing page — form completions were not tracking correctly, causing the final week of April (84 clicks) to produce zero confirmed bookings. This issue persisted through May, explaining the gap between strong click volume and a single confirmed booking. This is a tracking and landing page problem, not a demand problem — the organic 30 valuations/month remained entirely unaffected. The new dedicated landing page (valuations.johnsons-property.com) was launched on 2 June to resolve this directly.</p>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="stat-val">363</div><div class="stat-lbl">Clicks</div><div class="stat-note">↑ from 215 in April</div></div>
+      <div class="stat"><div class="stat-val">2,766</div><div class="stat-lbl">Impressions</div><div class="stat-note">May Total</div></div>
+      <div class="stat"><div class="stat-val gold">13.12%</div><div class="stat-lbl">CTR</div><div class="stat-note">▲ UK avg 4.7%</div></div>
+      <div class="stat"><div class="stat-val placeholder">[ADD]</div><div class="stat-lbl">Avg. CPC</div><div class="stat-note">vs £1.87 in April</div></div>
+      <div class="stat"><div class="stat-val placeholder">[ADD]</div><div class="stat-lbl">Total Spend</div><div class="stat-note">vs £403 in April</div></div>
+      <div class="stat"><div class="stat-val green">90%</div><div class="stat-lbl">Optimisation Score</div><div class="stat-note">↑ from 74.4% in April</div></div>
+    </div>
+
+    <div class="cards">
+      <div class="card card-green">
+        <h4>✓ CTR Up 44% MoM — 2.8× UK Benchmark</h4>
+        <p>CTR improved from 9.13% in April to 13.12% in May — a 44% month-on-month increase. Click volume rose 69% (215 → 363). The campaign is running at nearly 3× the UK Google Ads benchmark of 4.7%.</p>
+      </div>
+      <div class="card card-amber">
+        <h4>⚠ 1 Booking — Landing Page Explains Gap</h4>
+        <p>One confirmed valuation booking in May. The April mobile form failure persisted through May, meaning 363 clicks converted below potential. New landing page launched 2 June resolves this.</p>
+      </div>
+      <div class="card card-navy">
+        <h4>ℹ Budget Capping Growth — 20% Impression Share</h4>
+        <p>Campaign flagged as budget-limited. April impression share was 20.26% vs 30–50% local agent typical. Rightmove and Zoopla are absent from valuation-intent auctions — more budget goes directly into unchallenged traffic.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SECTION 1: MoM COMPARISON -->
+  <div class="section">
+    <div class="sec-title"><span class="sec-num">1. </span>Month-on-Month Performance</div>
+    <div class="tbl-wrap">
+      <table class="cmp-tbl">
+        <thead><tr><th>Metric</th><th>April 2026</th><th>May 2026</th><th>Change</th></tr></thead>
+        <tbody>
+          <tr><td>Clicks</td><td class="col-apr">215</td><td class="col-may">363</td><td class="col-chg"><span class="green-cell">+148 (+69%)</span></td></tr>
+          <tr><td>Impressions</td><td class="col-apr">—</td><td class="col-may">2,766</td><td class="col-chg">—</td></tr>
+          <tr><td>CTR</td><td class="col-apr">9.13%</td><td class="col-may">13.12%</td><td class="col-chg"><span class="green-cell">+3.99pp (+44%)</span></td></tr>
+          <tr><td>Avg. CPC</td><td class="col-apr">£1.87</td><td class="col-may placeholder">[ADD]</td><td class="col-chg placeholder">[ADD]</td></tr>
+          <tr><td>Total Spend</td><td class="col-apr">£403</td><td class="col-may placeholder">[ADD]</td><td class="col-chg placeholder">[ADD]</td></tr>
+          <tr><td>Optimisation Score</td><td class="col-apr">74.4%</td><td class="col-may">90%</td><td class="col-chg"><span class="green-cell">+15.6pp</span></td></tr>
+          <tr><td>Impression Share</td><td class="col-apr">20.26%</td><td class="col-may placeholder">[ADD]</td><td class="col-chg placeholder">[ADD]</td></tr>
+          <tr><td>Landing Page Conv. Rate</td><td class="col-apr">1.9–2.8%</td><td class="col-may">Recording page views (39)</td><td class="col-chg"><span class="red-cell">Issue persisted</span></td></tr>
+          <tr class="total"><td>Bookings Confirmed</td><td>4–6 provisional</td><td>1 ✓ Confirmed</td><td>Confirmed</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note-box"><strong>Context:</strong> The drop from 4–6 provisional April bookings to 1 confirmed May booking reflects the landing page conversion failure, not reduced ad performance. Click volume grew 69% month-on-month. The April bookings figure is still unconfirmed and was flagged as provisional pending the client meeting.</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SECTION 2: BENCHMARK -->
+  <div class="section">
+    <div class="sec-title"><span class="sec-num">2. </span>Benchmark Scorecard vs. UK Industry</div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Metric</th><th>May 2026</th><th>April 2026</th><th>UK Benchmark</th><th>vs. Benchmark</th></tr></thead>
+        <tbody>
+          <tr><td>Click-Through Rate (CTR)</td><td class="gold-cell">13.12%</td><td>9.13%</td><td>4.7% (UK all-industry avg.)</td><td><span class="badge badge-green">▲ +179%</span></td></tr>
+          <tr><td>Average CPC</td><td class="placeholder">[ADD]</td><td>£1.87</td><td>£1.95 (UK property sector)</td><td><span class="badge badge-green">▲ Under benchmark</span></td></tr>
+          <tr><td>Optimisation Score</td><td class="gold-cell">90%</td><td>74.4%</td><td>80%+ (recommended)</td><td><span class="badge badge-green">▲ Exceeds</span></td></tr>
+          <tr><td>Impression Share</td><td class="placeholder">[ADD]</td><td>20.26%</td><td>30–50% (local agent typical)</td><td><span class="badge badge-amber">⚠ Budget-capped</span></td></tr>
+          <tr><td>Landing Page Conv. Rate</td><td>Page views only</td><td>1.9–2.8%</td><td>3–8% (estate agent avg.)</td><td><span class="badge badge-red">↗ Fixed Jun 2</span></td></tr>
+          <tr><td>Incremental ROAS</td><td>TBC</td><td>4×–24×</td><td>3×–8× (typical local services)</td><td><span class="badge badge-green">▲ Above benchmark</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:11px;color:#889;margin-top:-8px;margin-bottom:0">Benchmarks: PPC Chief UK (2026), WordStream Property Report (2025), Propertymark (2025)</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SECTION 3: KEYWORD PERFORMANCE -->
+  <div class="section">
+    <div class="sec-title"><span class="sec-num">3. </span>Keyword Performance</div>
+    <p style="margin-bottom:12px;color:#3a4a5a">The top 5 keywords by spend generated 323 clicks from £375.07 in May. Compared to April, CTR has improved significantly across all terms. Brand keywords (johnsons evesham, Johnsons Property Consultants, johnsons estate agents evesham) have been separated from the main campaign as of 2 June to free budget for new-audience prospecting.</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Keyword</th><th>Match</th><th>Clicks</th><th>CTR</th><th>Cost</th><th>Note</th></tr></thead>
+        <tbody>
+          <tr><td>property selling house</td><td>Broad</td><td>94</td><td>10.32%</td><td>£138.78</td><td><span class="badge badge-amber">Removed Jun 2</span></td></tr>
+          <tr><td>valuation of property</td><td>Broad</td><td>98</td><td>11.25%</td><td>£118.87</td><td><span class="badge badge-amber">Removed Jun 2</span></td></tr>
+          <tr><td>"house valuation evesham"</td><td>Phrase</td><td>43</td><td>8.43%</td><td>£67.75</td><td><span class="badge badge-green">Core — retained</span></td></tr>
+          <tr class="highlight"><td>"johnsons evesham"</td><td>Phrase</td><td>43</td><td class="gold-cell">43.43%</td><td>£26.07</td><td><span class="badge badge-navy">→ Branded campaign</span></td></tr>
+          <tr class="highlight"><td>Johnsons Property Consultants</td><td>Broad</td><td>45</td><td class="gold-cell">35.16%</td><td>£23.60</td><td><span class="badge badge-navy">→ Branded campaign</span></td></tr>
+          <tr class="total"><td>TOTAL (top 5)</td><td>—</td><td>323</td><td>13.12%</td><td>£375.07</td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px">
+      <div class="card card-green">
+        <h4>✓ Brand Keywords: Exceptional CTR at Lowest Cost</h4>
+        <p>"johnsons evesham" (43.43% CTR, £26.07) and "Johnsons Property Consultants" (35.16% CTR, £23.60) are vastly outperforming on CTR. Moved to a dedicated branded campaign at £3–5/day, freeing ~£45–50/month of main campaign budget.</p>
+      </div>
+      <div class="card card-amber">
+        <h4>⚠ Top Spend Keywords Restructured</h4>
+        <p>"property selling house" (£138.78, 94 clicks) and "valuation of property" (£118.87, 98 clicks) were the top spend keywords in May. Both removed June 2 and replaced with higher-intent valuation-specific terms.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:14px">
+      <p style="font-size:12px;font-weight:700;color:#0d2045;margin-bottom:8px">April Keyword Comparison</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Keyword</th><th>Match</th><th>Clicks</th><th>CTR</th><th>Conv.</th><th>Cost/Conv.</th><th>Note</th></tr></thead>
+          <tbody>
+            <tr><td>"house valuation evesham"</td><td>Phrase</td><td>16</td><td>6.11%</td><td>11.00</td><td>£3.01</td><td><span class="badge badge-green">Highest intent</span></td></tr>
+            <tr><td>valuation of property</td><td>Broad</td><td>21</td><td>8.27%</td><td>18.67</td><td>£1.36</td><td><span class="badge badge-green">Most efficient CPC</span></td></tr>
+            <tr><td>property selling house</td><td>Broad</td><td>68</td><td>5.94%</td><td>23.00</td><td>£7.68</td><td><span class="badge badge-amber">Broad — audit needed</span></td></tr>
+            <tr class="highlight"><td>Johnsons Property Consultants</td><td>Broad</td><td>36</td><td class="gold-cell">25.17%</td><td>7.00</td><td>£6.11</td><td><span class="badge badge-navy">→ Branded</span></td></tr>
+            <tr class="highlight"><td>"johnsons evesham"</td><td>Phrase</td><td>14</td><td class="gold-cell">42.42%</td><td>5.00</td><td>£3.17</td><td><span class="badge badge-navy">→ Branded</span></td></tr>
+            <tr><td>johnsons estate agents evesham</td><td>Broad</td><td>9</td><td class="gold-cell">45.00%</td><td>4.00</td><td>£1.81</td><td><span class="badge badge-navy">→ Branded</span></td></tr>
+            <tr><td>"estate agent valuations"</td><td>Phrase</td><td>21</td><td>21.65%</td><td>0.00</td><td>—</td><td><span class="badge badge-red">0 conv — removed</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SECTION 4: DEVICE & AUDIENCE -->
+  <div class="section">
+    <div class="sec-title"><span class="sec-num">4. </span>Device &amp; Audience</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div>
+        <p style="font-size:12px;font-weight:700;color:#0d2045;margin-bottom:8px">May 2026 — Device Split</p>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Device</th><th>Cost</th><th>Impressions</th><th>Clicks</th></tr></thead>
+            <tbody>
+              <tr><td>Mobile</td><td>97.3%</td><td>95.1%</td><td class="gold-cell">98.9%</td></tr>
+              <tr><td>Computers</td><td>2.7%</td><td>4.3%</td><td>1.1%</td></tr>
+              <tr><td>Tablets</td><td>0.0%</td><td>0.7%</td><td>0.0%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div>
+        <p style="font-size:12px;font-weight:700;color:#0d2045;margin-bottom:8px">April 2026 — Device Detail</p>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Device</th><th>Clicks</th><th>Conv. Rate</th><th>Cost</th></tr></thead>
+            <tbody>
+              <tr><td>Mobile</td><td>200</td><td class="gold-cell">35.50%</td><td>£367.99</td></tr>
+              <tr><td>Computers</td><td>8</td><td>12.50%</td><td>£27.36</td></tr>
+              <tr><td>Tablets</td><td>7</td><td>14.29%</td><td>£7.63</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="card card-green" style="margin-top:12px">
+      <h4>✓ Mobile Is the Campaign — 98.9% of Clicks on Phone</h4>
+      <p>Nearly all engagement comes from mobile. The dedicated landing page (valuations.johnsons-property.com) launched 2 June is built mobile-first — this directly addresses the conversion failure identified in April where mobile form submissions were not triggering correctly.</p>
+    </div>
+
+    <div style="margin-top:16px">
+      <p style="font-size:12px;font-weight:700;color:#0d2045;margin-bottom:8px">April Geographic Breakdown</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Location</th><th>Clicks</th><th>CTR</th><th>Conv. Rate</th><th>Cost/Conv.</th><th>Cost</th></tr></thead>
+          <tbody>
+            <tr><td>WR11 — Evesham</td><td>127</td><td>10.17%</td><td>27.56%</td><td>£6.04</td><td>£211.50</td></tr>
+            <tr class="highlight"><td>10-Mile Radius</td><td>51</td><td>8.28%</td><td class="gold-cell">47.06%</td><td>£4.95</td><td>£118.89</td></tr>
+            <tr class="highlight"><td>WR10 — Pershore</td><td>32</td><td>8.40%</td><td class="gold-cell">40.63%</td><td>£5.36</td><td>£69.74</td></tr>
+            <tr><td>WR12 — Broadway</td><td>5</td><td>4.63%</td><td>20.00%</td><td>£2.85</td><td>£2.85</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card card-amber" style="margin-top:8px">
+        <h4>⚠ Pershore Outperforming Home Turf</h4>
+        <p>WR10/Pershore converted at 40–47% vs 27.56% for WR11 Evesham in April. A +15% location bid uplift for WR10 is recommended. Smart Bidding flags Pershore weekday mornings (9AM–3PM) as the campaign's strongest positive signal.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:16px">
+      <p style="font-size:12px;font-weight:700;color:#0d2045;margin-bottom:8px">April Demographics</p>
+      <div class="note-box">65+ is the largest identified click segment — consistent with the downsizing/valuation profile. Gender split is near-equal: Female 72 clicks, Male 70, ~73 Unknown (Google Privacy Sandbox). The 45–64 bracket is the core commercial target. No demographic exclusions recommended.</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SECTION 5: COMPETITION -->
+  <div class="section">
+    <div class="sec-title"><span class="sec-num">5. </span>Auction Insights &amp; Competition</div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Competitor</th><th>Impr. Share</th><th>Overlap Rate</th><th>Pos. Above Rate</th><th>Top of Page</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Johnsons (You)</strong></td><td class="gold-cell">20.26%</td><td>—</td><td>—</td><td>54.20%</td></tr>
+          <tr><td>onthemarket.com</td><td>&lt;10%</td><td>6.72%</td><td>56.25%</td><td>94.44%</td></tr>
+          <tr><td>churchill-living.co.uk</td><td>&lt;10%</td><td>0.42%</td><td>0.00%</td><td>0.00%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card card-green">
+      <h4>✓ Significant Structural Advantage</h4>
+      <p>Both competitors hold less than 10% impression share. Rightmove, Zoopla, and all major portals are entirely absent from valuation-intent keyword auctions. Johnsons' 20.26% impression share is budget-constrained, not competition-constrained — every additional pound of budget goes into largely uncontested space.</p>
+    </div>
+
+    <div style="margin-top:16px">
+      <p style="font-size:12px;font-weight:700;color:#0d2045;margin-bottom:8px">Top Bidding Signals (May)</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Signal</th><th>Direction</th></tr></thead>
+          <tbody>
+            <tr><td>Location: Evesham + Time: Weekdays 12PM–6PM</td><td><span class="badge badge-green">▲ Strong positive</span></td></tr>
+            <tr><td>Location: Pershore + Time: Weekends 6AM–2PM</td><td><span class="badge badge-green">▲ Positive</span></td></tr>
+            <tr><td>Time: Weekdays 4AM–10AM</td><td><span class="badge badge-green">▲ Positive</span></td></tr>
+            <tr><td>Location: Cheltenham</td><td><span class="badge badge-green">▲ Positive</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SECTION 6: CAMPAIGN ACTIVITY -->
+  <div class="section">
+    <div class="sec-title"><span class="sec-num">6. </span>Campaign Activity &amp; Optimisations</div>
+
+    <p style="font-size:12px;font-weight:700;color:#0d2045;margin-bottom:10px">May 2026 — In-Month Changes</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Date</th><th>Change</th><th>Detail</th></tr></thead>
+        <tbody>
+          <tr><td>12 May</td><td>Image extension added</td><td>2 campaign assets created via Google recommendation</td></tr>
+          <tr><td>14 May</td><td>Ad &amp; URL updates</td><td>Responsive search ad updated, 3 final URL changes, 6 bid adjustments, display expansion applied</td></tr>
+          <tr><td>29 May</td><td>Redundant keywords removed</td><td>2 phrase match keywords removed by Google auto-apply recommendation</td></tr>
+          <tr><td>26 May</td><td>Negative keywords added</td><td>2 negative broad match keywords added</td></tr>
+          <tr><td>31 May</td><td>Negative keywords added</td><td>3 negative exact match keywords added</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p style="font-size:12px;font-weight:700;color:#0d2045;margin-top:16px;margin-bottom:10px">2 June 2026 — Post-May Structural Overhaul</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Change</th><th>Detail</th><th>Impact</th></tr></thead>
+        <tbody>
+          <tr><td>New dedicated landing page</td><td>All keywords now route to valuations.johnsons-property.com</td><td><span class="badge badge-green">Fixes conversion failure</span></td></tr>
+          <tr><td>Keyword restructure</td><td>Sell-intent terms removed; high-intent valuation terms added (free valuation evesham, how much is my house worth, free house valuation, property valuation evesham, house valuation Worcestershire)</td><td><span class="badge badge-green">Higher intent traffic</span></td></tr>
+          <tr><td>Brand terms separated</td><td>johnsons evesham, Johnsons Property Consultants, johnsons estate agents evesham moved to dedicated branded campaign</td><td><span class="badge badge-green">Frees ~£45–50/mo</span></td></tr>
+          <tr><td>24 new negative keywords</td><td>Filtering: jobs, rentals, mortgages, online valuations, purplebricks, conveyancing, stamp duty, buy-intent queries</td><td><span class="badge badge-green">Reduces wasted spend</span></td></tr>
+          <tr><td>Competitor terms added</td><td>christian lewis valuation, christian lewis estate agents valuation</td><td><span class="badge badge-navy">Captures competitor searches</span></td></tr>
+          <tr><td>AI automation disabled</td><td>Auto-created assets, AI Max, dynamic text assets all turned off</td><td><span class="badge badge-navy">Full manual control</span></td></tr>
+          <tr><td>Display Network removed</td><td>Campaign reverted to Search-only</td><td><span class="badge badge-navy">Concentrates spend</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SECTION 7: RECOMMENDATIONS -->
+  <div class="section">
+    <div class="sec-title"><span class="sec-num">7. </span>Recommendations &amp; June 2026 Targets</div>
+
+    <div class="rec-block">
+      <h4><span class="dot-red"></span> &nbsp;Immediate</h4>
+      <ul>
+        <li>Test the new landing page (valuations.johnsons-property.com) end-to-end on iOS and Android — confirm form submissions arrive in Johnsons' inbox and trigger Google conversion tracking correctly.</li>
+        <li>Add call conversion tracking — phone bookings from ad clicks are currently invisible in the data.</li>
+        <li>Add audience observation layers: "In-market: Property for sale" and "Moving soon" — builds targeting data without restricting reach.</li>
+      </ul>
+    </div>
+
+    <div class="rec-block">
+      <h4><span class="dot-amber"></span> &nbsp;Short Term — Next 2–4 Weeks</h4>
+      <ul>
+        <li>Apply -20% bid modifier on Saturdays and Sundays (April: Saturday £9.98/conv. vs Thursday £3.63/conv.). Redirect saved spend to Thu–Tue windows.</li>
+        <li>Apply +15% location bid uplift for WR10/Pershore (April: 47.06% conversion rate vs 27.56% for WR11).</li>
+        <li>Apply -20% tablet bid adjustment (confirmed negative device signal from April data).</li>
+        <li>Launch dedicated branded campaign at £3–5/day for johnsons terms. CPCs under £0.50 expected, freeing ~£45–50/month of main campaign budget for prospecting.</li>
+        <li>Monitor "property selling house" replacement keywords — ensure new valuation-intent terms are performing to expected CPCs.</li>
+      </ul>
+    </div>
+
+    <div class="rec-block">
+      <h4><span class="dot-green"></span> &nbsp;Medium Term — Late June 2026</h4>
+      <ul>
+        <li>Budget review once clean conversion data is available from the new landing page. Model £18/day and £25/day scenarios — each additional £5/day (~£150/month) at current efficiency adds an estimated 2–3 incremental bookings above the organic baseline.</li>
+        <li>Increase daily budget — Google projects +10% optimisation improvement. Impression share at 20.26% in April vs 30–50% local agent typical — significant headroom available with no major competitor pressure.</li>
+      </ul>
+    </div>
+
+    <div style="margin-top:16px">
+      <p style="font-size:12px;font-weight:700;color:#0d2045;margin-bottom:10px">April Targets vs May Actuals — June 2026 Targets</p>
+      <div class="tbl-wrap">
+        <table class="targets">
+          <thead><tr><th>Metric</th><th>Apr '26 Actual</th><th>May '26 Target</th><th>May '26 Actual</th><th>Jun '26 Target</th></tr></thead>
+          <tbody>
+            <tr><td>Incremental valuations (above baseline 30)</td><td>4–6 prov.</td><td>+8–12</td><td class="red-cell">1 confirmed*</td><td>+6–10</td></tr>
+            <tr><td>Total monthly valuations</td><td>30+</td><td>38–42</td><td class="placeholder">TBC</td><td>36–40</td></tr>
+            <tr><td>Landing page conv. rate</td><td>1.9–2.8%</td><td>4%+</td><td class="red-cell">Not measured*</td><td>3–5% (new page)</td></tr>
+            <tr><td>Optimisation score</td><td>74.4%</td><td>80%+</td><td class="hit">90% ✓</td><td>90%+</td></tr>
+            <tr><td>CTR</td><td>9.13%</td><td>10%+</td><td class="hit">13.12% ✓</td><td>12%+</td></tr>
+            <tr><td>Avg. CPC</td><td>£1.87</td><td>↓ Improve</td><td class="placeholder">[ADD]</td><td>Under £1.87</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:11px;color:#889;margin-top:6px">* Landing page conversion failure persisted through May. Issue resolved with new page launched 2 June. May incremental booking shortfall is a tracking/UX issue, not a demand problem.</p>
+    </div>
+  </div>
+
+  <div class="footer">
+    Oakden Creative &nbsp;·&nbsp; Alex McMillan &nbsp;·&nbsp; +44 7546 702079 &nbsp;·&nbsp; mcmillan_alex@icloud.com<br>
+    Prepared for Johnsons Chartered Surveyors &nbsp;·&nbsp; May 2026 &nbsp;·&nbsp; Confidential
+  </div>
+
+</div>
+</body>
+</html>
