@@ -414,6 +414,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',sa
         <button class="doc-type-btn" onclick="openDocTpl('project')">🗂 By Project</button>
         <button class="doc-type-btn" onclick="openDocTpl('welcome')">👋 Welcome</button>
         <button class="doc-type-btn" onclick="openDocTpl('agreement')">✍ Agreement</button>
+        <button class="doc-type-btn" onclick="openDocTpl('infopack')">📨 Info Packet</button>
         <button class="doc-type-btn" onclick="openDocTpl('other')">📁 Other</button>
       </div>
     </div>
@@ -1163,6 +1164,24 @@ Grant access to social media accounts</textarea>`,
 <textarea class="f-area" id="dt-pjnotes" rows="2" placeholder="Any additional notes or agreements…"></textarea>`;
     }
   },
+  infopack:{
+    title:'Information Packet',
+    fields:()=>`
+<label class="f-lbl">Date of Call / Meeting</label>
+<input type="date" class="f" id="dt-ipdate" value="${new Date().toISOString().slice(0,10)}"/>
+<label class="f-lbl">Personal Intro (optional override)</label>
+<textarea class="f-area" id="dt-ipintro" rows="3" placeholder="Leave blank to use default intro…"></textarea>
+<label class="f-lbl">Recommended Campaigns</label>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:6px;margin-bottom:12px">
+  <label style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--text)"><input type="checkbox" id="dt-ip-meta" checked> Meta Ads</label>
+  <label style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--text)"><input type="checkbox" id="dt-ip-google" checked> Google Ads</label>
+  <label style="display:flex;align-items:center;gap=6px;font-size:12px;font-weight:600;color:var(--text)"><input type="checkbox" id="dt-ip-lp"> Landing Page</label>
+</div>
+<label class="f-lbl">Proposed Investment</label>
+<input type="text" class="f" id="dt-ipbudget" placeholder="e.g. £800/month ad spend + £350/month management"/>
+<label class="f-lbl">Additional Notes / Next Steps</label>
+<textarea class="f-area" id="dt-ipnotes" rows="3" placeholder="e.g. Follow-up call booked for 10 Jun. Sending contracts next week."></textarea>`
+  },
   other:{
     title:'New Document',
     fields:()=>`
@@ -1448,6 +1467,68 @@ function previewDoc(){
         <div><div class="tpl-sig-line">${esc(clientName)} · Date</div></div>
         <div><div class="tpl-sig-line">${esc(bn)} · Date</div></div>
       </div>
+    </div>`;
+  } else if(docType==='infopack'){
+    const ipdate=document.getElementById('dt-ipdate').value;
+    const ipintro=document.getElementById('dt-ipintro').value.trim();
+    const ipmeta=document.getElementById('dt-ip-meta').checked;
+    const ipgoogle=document.getElementById('dt-ip-google').checked;
+    const iplp=document.getElementById('dt-ip-lp').checked;
+    const ipbudget=document.getElementById('dt-ipbudget').value.trim();
+    const ipnotes=document.getElementById('dt-ipnotes').value.trim();
+    const fmtDate=d=>{if(!d)return'';const[y,m,da]=d.split('-');return`${da}/${m}/${y}`};
+    const recCampaigns=[ipmeta&&'Meta Ads',ipgoogle&&'Google Ads',iplp&&'Landing Page'].filter(Boolean);
+    docTitle=`Information Packet — ${clientName}`;
+    docStatus='sent';
+    html=`<div class="tpl">
+      <div class="rpt-banner" style="margin-bottom:28px">
+        <div class="rpt-title">${esc(bn)}</div>
+        <div class="rpt-date">Information Packet · Pre-Sales Call</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.7);margin-top:4px">Prepared for ${esc(clientName)} · ${fmtDate(ipdate)}</div>
+      </div>
+
+      <div class="tpl-section-title" style="margin-top:0">1. A Little Bit About Me</div>
+      <div class="tpl-para">${ipintro?esc(ipintro).replace(/\n/g,'<br>'):`My name is Alex McMillan. I am a digital marketing consultant working with small to medium-sized businesses, helping them grow their online presence and generate leads through targeted ad campaigns on social media and Google.<br><br>I am a determined entrepreneur with a relentless work ethic, currently building my agency with the ambition of delivering real, measurable results for every client I work with.`}</div>
+
+      <div class="tpl-section-title">2. What I Do</div>
+      <div class="tpl-para">I specialise in building and managing marketing funnels that convert attention into results — using Meta (Instagram &amp; Facebook) and Google Search ad campaigns to drive qualified leads to your business.<br><br>Everything I do is designed to move potential customers through a structured journey, from first seeing your brand to making an enquiry or booking.</div>
+
+      <div class="tpl-section-title">3. What is a Marketing Funnel?</div>
+      <div class="tpl-para">A marketing funnel maps the customer journey from first discovering your brand to becoming a paying customer. There are four key stages:</div>
+      <div style="margin:16px 0 20px">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:3px">
+          <div style="background:#0d4a3a;color:#7fdfb8;font-weight:800;font-size:11px;letter-spacing:.1em;padding:10px 0;width:100%;text-align:center;border-radius:6px 6px 0 0">AWARENESS</div>
+          <div style="background:#0d3a4a;color:#7fd4df;font-weight:800;font-size:11px;letter-spacing:.1em;padding:10px 0;width:88%;text-align:center">INTEREST</div>
+          <div style="background:#1a2a4a;color:#a0b8e8;font-weight:800;font-size:11px;letter-spacing:.1em;padding:10px 0;width:72%;text-align:center">DECISION</div>
+          <div style="background:#c8a840;color:#0a1428;font-weight:900;font-size:11px;letter-spacing:.1em;padding:10px 0;width:52%;text-align:center;border-radius:0 0 6px 6px">ACTION</div>
+        </div>
+      </div>
+      <ol class="tpl-list" style="list-style:decimal;padding-left:18px">
+        <li><strong>Awareness</strong> — An advert on Meta or Google directs a potential customer's attention to your business.</li>
+        <li><strong>Interest</strong> — They click through to your landing page or website and engage with your content or offer.</li>
+        <li><strong>Decision</strong> — Compelling copywriting on the page helps them decide whether to enquire or buy. This is where the real selling happens.</li>
+        <li><strong>Action</strong> — They convert: make an enquiry, book a call, or complete a purchase.</li>
+      </ol>
+      <div class="tpl-para" style="margin-top:12px">My role is to guide prospects through every stage of this funnel — using psychologically engaging copywriting, well-designed landing pages, and targeted advertising to maximise your conversion rate.</div>
+
+      <div class="tpl-section-title">4. Campaign Options</div>
+      <div class="tpl-para" style="margin-bottom:12px">Below is an overview of the platforms I work with and what each one is best suited for:</div>
+      <table class="rpt-tbl" style="margin-bottom:16px">
+        <thead><tr><th>Platform</th><th>Purpose</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr${ipmeta?' style="background:rgba(200,168,64,0.08)"':''}><td><strong>Meta Ads</strong>${ipmeta?' ✓':''}</td><td>Awareness + Retargeting</td><td>Targets your ideal customer by interest, location &amp; demographics — great for top-of-funnel reach and re-engaging warm audiences.</td></tr>
+          <tr${ipgoogle?' style="background:rgba(200,168,64,0.08)"':''}><td><strong>Google Ads</strong>${ipgoogle?' ✓':''}</td><td>High-Intent Search Leads</td><td>Shows up when someone searches for your service directly — these are people already looking for what you offer.</td></tr>
+          <tr${iplp?' style="background:rgba(200,168,64,0.08)"':''}><td><strong>Landing Page</strong>${iplp?' ✓':''}</td><td>Boosts Conversions</td><td>A simple, mobile-first page built for lead capture — increases the chance of turning ad clicks into real enquiries.</td></tr>
+        </tbody>
+      </table>
+      ${recCampaigns.length?`<div class="rpt-card-green" style="background:#0f2e18;color:#c8f0d0;border-radius:8px;padding:12px 14px;margin-bottom:16px;font-size:12px"><strong>Recommended for ${esc(clientName)}:</strong> ${recCampaigns.join(' + ')}${ipbudget?` · <strong>${esc(ipbudget)}</strong>`:''}</div>`:''}
+
+      ${ipnotes?`<div class="tpl-section-title">5. Next Steps</div><div class="tpl-para">${esc(ipnotes).replace(/\n/g,'<br>')}</div>`:''}
+
+      <div class="tpl-section-title">${ipnotes?'6.':'5.'} Contact</div>
+      <div class="tpl-para"><strong>Alex McMillan</strong><br>+44 7546 702079<br>mcmillan_alex@icloud.com</div>
+
+      <div class="tpl-footer">${esc(bn)} · Digital Marketing · mcmillan_alex@icloud.com · +44 7546 702079</div>
     </div>`;
   } else {
     const otitle=document.getElementById('dt-otitle').value||'Document';
