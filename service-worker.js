@@ -1,4 +1,4 @@
-const VERSION = '2026-05-25-a';
+const VERSION = '2026-06-15-a';
 const CACHE = 'daily-agent-' + VERSION;
 const ASSETS = [
   '/daily-agent/',
