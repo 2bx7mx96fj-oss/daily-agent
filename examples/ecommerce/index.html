@@ -1,469 +1,1755 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Nova Home Co. — Modern Living</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500;600&display=swap');
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nova Home Co. — Modern Home Goods & Lifestyle</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap');
 
-  :root {
-    --cream: #faf7f2;
-    --warm: #f0ebe1;
-    --sage: #7a9e7e;
-    --sage-dark: #5a7e5e;
-    --terra: #c4714a;
-    --terra-dark: #a55a36;
-    --charcoal: #2d2d2d;
-    --mid: #6b6b6b;
-    --light: #aeaeae;
-    --white: #ffffff;
-    --shadow: 0 4px 24px rgba(0,0,0,0.07);
-    --radius: 12px;
-  }
+    /* ── Custom Properties ─────────────────────────────────────── */
+    :root {
+      --cream:       #faf7f2;
+      --cream-dark:  #f2ece0;
+      --sage:        #8aab8a;
+      --sage-light:  #b8cfb8;
+      --sage-dark:   #5d876a;
+      --terra:       #c4714a;
+      --terra-light: #e09070;
+      --terra-dark:  #a05535;
+      --charcoal:    #2c2c2c;
+      --mid:         #6b6b6b;
+      --light:       #b0a898;
+      --white:       #ffffff;
+      --shadow-sm:   0 2px 8px rgba(44,44,44,.08);
+      --shadow-md:   0 6px 24px rgba(44,44,44,.12);
+      --shadow-lg:   0 16px 48px rgba(44,44,44,.16);
+      --radius-sm:   8px;
+      --radius-md:   14px;
+      --radius-lg:   24px;
+      --transition:  0.28s cubic-bezier(0.4, 0, 0.2, 1);
+      --font-serif:  'Playfair Display', Georgia, serif;
+      --font-sans:   'Inter', system-ui, sans-serif;
+    }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+    /* ── Reset & Base ──────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-sans);
+      background: var(--cream);
+      color: var(--charcoal);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    img, svg { display: block; max-width: 100%; }
+    a { text-decoration: none; color: inherit; }
+    button { cursor: pointer; font-family: var(--font-sans); border: none; background: none; }
+    ul { list-style: none; }
 
-  body {
-    font-family: 'Inter', sans-serif;
-    background: var(--cream);
-    color: var(--charcoal);
-    line-height: 1.6;
-  }
+    /* ── Utility ───────────────────────────────────────────────── */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--terra);
+      margin-bottom: 10px;
+    }
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      font-weight: 500;
+      color: var(--charcoal);
+      line-height: 1.25;
+      margin-bottom: 16px;
+    }
+    .section-sub {
+      font-size: 1rem;
+      color: var(--mid);
+      max-width: 520px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 30px;
+      border-radius: 50px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      transition: var(--transition);
+      border: 2px solid transparent;
+    }
+    .btn-primary {
+      background: var(--charcoal);
+      color: var(--white);
+      border-color: var(--charcoal);
+    }
+    .btn-primary:hover {
+      background: var(--terra-dark);
+      border-color: var(--terra-dark);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+    .btn-secondary {
+      background: transparent;
+      color: var(--charcoal);
+      border-color: var(--charcoal);
+    }
+    .btn-secondary:hover {
+      background: var(--charcoal);
+      color: var(--white);
+      transform: translateY(-2px);
+    }
+    .btn-terra {
+      background: var(--terra);
+      color: var(--white);
+      border-color: var(--terra);
+    }
+    .btn-terra:hover {
+      background: var(--terra-dark);
+      border-color: var(--terra-dark);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
 
-  /* ── NAV ── */
-  nav {
-    position: sticky; top: 0; z-index: 100;
-    background: rgba(250,247,242,0.95);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(0,0,0,0.06);
-    padding: 0 5%;
-    display: flex; align-items: center; justify-content: space-between;
-    height: 68px;
-  }
-  .logo {
-    font-family: 'Playfair Display', serif;
-    font-size: 22px; font-weight: 600;
-    color: var(--charcoal); letter-spacing: 0.5px;
-  }
-  .logo span { color: var(--sage); }
-  .nav-links { display: flex; gap: 32px; list-style: none; }
-  .nav-links a {
-    text-decoration: none; font-size: 14px; font-weight: 500;
-    color: var(--mid); transition: color 0.2s;
-  }
-  .nav-links a:hover { color: var(--charcoal); }
-  .nav-right { display: flex; align-items: center; gap: 20px; }
-  .cart-btn {
-    position: relative; background: none; border: none;
-    cursor: pointer; font-size: 22px; color: var(--charcoal);
-    padding: 4px;
-  }
-  .cart-badge {
-    position: absolute; top: -4px; right: -6px;
-    background: var(--terra); color: #fff;
-    font-size: 10px; font-weight: 700;
-    width: 18px; height: 18px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
-  }
-  .cart-badge.pop { animation: cartPop 0.4s cubic-bezier(0.34,1.56,0.64,1); }
-  @keyframes cartPop { 0%,100%{transform:scale(1)} 50%{transform:scale(1.5)} }
+    /* ── Navigation ────────────────────────────────────────────── */
+    #site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      background: rgba(250, 247, 242, 0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(180, 160, 140, 0.2);
+      transition: box-shadow var(--transition);
+    }
+    #site-nav.scrolled { box-shadow: var(--shadow-sm); }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 68px;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-serif);
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--charcoal);
+      letter-spacing: -0.01em;
+    }
+    .nav-logo-mark {
+      width: 36px;
+      height: 36px;
+      background: var(--charcoal);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+    }
+    .nav-links a {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--mid);
+      position: relative;
+      transition: color var(--transition);
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -3px; left: 0;
+      width: 0; height: 2px;
+      background: var(--terra);
+      border-radius: 2px;
+      transition: width var(--transition);
+    }
+    .nav-links a:hover { color: var(--charcoal); }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-actions { display: flex; align-items: center; gap: 14px; }
+    .cart-btn {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      background: var(--charcoal);
+      color: var(--white);
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+    .cart-btn:hover {
+      background: var(--terra-dark);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-sm);
+    }
+    #cart-count {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 20px;
+      height: 20px;
+      padding: 0 5px;
+      background: var(--terra);
+      color: var(--white);
+      border-radius: 50px;
+      font-size: 0.72rem;
+      font-weight: 700;
+    }
+    #cart-count.pop {
+      animation: cartPop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    @keyframes cartPop {
+      0%   { transform: scale(1); }
+      40%  { transform: scale(1.6); }
+      70%  { transform: scale(0.88); }
+      100% { transform: scale(1); }
+    }
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      padding: 8px;
+    }
+    .hamburger span {
+      display: block;
+      width: 22px; height: 2px;
+      background: var(--charcoal);
+      border-radius: 2px;
+      transition: var(--transition);
+    }
+    #mobile-menu {
+      display: none;
+      flex-direction: column;
+      background: var(--cream);
+      border-top: 1px solid var(--cream-dark);
+      padding: 8px 0 16px;
+    }
+    #mobile-menu a {
+      display: block;
+      padding: 12px 24px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--charcoal);
+      border-bottom: 1px solid rgba(180,160,140,.12);
+    }
+    #mobile-menu a:hover { background: var(--cream-dark); }
+    #mobile-menu.open { display: flex; }
 
-  /* ── HERO ── */
-  .hero {
-    display: grid; grid-template-columns: 1fr 1fr;
-    align-items: center; gap: 60px;
-    padding: 80px 5% 80px;
-    max-width: 1200px; margin: 0 auto;
-  }
-  .hero-text h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(36px, 5vw, 58px);
-    line-height: 1.15; font-weight: 600;
-    margin-bottom: 20px; color: var(--charcoal);
-  }
-  .hero-text h1 em { color: var(--sage); font-style: normal; }
-  .hero-text p {
-    font-size: 17px; color: var(--mid);
-    line-height: 1.7; margin-bottom: 32px; max-width: 400px;
-  }
-  .btn-row { display: flex; gap: 14px; flex-wrap: wrap; }
-  .btn-primary {
-    background: var(--charcoal); color: #fff;
-    padding: 14px 28px; border-radius: 8px;
-    font-size: 14px; font-weight: 600; text-decoration: none;
-    transition: background 0.2s, transform 0.15s;
-    display: inline-block;
-  }
-  .btn-primary:hover { background: var(--sage-dark); transform: translateY(-1px); }
-  .btn-outline {
-    border: 2px solid var(--charcoal); color: var(--charcoal);
-    padding: 13px 28px; border-radius: 8px;
-    font-size: 14px; font-weight: 600; text-decoration: none;
-    transition: all 0.2s; display: inline-block;
-  }
-  .btn-outline:hover { border-color: var(--sage); color: var(--sage); }
+    /* ── Hero ──────────────────────────────────────────────────── */
+    #hero {
+      min-height: calc(100vh - 68px);
+      background: linear-gradient(135deg, var(--cream) 0%, var(--cream-dark) 100%);
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
+    }
+    #hero::before {
+      content: '';
+      position: absolute;
+      top: -120px; right: -120px;
+      width: 520px; height: 520px;
+      background: radial-gradient(circle, rgba(138,171,138,.18) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    #hero::after {
+      content: '';
+      position: absolute;
+      bottom: -80px; left: -60px;
+      width: 360px; height: 360px;
+      background: radial-gradient(circle, rgba(196,113,74,.12) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+      padding: 80px 0 100px;
+      position: relative;
+      z-index: 1;
+      width: 100%;
+    }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: rgba(138,171,138,.15);
+      border: 1px solid rgba(138,171,138,.3);
+      border-radius: 50px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--sage-dark);
+      margin-bottom: 22px;
+    }
+    .hero-title {
+      font-family: var(--font-serif);
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      font-weight: 700;
+      line-height: 1.12;
+      color: var(--charcoal);
+      margin-bottom: 22px;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: var(--terra);
+    }
+    .hero-sub {
+      font-size: 1.05rem;
+      color: var(--mid);
+      max-width: 440px;
+      line-height: 1.7;
+      margin-bottom: 36px;
+    }
+    .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+    .hero-stats {
+      display: flex;
+      gap: 32px;
+      margin-top: 44px;
+      padding-top: 36px;
+      border-top: 1px solid rgba(180,160,140,.25);
+    }
+    .stat-num {
+      font-family: var(--font-serif);
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: var(--charcoal);
+      line-height: 1;
+    }
+    .stat-label { font-size: 0.78rem; color: var(--light); font-weight: 500; margin-top: 4px; }
 
-  .hero-image {
-    position: relative;
-    background: linear-gradient(135deg, #e8ddd0 0%, #d4c5b0 100%);
-    border-radius: 20px; aspect-ratio: 4/5; overflow: hidden;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .hero-image svg { width: 80%; height: 80%; opacity: 0.6; }
-  .hero-pill {
-    position: absolute; bottom: 28px; left: 28px;
-    background: #fff; border-radius: 50px;
-    padding: 10px 18px;
-    display: flex; align-items: center; gap: 10px;
-    box-shadow: var(--shadow);
-  }
-  .hero-pill-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--sage); }
-  .hero-pill span { font-size: 13px; font-weight: 600; }
+    /* Hero room illustration */
+    .hero-visual {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .hero-room-wrap {
+      position: relative;
+      width: 100%;
+      max-width: 480px;
+    }
+    .room-svg-container {
+      width: 100%;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+    }
+    .hero-badge {
+      position: absolute;
+      bottom: -18px;
+      left: -18px;
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+      box-shadow: var(--shadow-md);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 2;
+    }
+    .badge-icon {
+      width: 38px; height: 38px;
+      background: linear-gradient(135deg, var(--sage-light), var(--sage));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .badge-num {
+      font-family: var(--font-serif);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--charcoal);
+      line-height: 1;
+    }
+    .badge-lbl { font-size: 0.7rem; color: var(--mid); }
+    .hero-tag {
+      position: absolute;
+      top: -14px; right: 20px;
+      background: var(--terra);
+      color: var(--white);
+      border-radius: var(--radius-sm);
+      padding: 7px 14px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      z-index: 2;
+      box-shadow: var(--shadow-sm);
+      letter-spacing: 0.04em;
+    }
+    .scroll-indicator {
+      position: absolute;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      color: var(--light);
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      z-index: 1;
+      animation: scrollBob 2.2s ease-in-out infinite;
+    }
+    .scroll-line {
+      width: 1px; height: 36px;
+      background: linear-gradient(180deg, var(--light) 0%, transparent 100%);
+    }
+    @keyframes scrollBob {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50%       { transform: translateX(-50%) translateY(7px); }
+    }
 
-  /* ── BANNER ── */
-  .promo-banner {
-    background: var(--charcoal); color: #fff;
-    text-align: center; padding: 13px;
-    font-size: 14px; font-weight: 500;
-    display: flex; align-items: center; justify-content: center; gap: 16px;
-  }
-  .countdown { font-weight: 700; color: var(--terra); letter-spacing: 2px; font-variant-numeric: tabular-nums; }
+    /* ── Categories ────────────────────────────────────────────── */
+    #categories {
+      padding: 96px 0 80px;
+      background: var(--white);
+    }
+    .categories-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 48px;
+      gap: 20px;
+    }
+    .view-all {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--terra);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+      transition: var(--transition);
+    }
+    .view-all:hover { color: var(--terra-dark); gap: 10px; }
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    .cat-card {
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform var(--transition), box-shadow var(--transition);
+      background: var(--cream);
+    }
+    .cat-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-lg);
+    }
+    .cat-card:hover .cat-icon-ring {
+      transform: scale(1.1);
+      background: rgba(255,255,255,.92);
+    }
+    .cat-illus {
+      width: 100%;
+      aspect-ratio: 3/4;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .cat-illus svg {
+      position: relative; z-index: 1;
+    }
+    .cat-blob-1, .cat-blob-2 {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.18;
+    }
+    .cat-blob-1 { width: 100px; height: 100px; top: -20px; right: -20px; }
+    .cat-blob-2 { width: 70px; height: 70px; bottom: 20px; left: -15px; }
+    .cat-icon-ring {
+      width: 72px; height: 72px;
+      background: rgba(255,255,255,.65);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,.08);
+      position: relative;
+      z-index: 2;
+      transition: var(--transition);
+    }
+    .cat-info { padding: 18px 20px 22px; }
+    .cat-name {
+      font-family: var(--font-serif);
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--charcoal);
+      margin-bottom: 4px;
+    }
+    .cat-count { font-size: 0.8rem; color: var(--light); }
 
-  /* ── SECTIONS ── */
-  section { padding: 70px 5%; max-width: 1200px; margin: 0 auto; }
-  .section-label {
-    font-size: 12px; font-weight: 600; text-transform: uppercase;
-    letter-spacing: 0.15em; color: var(--sage); margin-bottom: 10px;
-  }
-  .section-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(26px, 3.5vw, 38px);
-    font-weight: 600; color: var(--charcoal); margin-bottom: 8px;
-  }
-  .section-sub { font-size: 16px; color: var(--mid); margin-bottom: 48px; max-width: 500px; }
+    /* ── Best Sellers ──────────────────────────────────────────── */
+    #bestsellers {
+      padding: 96px 0;
+      background: var(--cream);
+    }
+    .bs-header {
+      text-align: center;
+      margin-bottom: 52px;
+    }
+    .bs-header .section-sub { margin: 0 auto; }
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+    .product-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: transform var(--transition), box-shadow var(--transition);
+      position: relative;
+    }
+    .product-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-lg);
+    }
+    .prod-badge {
+      position: absolute;
+      top: 14px; left: 14px;
+      padding: 4px 10px;
+      border-radius: 50px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      z-index: 3;
+    }
+    .b-new  { background: var(--sage);     color: var(--white); }
+    .b-sale { background: var(--terra);    color: var(--white); }
+    .b-hot  { background: var(--charcoal); color: var(--white); }
+    .prod-img {
+      width: 100%;
+      aspect-ratio: 1/1;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .prod-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(44,44,44,0);
+      transition: background var(--transition);
+      z-index: 2;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 14px;
+    }
+    .product-card:hover .prod-overlay { background: rgba(44,44,44,.07); }
+    .quickview-btn {
+      background: var(--white);
+      color: var(--charcoal);
+      padding: 8px 18px;
+      border-radius: 50px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: var(--transition);
+      box-shadow: var(--shadow-sm);
+      white-space: nowrap;
+    }
+    .product-card:hover .quickview-btn {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .prod-body { padding: 20px; }
+    .prod-name {
+      font-family: var(--font-serif);
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--charcoal);
+      margin-bottom: 7px;
+      line-height: 1.3;
+    }
+    .prod-rating {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 13px;
+    }
+    .stars { display: flex; gap: 2px; }
+    .s-full { color: #f0a500; font-size: 0.82rem; }
+    .s-half { color: #f0a500; font-size: 0.82rem; }
+    .s-empty { color: #d8cfc0; font-size: 0.82rem; }
+    .r-count { font-size: 0.75rem; color: var(--light); }
+    .prod-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .prod-price { font-size: 1.05rem; font-weight: 700; color: var(--charcoal); }
+    .prod-old { font-size: 0.82rem; color: var(--light); text-decoration: line-through; margin-left: 5px; }
+    .atc-btn {
+      padding: 10px 18px;
+      background: var(--charcoal);
+      color: var(--white);
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+    .atc-btn:hover {
+      background: var(--terra);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-sm);
+    }
+    .atc-btn:active { transform: scale(0.97); }
+    .atc-btn.added { background: var(--sage-dark); }
 
-  /* ── CATEGORIES ── */
-  .cat-grid {
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
-  }
-  .cat-card {
-    background: var(--warm); border-radius: var(--radius);
-    padding: 32px 20px; text-align: center;
-    transition: transform 0.2s, box-shadow 0.2s; cursor: pointer;
-    border: 1px solid rgba(0,0,0,0.04);
-  }
-  .cat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
-  .cat-icon { font-size: 36px; margin-bottom: 14px; }
-  .cat-name { font-size: 15px; font-weight: 600; color: var(--charcoal); }
-  .cat-count { font-size: 12px; color: var(--light); margin-top: 4px; }
+    /* ── Promo Banner ──────────────────────────────────────────── */
+    #promo {
+      background: linear-gradient(135deg, var(--charcoal) 0%, #3d3530 100%);
+      padding: 52px 0;
+      position: relative;
+      overflow: hidden;
+    }
+    #promo::before {
+      content: '';
+      position: absolute;
+      top: -80px; left: -80px;
+      width: 300px; height: 300px;
+      border: 2px solid rgba(255,255,255,.05);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    #promo::after {
+      content: '';
+      position: absolute;
+      bottom: -100px; right: -60px;
+      width: 380px; height: 380px;
+      border: 2px solid rgba(255,255,255,.04);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .promo-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 36px;
+      position: relative;
+      z-index: 1;
+    }
+    .promo-eyebrow {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--terra-light);
+      margin-bottom: 8px;
+    }
+    .promo-title {
+      font-family: var(--font-serif);
+      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      color: var(--white);
+      font-weight: 500;
+      line-height: 1.3;
+    }
+    .promo-title strong { color: var(--terra-light); }
+    .promo-sub { font-size: 0.88rem; color: rgba(255,255,255,.5); margin-top: 8px; }
+    .countdown { display: flex; align-items: center; gap: 6px; }
+    .cd-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: var(--radius-sm);
+      padding: 16px 20px;
+      min-width: 76px;
+    }
+    .cd-num {
+      font-family: var(--font-serif);
+      font-size: 2.1rem;
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.02em;
+    }
+    .cd-label { font-size: 0.63rem; color: rgba(255,255,255,.45); letter-spacing: 0.12em; text-transform: uppercase; margin-top: 5px; }
+    .cd-sep { font-size: 1.8rem; color: rgba(255,255,255,.3); margin-bottom: 18px; line-height: 1; }
 
-  /* ── PRODUCTS ── */
-  .product-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;
-  }
-  .product-card {
-    background: var(--white); border-radius: var(--radius);
-    overflow: hidden; border: 1px solid rgba(0,0,0,0.05);
-    transition: box-shadow 0.25s, transform 0.25s;
-  }
-  .product-card:hover { box-shadow: var(--shadow); transform: translateY(-3px); }
-  .product-img {
-    aspect-ratio: 4/3; position: relative; overflow: hidden;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .product-img svg { width: 50%; height: 50%; opacity: 0.5; }
-  .product-badge {
-    position: absolute; top: 14px; left: 14px;
-    background: var(--terra); color: #fff;
-    font-size: 11px; font-weight: 700;
-    padding: 3px 9px; border-radius: 50px;
-  }
-  .product-body { padding: 18px; }
-  .product-name { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
-  .stars { color: #f0a500; font-size: 13px; margin-bottom: 10px; }
-  .stars span { color: var(--light); font-size: 12px; margin-left: 4px; }
-  .product-footer { display: flex; align-items: center; justify-content: space-between; }
-  .product-price { font-size: 18px; font-weight: 700; }
-  .product-price .old { font-size: 13px; color: var(--light); text-decoration: line-through; margin-left: 6px; font-weight: 400; }
-  .add-btn {
-    background: var(--charcoal); color: #fff;
-    border: none; border-radius: 8px;
-    padding: 9px 16px; font-size: 13px; font-weight: 600;
-    cursor: pointer; transition: background 0.2s, transform 0.15s;
-  }
-  .add-btn:hover { background: var(--sage-dark); }
-  .add-btn:active { transform: scale(0.95); }
+    /* ── Newsletter ────────────────────────────────────────────── */
+    #newsletter {
+      padding: 96px 0;
+      background: var(--cream-dark);
+    }
+    .nl-inner {
+      max-width: 560px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .nl-icon {
+      width: 56px; height: 56px;
+      background: linear-gradient(135deg, var(--sage-light), var(--sage));
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+    }
+    .nl-inner .section-sub { margin: 0 auto 32px; }
+    .nl-form {
+      display: flex;
+      gap: 12px;
+      max-width: 460px;
+      margin: 0 auto;
+    }
+    .nl-input {
+      flex: 1;
+      padding: 14px 20px;
+      border: 2px solid rgba(180,160,140,.3);
+      border-radius: 50px;
+      background: var(--white);
+      font-size: 0.9rem;
+      font-family: var(--font-sans);
+      color: var(--charcoal);
+      outline: none;
+      transition: border-color var(--transition);
+    }
+    .nl-input:focus { border-color: var(--sage); }
+    .nl-input::placeholder { color: var(--light); }
+    .nl-note { font-size: 0.78rem; color: var(--light); margin-top: 14px; }
+    .nl-success {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 24px;
+      background: rgba(138,171,138,.15);
+      border: 1px solid var(--sage-light);
+      border-radius: 50px;
+      color: var(--sage-dark);
+      font-size: 0.9rem;
+      font-weight: 500;
+      max-width: 460px;
+      margin: 0 auto;
+    }
+    .nl-success.show { display: flex; }
 
-  /* ── NEWSLETTER ── */
-  .newsletter {
-    background: var(--sage); border-radius: 20px;
-    padding: 60px 48px; text-align: center;
-    max-width: 1200px; margin: 0 auto 70px;
-  }
-  .newsletter h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 32px; color: #fff; margin-bottom: 10px;
-  }
-  .newsletter p { color: rgba(255,255,255,0.8); font-size: 16px; margin-bottom: 28px; }
-  .email-row { display: flex; gap: 10px; max-width: 440px; margin: 0 auto; }
-  .email-input {
-    flex: 1; padding: 13px 18px;
-    border: none; border-radius: 8px;
-    font-size: 14px; outline: none;
-  }
-  .subscribe-btn {
-    background: var(--terra); color: #fff; border: none;
-    padding: 13px 24px; border-radius: 8px;
-    font-size: 14px; font-weight: 700; cursor: pointer;
-    transition: background 0.2s;
-  }
-  .subscribe-btn:hover { background: var(--terra-dark); }
+    /* ── Footer ────────────────────────────────────────────────── */
+    #site-footer {
+      background: var(--charcoal);
+      color: rgba(255,255,255,.65);
+      padding: 64px 0 32px;
+    }
+    .footer-top {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 48px;
+      padding-bottom: 48px;
+      border-bottom: 1px solid rgba(255,255,255,.1);
+      margin-bottom: 32px;
+    }
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-serif);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 16px;
+    }
+    .footer-logo-mark {
+      width: 32px; height: 32px;
+      background: var(--terra);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .footer-desc { font-size: 0.85rem; line-height: 1.7; max-width: 240px; }
+    .footer-social { display: flex; gap: 10px; margin-top: 20px; }
+    .social-btn {
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      background: rgba(255,255,255,.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+      color: rgba(255,255,255,.55);
+    }
+    .social-btn:hover { background: var(--terra); color: var(--white); transform: translateY(-2px); }
+    .f-col-title {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 20px;
+    }
+    .f-links { display: flex; flex-direction: column; gap: 10px; }
+    .f-links a {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,.55);
+      transition: var(--transition);
+    }
+    .f-links a:hover { color: var(--white); padding-left: 4px; }
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .f-copy { font-size: 0.8rem; }
+    .f-legal { display: flex; gap: 20px; flex-wrap: wrap; }
+    .f-legal a { font-size: 0.8rem; color: rgba(255,255,255,.45); transition: color var(--transition); }
+    .f-legal a:hover { color: var(--white); }
+    .f-pay { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .pay-chip {
+      padding: 4px 10px;
+      background: rgba(255,255,255,.1);
+      border-radius: 4px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: rgba(255,255,255,.55);
+      letter-spacing: 0.05em;
+    }
 
-  /* ── FOOTER ── */
-  footer {
-    background: var(--charcoal); color: rgba(255,255,255,0.55);
-    padding: 48px 5% 28px;
-  }
-  .footer-grid {
-    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
-    gap: 40px; max-width: 1200px; margin: 0 auto 40px;
-  }
-  .footer-brand .logo { color: #fff; font-size: 20px; margin-bottom: 12px; display: block; }
-  .footer-brand p { font-size: 13px; line-height: 1.7; max-width: 220px; }
-  .footer-col h4 { color: #fff; font-size: 14px; font-weight: 600; margin-bottom: 14px; }
-  .footer-col ul { list-style: none; }
-  .footer-col ul li { margin-bottom: 8px; }
-  .footer-col ul a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 13px; transition: color 0.2s; }
-  .footer-col ul a:hover { color: #fff; }
-  .footer-bottom { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 24px; text-align: center; font-size: 12px; max-width: 1200px; margin: 0 auto; }
-
-  @media (max-width: 900px) {
-    .hero { grid-template-columns: 1fr; gap: 40px; padding: 50px 5%; }
-    .hero-image { max-width: 440px; margin: 0 auto; }
-    .cat-grid { grid-template-columns: repeat(2, 1fr); }
-    .product-grid { grid-template-columns: repeat(2, 1fr); }
-    .footer-grid { grid-template-columns: 1fr 1fr; }
-    .nav-links { display: none; }
-  }
-  @media (max-width: 580px) {
-    .product-grid { grid-template-columns: 1fr; }
-    .cat-grid { grid-template-columns: repeat(2, 1fr); }
-    .newsletter { padding: 40px 24px; }
-    .email-row { flex-direction: column; }
-  }
-</style>
+    /* ── Responsive ────────────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      .categories-grid { grid-template-columns: repeat(2, 1fr); }
+      .products-grid   { grid-template-columns: repeat(2, 1fr); }
+      .footer-top      { grid-template-columns: 1fr 1fr; gap: 32px; }
+    }
+    @media (max-width: 768px) {
+      .nav-links  { display: none; }
+      .hamburger  { display: flex; }
+      .hero-inner { grid-template-columns: 1fr; gap: 48px; text-align: center; }
+      .hero-sub   { margin: 0 auto 36px; }
+      .hero-btns  { justify-content: center; }
+      .hero-stats { justify-content: center; }
+      .hero-visual { order: -1; }
+      .hero-room-wrap { max-width: 320px; }
+      .categories-header { flex-direction: column; align-items: flex-start; }
+      .promo-inner { flex-direction: column; text-align: center; }
+      .countdown  { justify-content: center; }
+      .products-grid { grid-template-columns: 1fr; max-width: 360px; margin: 0 auto; }
+      .nl-form { flex-direction: column; }
+      .nl-input { border-radius: var(--radius-md); }
+      .nl-form .btn { border-radius: var(--radius-md); justify-content: center; }
+      .footer-top { grid-template-columns: 1fr; gap: 28px; }
+      .footer-bottom { justify-content: center; text-align: center; }
+    }
+    @media (max-width: 480px) {
+      .categories-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
 
-<!-- PROMO BANNER -->
-<div class="promo-banner">
-  <span>Free shipping on orders over $75</span>
-  <span class="countdown" id="countdown">23:59:59</span>
-  <span>— Today only</span>
-</div>
-
-<!-- NAV -->
-<nav>
-  <div class="logo">Nova <span>Home</span> Co.</div>
-  <ul class="nav-links">
-    <li><a href="#">Home</a></li>
-    <li><a href="#">Shop</a></li>
-    <li><a href="#">About</a></li>
-    <li><a href="#">Contact</a></li>
-  </ul>
-  <div class="nav-right">
-    <button class="cart-btn" onclick="addToCart()">
-      🛒
-      <span class="cart-badge" id="cart-badge">0</span>
-    </button>
-  </div>
-</nav>
-
-<!-- HERO -->
-<div style="max-width:1200px;margin:0 auto;padding:0 5%;">
-  <div class="hero" style="padding-left:0;padding-right:0;max-width:none;">
-    <div class="hero-text">
-      <p class="section-label">New Collection 2026</p>
-      <h1>Spaces That Feel Like <em>Home</em></h1>
-      <p>Thoughtfully crafted furniture and decor for modern living. Designed to last, made to love.</p>
-      <div class="btn-row">
-        <a href="#" class="btn-primary">Shop Now</a>
-        <a href="#" class="btn-outline">View Lookbook</a>
-      </div>
-    </div>
-    <div class="hero-image">
-      <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Stylized armchair -->
-        <rect x="30" y="100" width="140" height="60" rx="10" fill="#a08060" opacity="0.6"/>
-        <rect x="50" y="70" width="100" height="50" rx="14" fill="#c4a47e" opacity="0.7"/>
-        <rect x="20" y="90" width="25" height="70" rx="10" fill="#a08060" opacity="0.5"/>
-        <rect x="155" y="90" width="25" height="70" rx="10" fill="#a08060" opacity="0.5"/>
-        <rect x="40" y="155" width="18" height="20" rx="4" fill="#6b4e2a" opacity="0.4"/>
-        <rect x="142" y="155" width="18" height="20" rx="4" fill="#6b4e2a" opacity="0.4"/>
-        <!-- Plant -->
-        <rect x="155" y="130" width="8" height="30" rx="4" fill="#7a9e7e" opacity="0.5"/>
-        <circle cx="159" cy="118" r="20" fill="#7a9e7e" opacity="0.4"/>
-        <circle cx="148" cy="125" r="12" fill="#5a7e5e" opacity="0.4"/>
-        <circle cx="170" cy="122" r="14" fill="#7a9e7e" opacity="0.35"/>
-        <!-- Cushion -->
-        <ellipse cx="100" cy="82" rx="30" ry="12" fill="#e8d5b0" opacity="0.6"/>
-      </svg>
-      <div class="hero-pill">
-        <div class="hero-pill-dot"></div>
-        <span>500+ 5-star reviews</span>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- CATEGORIES -->
-<section>
-  <p class="section-label">Browse by Room</p>
-  <h2 class="section-title">Shop by Category</h2>
-  <p class="section-sub">Find everything you need to transform every room in your home.</p>
-  <div class="cat-grid">
-    <div class="cat-card">
-      <div class="cat-icon">🛋️</div>
-      <div class="cat-name">Living Room</div>
-      <div class="cat-count">142 items</div>
-    </div>
-    <div class="cat-card">
-      <div class="cat-icon">🛏️</div>
-      <div class="cat-name">Bedroom</div>
-      <div class="cat-count">98 items</div>
-    </div>
-    <div class="cat-card">
-      <div class="cat-icon">🍳</div>
-      <div class="cat-name">Kitchen</div>
-      <div class="cat-count">74 items</div>
-    </div>
-    <div class="cat-card">
-      <div class="cat-icon">💼</div>
-      <div class="cat-name">Office</div>
-      <div class="cat-count">56 items</div>
-    </div>
-  </div>
-</section>
-
-<!-- PRODUCTS -->
-<section>
-  <p class="section-label">Trending Now</p>
-  <h2 class="section-title">Best Sellers</h2>
-  <p class="section-sub">Our most-loved pieces, curated for you.</p>
-  <div class="product-grid" id="products"></div>
-</section>
-
-<!-- NEWSLETTER -->
-<div style="padding:0 5%;">
-  <div class="newsletter">
-    <h2>Join the Nova Community</h2>
-    <p>Get early access to new collections, styling tips, and exclusive member offers.</p>
-    <div class="email-row">
-      <input class="email-input" type="email" placeholder="Your email address" />
-      <button class="subscribe-btn">Subscribe</button>
-    </div>
-  </div>
-</div>
-
-<!-- FOOTER -->
-<footer>
-  <div class="footer-grid">
-    <div class="footer-brand">
-      <span class="logo">Nova <span style="color:var(--sage)">Home</span> Co.</span>
-      <p>Thoughtfully designed home goods for modern living. Made with care, built to last.</p>
-    </div>
-    <div class="footer-col">
-      <h4>Shop</h4>
-      <ul>
-        <li><a href="#">New Arrivals</a></li>
-        <li><a href="#">Best Sellers</a></li>
-        <li><a href="#">Sale</a></li>
-        <li><a href="#">Gift Cards</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Help</h4>
-      <ul>
-        <li><a href="#">Shipping & Returns</a></li>
-        <li><a href="#">Track Order</a></li>
-        <li><a href="#">FAQs</a></li>
-        <li><a href="#">Contact Us</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Company</h4>
-      <ul>
-        <li><a href="#">About Us</a></li>
-        <li><a href="#">Sustainability</a></li>
-        <li><a href="#">Press</a></li>
-        <li><a href="#">Careers</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    &copy; 2026 Nova Home Co. All rights reserved. &nbsp;·&nbsp; Privacy Policy &nbsp;·&nbsp; Terms of Service
-  </div>
-</footer>
-
-<script>
-  const PRODUCTS = [
-    { name: 'Linen Cloud Sofa', price: 1299, old: 1599, stars: 5, reviews: 84, bg: '#d4c5b0', badge: 'Sale', icon: '🛋️' },
-    { name: 'Walnut Side Table', price: 249, old: null, stars: 5, reviews: 112, bg: '#c9b99a', badge: null, icon: '🪑' },
-    { name: 'Ceramic Table Lamp', price: 119, old: 149, stars: 4, reviews: 67, bg: '#e2d5c8', badge: 'Sale', icon: '💡' },
-    { name: 'Bouclé Accent Chair', price: 699, old: null, stars: 5, reviews: 203, bg: '#cdc0b0', badge: 'New', icon: '🪑' },
-    { name: 'Rattan Pendant Light', price: 189, old: 220, stars: 4, reviews: 45, bg: '#d8cdb8', badge: null, icon: '🪔' },
-    { name: 'Linen Throw Blanket', price: 89, old: null, stars: 5, reviews: 318, bg: '#e8ddd0', badge: 'Bestseller', icon: '🛏️' },
-  ];
-
-  let cartCount = 0;
-
-  function renderProducts() {
-    document.getElementById('products').innerHTML = PRODUCTS.map((p, i) => `
-      <div class="product-card">
-        <div class="product-img" style="background:${p.bg}">
-          <svg viewBox="0 0 80 80" width="80" height="80"><text y="55" x="20" font-size="40">${p.icon}</text></svg>
-          ${p.badge ? `<span class="product-badge">${p.badge}</span>` : ''}
+<!-- ══════════════ NAV ══════════════ -->
+<header id="site-nav">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">
+        <div class="nav-logo-mark">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M3 14L10 3L17 14H3Z" fill="white" opacity="0.9"/>
+            <rect x="7" y="14" width="6" height="4" rx="1" fill="white" opacity="0.75"/>
+          </svg>
         </div>
-        <div class="product-body">
-          <div class="product-name">${p.name}</div>
-          <div class="stars">${'★'.repeat(p.stars)}${'☆'.repeat(5-p.stars)} <span>(${p.reviews})</span></div>
-          <div class="product-footer">
-            <div class="product-price">
-              $${p.price}
-              ${p.old ? `<span class="old">$${p.old}</span>` : ''}
-            </div>
-            <button class="add-btn" onclick="addToCart()">Add to Cart</button>
+        Nova Home Co.
+      </a>
+
+      <nav class="nav-links">
+        <a href="#hero">Home</a>
+        <a href="#bestsellers">Shop</a>
+        <a href="#categories">About</a>
+        <a href="#newsletter">Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="cart-btn" id="cart-btn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <path d="M16 10a4 4 0 01-8 0"/>
+          </svg>
+          Cart
+          <span id="cart-count">0</span>
+        </button>
+        <button class="hamburger" id="hamburger" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+
+    <nav id="mobile-menu">
+      <a href="#hero">Home</a>
+      <a href="#bestsellers">Shop</a>
+      <a href="#categories">About</a>
+      <a href="#newsletter">Contact</a>
+    </nav>
+  </div>
+</header>
+
+
+<!-- ══════════════ HERO ══════════════ -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <!-- Copy -->
+      <div>
+        <div class="hero-eyebrow">
+          <svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4" fill="#5d876a"/></svg>
+          New Collection — Spring 2026
+        </div>
+        <h1 class="hero-title">
+          Design Your<br><em>Perfect</em> Space
+        </h1>
+        <p class="hero-sub">
+          Thoughtfully crafted home goods for modern living. From statement furniture to everyday essentials — find pieces that feel like home.
+        </p>
+        <div class="hero-btns">
+          <a href="#bestsellers" class="btn btn-primary">
+            Shop Now
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </a>
+          <a href="#categories" class="btn btn-secondary">View Lookbook</a>
+        </div>
+        <div class="hero-stats">
+          <div>
+            <div class="stat-num">2,400+</div>
+            <div class="stat-label">Products</div>
+          </div>
+          <div>
+            <div class="stat-num">98%</div>
+            <div class="stat-label">Satisfaction</div>
+          </div>
+          <div>
+            <div class="stat-num">150k+</div>
+            <div class="stat-label">Happy Homes</div>
           </div>
         </div>
       </div>
-    `).join('');
-  }
 
-  function addToCart() {
-    cartCount++;
-    const badge = document.getElementById('cart-badge');
-    badge.textContent = cartCount;
+      <!-- Room illustration -->
+      <div class="hero-visual">
+        <div class="hero-room-wrap">
+          <div class="room-svg-container">
+            <svg viewBox="0 0 480 480" xmlns="http://www.w3.org/2000/svg">
+              <!-- Room background -->
+              <rect width="480" height="480" fill="#e8e2d8"/>
+              <!-- Back wall -->
+              <rect x="0" y="0" width="480" height="280" fill="#d8d0c4"/>
+              <!-- Floor -->
+              <rect x="0" y="280" width="480" height="200" fill="#a89870" rx="0"/>
+              <!-- Floor sheen -->
+              <rect x="0" y="280" width="480" height="12" fill="#b8a880" opacity="0.5"/>
+              <!-- Rug -->
+              <ellipse cx="240" cy="360" rx="140" ry="40" fill="#c4714a" opacity="0.35"/>
+              <ellipse cx="240" cy="360" rx="120" ry="32" fill="#c4714a" opacity="0.2"/>
+
+              <!-- Baseboard -->
+              <rect x="0" y="272" width="480" height="14" fill="#c8c0b4"/>
+
+              <!-- Wall art / picture -->
+              <rect x="180" y="44" width="120" height="90" rx="4" fill="#2c2c2c"/>
+              <rect x="185" y="49" width="110" height="80" rx="2" fill="#8aab8a"/>
+              <rect x="185" y="49" width="110" height="80" rx="2" fill="url(#artGrad)"/>
+              <!-- Abstract art lines -->
+              <path d="M200 95 Q235 65 270 95" stroke="rgba(255,255,255,0.4)" stroke-width="2" fill="none"/>
+              <circle cx="240" cy="80" r="12" fill="rgba(255,255,255,0.15)"/>
+
+              <!-- Sofa body -->
+              <rect x="100" y="260" width="280" height="60" rx="8" fill="#6a5a48"/>
+              <!-- Sofa seat cushions -->
+              <rect x="108" y="255" width="120" height="22" rx="6" fill="#7a6a58"/>
+              <rect x="252" y="255" width="120" height="22" rx="6" fill="#7a6a58"/>
+              <!-- Sofa back -->
+              <rect x="100" y="212" width="280" height="52" rx="8" fill="#7a6a58"/>
+              <!-- Sofa back cushions -->
+              <rect x="110" y="218" width="118" height="40" rx="5" fill="#8a7a68"/>
+              <rect x="252" y="218" width="118" height="40" rx="5" fill="#8a7a68"/>
+              <!-- Sofa arms -->
+              <rect x="86" y="228" width="22" height="92" rx="8" fill="#5a4a38"/>
+              <rect x="372" y="228" width="22" height="92" rx="8" fill="#5a4a38"/>
+              <!-- Sofa legs -->
+              <rect x="110" y="316" width="12" height="16" rx="3" fill="#4a3a28"/>
+              <rect x="358" y="316" width="12" height="16" rx="3" fill="#4a3a28"/>
+
+              <!-- Throw pillow on sofa -->
+              <rect x="218" y="236" width="44" height="34" rx="6" fill="#c4714a" opacity="0.7"/>
+              <line x1="218" y1="253" x2="262" y2="253" stroke="#a05535" stroke-width="1" opacity="0.5"/>
+
+              <!-- Side table (left) -->
+              <rect x="36" y="272" width="60" height="50" rx="4" fill="#8a7848"/>
+              <rect x="33" y="266" width="66" height="10" rx="3" fill="#9a8858"/>
+              <!-- Table legs -->
+              <rect x="40" y="320" width="8" height="18" rx="2" fill="#7a6838"/>
+              <rect x="80" y="320" width="8" height="18" rx="2" fill="#7a6838"/>
+
+              <!-- Lamp on table -->
+              <rect x="60" y="220" width="8" height="50" rx="2" fill="#b09060"/>
+              <!-- Lamp shade -->
+              <polygon points="44,220 80,220 72,190 52,190" fill="rgba(255, 225, 160, 0.8)"/>
+              <!-- Lamp glow -->
+              <ellipse cx="64" cy="210" rx="25" ry="18" fill="rgba(255,220,120,0.12)"/>
+
+              <!-- Plant (right side) -->
+              <!-- Pot -->
+              <rect x="398" y="304" width="46" height="38" rx="4" fill="#c4714a"/>
+              <rect x="394" y="300" width="54" height="10" rx="3" fill="#d4815a"/>
+              <!-- Soil -->
+              <ellipse cx="421" cy="305" rx="22" ry="5" fill="#5a3a28"/>
+              <!-- Stems -->
+              <path d="M421 300 C415 280 400 260 390 240" stroke="#5d876a" stroke-width="4" fill="none" stroke-linecap="round"/>
+              <path d="M421 300 C428 275 435 255 445 240" stroke="#5d876a" stroke-width="4" fill="none" stroke-linecap="round"/>
+              <path d="M421 300 C421 270 421 250 421 230" stroke="#4d7060" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+              <!-- Leaves -->
+              <ellipse cx="388" cy="238" rx="18" ry="10" fill="#8aab8a" transform="rotate(-35 388 238)"/>
+              <ellipse cx="448" cy="238" rx="18" ry="10" fill="#5d876a" transform="rotate(35 448 238)"/>
+              <ellipse cx="421" cy="226" rx="16" ry="9" fill="#7a9b7a" transform="rotate(0 421 226)"/>
+              <ellipse cx="375" cy="258" rx="14" ry="8" fill="#8aab8a" transform="rotate(-50 375 258)"/>
+              <ellipse cx="458" cy="258" rx="14" ry="8" fill="#5d876a" transform="rotate(50 458 258)"/>
+
+              <!-- Bookshelf (far left on wall) -->
+              <rect x="0" y="100" width="60" height="180" rx="2" fill="#9a8a70"/>
+              <rect x="4" y="108" width="52" height="50" rx="1" fill="#b0a080"/>
+              <rect x="4" y="165" width="52" height="50" rx="1" fill="#b0a080"/>
+              <rect x="4" y="222" width="52" height="52" rx="1" fill="#b0a080"/>
+              <!-- Books -->
+              <rect x="8"  y="115" width="8" height="36" rx="1" fill="#c4714a"/>
+              <rect x="18" y="118" width="6" height="33" rx="1" fill="#5d876a"/>
+              <rect x="26" y="112" width="9" height="39" rx="1" fill="#8a7a90"/>
+              <rect x="37" y="116" width="7" height="35" rx="1" fill="#d4a870"/>
+              <rect x="8"  y="172" width="7" height="36" rx="1" fill="#7a90aa"/>
+              <rect x="17" y="174" width="8" height="34" rx="1" fill="#c47a5a"/>
+              <rect x="27" y="170" width="6" height="38" rx="1" fill="#8aab8a"/>
+              <rect x="35" y="173" width="9" height="35" rx="1" fill="#a09070"/>
+              <!-- Shelf dividers -->
+              <rect x="0" y="158" width="60" height="4" fill="#8a7a60"/>
+              <rect x="0" y="215" width="60" height="4" fill="#8a7a60"/>
+
+              <!-- Gradient definition -->
+              <defs>
+                <linearGradient id="artGrad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#8aab8a"/>
+                  <stop offset="50%" stop-color="#5d876a"/>
+                  <stop offset="100%" stop-color="#3a5a40"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+
+          <!-- Floating badge -->
+          <div class="hero-badge">
+            <div class="badge-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5d876a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            </div>
+            <div>
+              <div class="badge-num">Free</div>
+              <div class="badge-lbl">Shipping over $75</div>
+            </div>
+          </div>
+
+          <div class="hero-tag">✦ New Arrivals</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-indicator">
+    <div class="scroll-line"></div>
+    Scroll
+  </div>
+</section>
+
+
+<!-- ══════════════ CATEGORIES ══════════════ -->
+<section id="categories">
+  <div class="container">
+    <div class="categories-header">
+      <div>
+        <p class="section-label">Browse by Room</p>
+        <h2 class="section-title">Featured Categories</h2>
+        <p class="section-sub">Everything you need to transform every corner of your home.</p>
+      </div>
+      <a href="#" class="view-all">
+        View All
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </a>
+    </div>
+
+    <div class="categories-grid">
+      <!-- Living Room -->
+      <div class="cat-card">
+        <div class="cat-illus" style="background:linear-gradient(145deg,#e8dfd0,#d4c8b4)">
+          <div class="cat-blob-1" style="background:var(--terra-light)"></div>
+          <div class="cat-blob-2" style="background:var(--sage)"></div>
+          <div class="cat-icon-ring">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#5d876a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+              <polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+          </div>
+        </div>
+        <div class="cat-info">
+          <div class="cat-name">Living Room</div>
+          <div class="cat-count">124 products</div>
+        </div>
+      </div>
+
+      <!-- Bedroom -->
+      <div class="cat-card">
+        <div class="cat-illus" style="background:linear-gradient(145deg,#dde8dd,#c4d8c4)">
+          <div class="cat-blob-1" style="background:var(--sage)"></div>
+          <div class="cat-blob-2" style="background:var(--terra-light)"></div>
+          <div class="cat-icon-ring">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#c4714a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 4v16"/><path d="M22 4v16"/>
+              <path d="M2 8h20"/>
+              <rect x="6" y="8" width="4" height="8" rx="1"/>
+              <rect x="14" y="8" width="4" height="8" rx="1"/>
+              <path d="M2 20h20"/>
+            </svg>
+          </div>
+        </div>
+        <div class="cat-info">
+          <div class="cat-name">Bedroom</div>
+          <div class="cat-count">98 products</div>
+        </div>
+      </div>
+
+      <!-- Kitchen -->
+      <div class="cat-card">
+        <div class="cat-illus" style="background:linear-gradient(145deg,#f0e4d8,#e0d0c0)">
+          <div class="cat-blob-1" style="background:#d4b896"></div>
+          <div class="cat-blob-2" style="background:var(--sage-light)"></div>
+          <div class="cat-icon-ring">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#a05535" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 8h1a4 4 0 010 8h-1"/>
+              <path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/>
+              <line x1="6" y1="1" x2="6" y2="4"/>
+              <line x1="10" y1="1" x2="10" y2="4"/>
+              <line x1="14" y1="1" x2="14" y2="4"/>
+            </svg>
+          </div>
+        </div>
+        <div class="cat-info">
+          <div class="cat-name">Kitchen</div>
+          <div class="cat-count">76 products</div>
+        </div>
+      </div>
+
+      <!-- Office -->
+      <div class="cat-card">
+        <div class="cat-illus" style="background:linear-gradient(145deg,#e4e0ec,#ccc8d8)">
+          <div class="cat-blob-1" style="background:#9b8fc4"></div>
+          <div class="cat-blob-2" style="background:var(--terra-light)"></div>
+          <div class="cat-icon-ring">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#5a4a7a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+              <line x1="8" y1="21" x2="16" y2="21"/>
+              <line x1="12" y1="17" x2="12" y2="21"/>
+            </svg>
+          </div>
+        </div>
+        <div class="cat-info">
+          <div class="cat-name">Home Office</div>
+          <div class="cat-count">54 products</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════ BEST SELLERS ══════════════ -->
+<section id="bestsellers">
+  <div class="container">
+    <div class="bs-header">
+      <p class="section-label">Customer Favorites</p>
+      <h2 class="section-title">Best Sellers</h2>
+      <p class="section-sub">Our most-loved pieces, curated by thousands of happy homes.</p>
+    </div>
+
+    <div class="products-grid">
+
+      <!-- Product 1 — Sofa -->
+      <div class="product-card">
+        <span class="prod-badge b-new">New</span>
+        <div class="prod-img" style="background:linear-gradient(145deg,#ede6da,#d8ccbc)">
+          <svg width="160" height="160" viewBox="0 0 160 160">
+            <rect x="25" y="90" width="110" height="40" rx="6" fill="#8a7a68"/>
+            <rect x="20" y="78" width="120" height="18" rx="6" fill="#7a6a58"/>
+            <rect x="30" y="72" width="50" height="12" rx="4" fill="#8a7a68"/>
+            <rect x="80" y="72" width="50" height="12" rx="4" fill="#8a7a68"/>
+            <rect x="14" y="84" width="14" height="46" rx="5" fill="#6a5a48"/>
+            <rect x="132" y="84" width="14" height="46" rx="5" fill="#6a5a48"/>
+            <rect x="34" y="128" width="10" height="12" rx="2" fill="#5a4a38"/>
+            <rect x="116" y="128" width="10" height="12" rx="2" fill="#5a4a38"/>
+            <rect x="62" y="80" width="36" height="26" rx="5" fill="#c4714a" opacity="0.65"/>
+          </svg>
+          <div class="prod-overlay">
+            <button class="quickview-btn">Quick View</button>
+          </div>
+        </div>
+        <div class="prod-body">
+          <div class="prod-name">Oslo Linen Sofa</div>
+          <div class="prod-rating">
+            <div class="stars">
+              <span class="s-full">★</span><span class="s-full">★</span>
+              <span class="s-full">★</span><span class="s-full">★</span>
+              <span class="s-half">★</span>
+            </div>
+            <span class="r-count">(128)</span>
+          </div>
+          <div class="prod-footer">
+            <span class="prod-price">$1,249</span>
+            <button class="atc-btn" onclick="addToCart(this)">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product 2 — Plant stand -->
+      <div class="product-card">
+        <span class="prod-badge b-hot">Trending</span>
+        <div class="prod-img" style="background:linear-gradient(145deg,#dde8dd,#c8ddc8)">
+          <svg width="160" height="160" viewBox="0 0 160 160">
+            <!-- Pot -->
+            <rect x="65" y="118" width="30" height="24" rx="3" fill="#c4714a"/>
+            <rect x="62" y="113" width="36" height="9" rx="3" fill="#d4815a"/>
+            <ellipse cx="80" cy="118" rx="16" ry="5" fill="#5a3a28"/>
+            <!-- Stems -->
+            <path d="M80 114 C72 96 58 78 44 62" stroke="#5d876a" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+            <path d="M80 114 C88 90 100 74 116 58" stroke="#5d876a" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+            <path d="M80 114 C80 88 80 66 80 46" stroke="#4d7060" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <!-- Leaves -->
+            <ellipse cx="42" cy="60" rx="20" ry="11" fill="#8aab8a" transform="rotate(-40 42 60)"/>
+            <ellipse cx="118" cy="56" rx="20" ry="11" fill="#5d876a" transform="rotate(40 118 56)"/>
+            <ellipse cx="80" cy="42" rx="17" ry="10" fill="#7a9b7a"/>
+            <ellipse cx="28" cy="80" rx="15" ry="8" fill="#8aab8a" transform="rotate(-55 28 80)"/>
+            <ellipse cx="130" cy="76" rx="15" ry="8" fill="#5d876a" transform="rotate(55 130 76)"/>
+          </svg>
+          <div class="prod-overlay">
+            <button class="quickview-btn">Quick View</button>
+          </div>
+        </div>
+        <div class="prod-body">
+          <div class="prod-name">Terra Plant Stand Set</div>
+          <div class="prod-rating">
+            <div class="stars">
+              <span class="s-full">★</span><span class="s-full">★</span>
+              <span class="s-full">★</span><span class="s-full">★</span>
+              <span class="s-full">★</span>
+            </div>
+            <span class="r-count">(94)</span>
+          </div>
+          <div class="prod-footer">
+            <span class="prod-price">$189</span>
+            <button class="atc-btn" onclick="addToCart(this)">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product 3 — Wall art -->
+      <div class="product-card">
+        <span class="prod-badge b-sale">Sale</span>
+        <div class="prod-img" style="background:linear-gradient(145deg,#f0e8d8,#e0d4c0)">
+          <svg width="160" height="160" viewBox="0 0 160 160">
+            <rect x="36" y="28" width="88" height="88" rx="4" fill="#2c2c2c"/>
+            <rect x="41" y="33" width="78" height="78" rx="2" fill="#d4a87a"/>
+            <!-- Woven pattern -->
+            <line x1="41" y1="50" x2="119" y2="50" stroke="#b88a5a" stroke-width="1.5" opacity="0.7"/>
+            <line x1="41" y1="64" x2="119" y2="64" stroke="#b88a5a" stroke-width="1.5" opacity="0.7"/>
+            <line x1="41" y1="78" x2="119" y2="78" stroke="#b88a5a" stroke-width="1.5" opacity="0.7"/>
+            <line x1="41" y1="92" x2="119" y2="92" stroke="#b88a5a" stroke-width="1.5" opacity="0.7"/>
+            <line x1="56" y1="33" x2="56" y2="111" stroke="#b88a5a" stroke-width="1.5" opacity="0.7"/>
+            <line x1="72" y1="33" x2="72" y2="111" stroke="#b88a5a" stroke-width="1.5" opacity="0.7"/>
+            <line x1="88" y1="33" x2="88" y2="111" stroke="#b88a5a" stroke-width="1.5" opacity="0.7"/>
+            <line x1="104" y1="33" x2="104" y2="111" stroke="#b88a5a" stroke-width="1.5" opacity="0.7"/>
+            <!-- Arch shape -->
+            <path d="M55 105 Q80 58 105 105" fill="rgba(180,120,60,0.3)" stroke="#a07040" stroke-width="2"/>
+            <!-- Hanging cord -->
+            <line x1="80" y1="28" x2="80" y2="20" stroke="#8a7a5a" stroke-width="2"/>
+            <circle cx="80" cy="18" r="3" fill="#8a7a5a"/>
+          </svg>
+          <div class="prod-overlay">
+            <button class="quickview-btn">Quick View</button>
+          </div>
+        </div>
+        <div class="prod-body">
+          <div class="prod-name">Woven Wall Art — Arch</div>
+          <div class="prod-rating">
+            <div class="stars">
+              <span class="s-full">★</span><span class="s-full">★</span>
+              <span class="s-full">★</span><span class="s-full">★</span>
+              <span class="s-empty">★</span>
+            </div>
+            <span class="r-count">(67)</span>
+          </div>
+          <div class="prod-footer">
+            <div>
+              <span class="prod-price">$84</span>
+              <span class="prod-old">$120</span>
+            </div>
+            <button class="atc-btn" onclick="addToCart(this)">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product 4 — Floor lamp -->
+      <div class="product-card">
+        <div class="prod-img" style="background:linear-gradient(145deg,#f5ede0,#e8ddd0)">
+          <svg width="160" height="160" viewBox="0 0 160 160">
+            <!-- Glow -->
+            <ellipse cx="74" cy="72" rx="32" ry="22" fill="rgba(255,220,120,0.18)"/>
+            <!-- Shade -->
+            <polygon points="50,86 98,86 88,54 60,54" fill="rgba(255,228,168,0.85)" stroke="#c8a860" stroke-width="1.5"/>
+            <!-- Shade top -->
+            <rect x="70" y="50" width="8" height="6" rx="1" fill="#c8a860"/>
+            <!-- Arm arc -->
+            <path d="M80 56 C80 40 110 30 110 80 L110 140" stroke="#b8922a" stroke-width="5" fill="none" stroke-linecap="round"/>
+            <!-- Base -->
+            <ellipse cx="110" cy="144" rx="22" ry="7" fill="#a07828"/>
+            <rect x="100" y="136" width="20" height="10" rx="4" fill="#b8922a"/>
+          </svg>
+          <div class="prod-overlay">
+            <button class="quickview-btn">Quick View</button>
+          </div>
+        </div>
+        <div class="prod-body">
+          <div class="prod-name">Brass Arc Floor Lamp</div>
+          <div class="prod-rating">
+            <div class="stars">
+              <span class="s-full">★</span><span class="s-full">★</span>
+              <span class="s-full">★</span><span class="s-full">★</span>
+              <span class="s-half">★</span>
+            </div>
+            <span class="r-count">(211)</span>
+          </div>
+          <div class="prod-footer">
+            <span class="prod-price">$342</span>
+            <button class="atc-btn" onclick="addToCart(this)">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product 5 — Bench -->
+      <div class="product-card">
+        <span class="prod-badge b-new">New</span>
+        <div class="prod-img" style="background:linear-gradient(145deg,#e0ede8,#c8e0d4)">
+          <svg width="160" height="160" viewBox="0 0 160 160">
+            <!-- Cushion top -->
+            <rect x="26" y="68" width="108" height="38" rx="8" fill="#8aab8a"/>
+            <!-- Cushion seam -->
+            <line x1="80" y1="68" x2="80" y2="106" stroke="#5d876a" stroke-width="1.5" opacity="0.5"/>
+            <line x1="26" y1="87" x2="134" y2="87" stroke="#5d876a" stroke-width="1.5" opacity="0.4"/>
+            <!-- Frame -->
+            <rect x="20" y="100" width="120" height="14" rx="4" fill="#5d876a"/>
+            <!-- Legs -->
+            <rect x="28" y="112" width="12" height="28" rx="4" fill="#4d7060"/>
+            <rect x="62" y="112" width="12" height="28" rx="4" fill="#4d7060"/>
+            <rect x="86" y="112" width="12" height="28" rx="4" fill="#4d7060"/>
+            <rect x="120" y="112" width="12" height="28" rx="4" fill="#4d7060"/>
+            <!-- Foot rail -->
+            <rect x="28" y="132" width="104" height="6" rx="3" fill="#3d6050"/>
+          </svg>
+          <div class="prod-overlay">
+            <button class="quickview-btn">Quick View</button>
+          </div>
+        </div>
+        <div class="prod-body">
+          <div class="prod-name">Sage Velvet Bench</div>
+          <div class="prod-rating">
+            <div class="stars">
+              <span class="s-full">★</span><span class="s-full">★</span>
+              <span class="s-full">★</span><span class="s-full">★</span>
+              <span class="s-full">★</span>
+            </div>
+            <span class="r-count">(55)</span>
+          </div>
+          <div class="prod-footer">
+            <span class="prod-price">$428</span>
+            <button class="atc-btn" onclick="addToCart(this)">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product 6 — Bookshelf -->
+      <div class="product-card">
+        <span class="prod-badge b-sale">Sale</span>
+        <div class="prod-img" style="background:linear-gradient(145deg,#ece8f0,#dcd8e8)">
+          <svg width="160" height="160" viewBox="0 0 160 160">
+            <!-- Frame -->
+            <rect x="28" y="18" width="104" height="130" rx="4" fill="#b0a8c0"/>
+            <!-- Back panel -->
+            <rect x="34" y="24" width="92" height="118" rx="2" fill="#d0c8dc"/>
+            <!-- Shelves -->
+            <rect x="34" y="60"  width="92" height="5" fill="#9890a8"/>
+            <rect x="34" y="98"  width="92" height="5" fill="#9890a8"/>
+            <rect x="34" y="136" width="92" height="5" fill="#9890a8"/>
+            <!-- Top shelf books -->
+            <rect x="40"  y="30" width="10" height="28" rx="1.5" fill="#c4714a"/>
+            <rect x="52"  y="34" width="8"  height="24" rx="1.5" fill="#5d876a"/>
+            <rect x="62"  y="28" width="11" height="30" rx="1.5" fill="#8a7a90"/>
+            <rect x="75"  y="32" width="9"  height="26" rx="1.5" fill="#d4a870"/>
+            <rect x="86"  y="30" width="8"  height="28" rx="1.5" fill="#7a90aa"/>
+            <rect x="96"  y="34" width="10" height="24" rx="1.5" fill="#c4714a" opacity="0.7"/>
+            <!-- Decor object -->
+            <circle cx="114" cy="44" r="10" fill="#e8d0a0" stroke="#c8a870" stroke-width="1.5"/>
+            <!-- Mid shelf -->
+            <rect x="40"  y="68" width="9"  height="28" rx="1.5" fill="#5d876a"/>
+            <rect x="51"  y="70" width="11" height="26" rx="1.5" fill="#a07848"/>
+            <rect x="64"  y="66" width="8"  height="30" rx="1.5" fill="#c47a5a"/>
+            <!-- Small vase mid -->
+            <rect x="76" y="78" width="8" height="20" rx="3" fill="#8aab8a" opacity="0.8"/>
+            <ellipse cx="80" cy="78" rx="6" ry="3" fill="#7a9b7a"/>
+            <!-- Bottom shelf -->
+            <rect x="40"  y="106" width="10" height="28" rx="1.5" fill="#7a6a90"/>
+            <rect x="52"  y="108" width="8"  height="26" rx="1.5" fill="#c4714a" opacity="0.8"/>
+            <rect x="62"  y="104" width="12" height="30" rx="1.5" fill="#5d876a"/>
+          </svg>
+          <div class="prod-overlay">
+            <button class="quickview-btn">Quick View</button>
+          </div>
+        </div>
+        <div class="prod-body">
+          <div class="prod-name">Mist Bookshelf — Oak</div>
+          <div class="prod-rating">
+            <div class="stars">
+              <span class="s-full">★</span><span class="s-full">★</span>
+              <span class="s-full">★</span><span class="s-full">★</span>
+              <span class="s-empty">★</span>
+            </div>
+            <span class="r-count">(182)</span>
+          </div>
+          <div class="prod-footer">
+            <div>
+              <span class="prod-price">$595</span>
+              <span class="prod-old">$750</span>
+            </div>
+            <button class="atc-btn" onclick="addToCart(this)">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════ PROMO BANNER ══════════════ -->
+<section id="promo">
+  <div class="container">
+    <div class="promo-inner">
+      <div>
+        <p class="promo-eyebrow">Limited Time Offer</p>
+        <h2 class="promo-title">
+          Free shipping on orders<br><strong>over $75</strong>
+        </h2>
+        <p class="promo-sub">Use code NOVAHOME at checkout. Ends soon — don't miss out.</p>
+      </div>
+
+      <div class="countdown">
+        <div class="cd-block">
+          <span class="cd-num" id="cd-h">23</span>
+          <span class="cd-label">Hours</span>
+        </div>
+        <span class="cd-sep">:</span>
+        <div class="cd-block">
+          <span class="cd-num" id="cd-m">59</span>
+          <span class="cd-label">Mins</span>
+        </div>
+        <span class="cd-sep">:</span>
+        <div class="cd-block">
+          <span class="cd-num" id="cd-s">59</span>
+          <span class="cd-label">Secs</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════ NEWSLETTER ══════════════ -->
+<section id="newsletter">
+  <div class="container">
+    <div class="nl-inner">
+      <div class="nl-icon">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#5d876a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+          <polyline points="22,6 12,13 2,6"/>
+        </svg>
+      </div>
+      <p class="section-label">Stay in the Loop</p>
+      <h2 class="section-title">Design Inspiration<br>Delivered to You</h2>
+      <p class="section-sub">Exclusive offers, new arrivals, and decorating tips — straight to your inbox. Unsubscribe anytime.</p>
+
+      <form class="nl-form" id="nl-form" onsubmit="handleSubscribe(event)">
+        <input type="email" class="nl-input" id="nl-email" placeholder="Enter your email address" required />
+        <button type="submit" class="btn btn-terra">Subscribe</button>
+      </form>
+      <div class="nl-success" id="nl-success">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5d876a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+        You're in! Welcome to the Nova Home family.
+      </div>
+      <p class="nl-note">No spam, ever. Your privacy matters to us.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════ FOOTER ══════════════ -->
+<footer id="site-footer">
+  <div class="container">
+    <div class="footer-top">
+      <!-- Brand -->
+      <div>
+        <div class="footer-logo">
+          <div class="footer-logo-mark">
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
+              <path d="M3 14L10 3L17 14H3Z" fill="white" opacity="0.9"/>
+              <rect x="7" y="14" width="6" height="4" rx="1" fill="white" opacity="0.75"/>
+            </svg>
+          </div>
+          Nova Home Co.
+        </div>
+        <p class="footer-desc">Thoughtfully crafted home goods for the modern home. Quality you can feel in every piece.</p>
+        <div class="footer-social">
+          <a href="#" class="social-btn" aria-label="Instagram">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+            </svg>
+          </a>
+          <a href="#" class="social-btn" aria-label="Pinterest">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 01.083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/>
+            </svg>
+          </a>
+          <a href="#" class="social-btn" aria-label="TikTok">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.78a8.18 8.18 0 004.78 1.52V6.85a4.85 4.85 0 01-1.01-.16z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <div>
+        <p class="f-col-title">Shop</p>
+        <ul class="f-links">
+          <li><a href="#">New Arrivals</a></li>
+          <li><a href="#">Best Sellers</a></li>
+          <li><a href="#">Living Room</a></li>
+          <li><a href="#">Bedroom</a></li>
+          <li><a href="#">Kitchen</a></li>
+          <li><a href="#">Home Office</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="f-col-title">Company</p>
+        <ul class="f-links">
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Sustainability</a></li>
+          <li><a href="#">Press</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Blog</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="f-col-title">Help</p>
+        <ul class="f-links">
+          <li><a href="#">FAQ</a></li>
+          <li><a href="#">Shipping & Returns</a></li>
+          <li><a href="#">Track Order</a></li>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">Size Guide</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p class="f-copy">&copy; 2026 Nova Home Co. All rights reserved.</p>
+      <div class="f-legal">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Cookie Settings</a>
+      </div>
+      <div class="f-pay">
+        <span class="pay-chip">VISA</span>
+        <span class="pay-chip">MC</span>
+        <span class="pay-chip">AMEX</span>
+        <span class="pay-chip">PAYPAL</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+<!-- ══════════════ JS ══════════════ -->
+<script>
+  /* ── Cart ──────────────────────────────────────────────────── */
+  let cartTotal = 0;
+
+  function addToCart(btn) {
+    cartTotal++;
+    const badge = document.getElementById('cart-count');
+    badge.textContent = cartTotal;
     badge.classList.remove('pop');
-    void badge.offsetWidth;
+    void badge.offsetWidth; // reflow to restart animation
     badge.classList.add('pop');
+
+    // Button feedback
+    btn.textContent = 'Added!';
+    btn.classList.add('added');
+    btn.disabled = true;
+    setTimeout(() => {
+      btn.textContent = 'Add to Cart';
+      btn.classList.remove('added');
+      btn.disabled = false;
+    }, 1300);
   }
 
-  // Countdown timer
-  let secs = 23 * 3600 + 59 * 60 + 59;
-  function updateCountdown() {
-    const h = Math.floor(secs / 3600);
-    const m = Math.floor((secs % 3600) / 60);
-    const s = secs % 60;
-    document.getElementById('countdown').textContent =
-      `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-    if (secs > 0) secs--;
-  }
-  updateCountdown();
-  setInterval(updateCountdown, 1000);
+  document.getElementById('cart-btn').addEventListener('click', function() {
+    const msg = cartTotal === 0
+      ? 'Your cart is empty — add something beautiful!'
+      : 'You have ' + cartTotal + ' item' + (cartTotal > 1 ? 's' : '') + ' in your cart.';
+    showToast(msg);
+  });
 
-  renderProducts();
+  /* ── Toast ─────────────────────────────────────────────────── */
+  let toastTimer;
+  function showToast(msg) {
+    let t = document.getElementById('_toast');
+    if (!t) {
+      t = document.createElement('div');
+      t.id = '_toast';
+      Object.assign(t.style, {
+        position: 'fixed',
+        bottom: '28px',
+        left: '50%',
+        transform: 'translateX(-50%) translateY(90px)',
+        background: '#2c2c2c',
+        color: '#fff',
+        padding: '13px 24px',
+        borderRadius: '50px',
+        fontSize: '0.88rem',
+        fontWeight: '500',
+        fontFamily: "'Inter', sans-serif",
+        boxShadow: '0 8px 32px rgba(44,44,44,.22)',
+        zIndex: '9999',
+        opacity: '0',
+        transition: 'transform 0.38s cubic-bezier(0.34,1.56,0.64,1), opacity 0.3s',
+        whiteSpace: 'nowrap',
+        pointerEvents: 'none'
+      });
+      document.body.appendChild(t);
+    }
+    t.textContent = msg;
+    requestAnimationFrame(() => {
+      t.style.transform = 'translateX(-50%) translateY(0)';
+      t.style.opacity = '1';
+    });
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
+      t.style.transform = 'translateX(-50%) translateY(90px)';
+      t.style.opacity = '0';
+    }, 2800);
+  }
+
+  /* ── Countdown ─────────────────────────────────────────────── */
+  (function () {
+    let secs = 23 * 3600 + 59 * 60 + 59;
+    const h = document.getElementById('cd-h');
+    const m = document.getElementById('cd-m');
+    const s = document.getElementById('cd-s');
+    const p = n => String(n).padStart(2, '0');
+    function tick() {
+      if (secs < 0) { h.textContent = m.textContent = s.textContent = '00'; return; }
+      h.textContent = p(Math.floor(secs / 3600));
+      m.textContent = p(Math.floor((secs % 3600) / 60));
+      s.textContent = p(secs % 60);
+      secs--;
+    }
+    tick();
+    setInterval(tick, 1000);
+  })();
+
+  /* ── Nav scroll shadow ─────────────────────────────────────── */
+  window.addEventListener('scroll', () => {
+    document.getElementById('site-nav').classList.toggle('scrolled', window.scrollY > 8);
+  }, { passive: true });
+
+  /* ── Hamburger / mobile menu ───────────────────────────────── */
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  hamburger.addEventListener('click', function () {
+    const open = mobileMenu.classList.toggle('open');
+    const spans = this.querySelectorAll('span');
+    if (open) {
+      spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+      spans[1].style.opacity = '0';
+      spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+    } else {
+      spans.forEach(s => { s.style.transform = ''; s.style.opacity = ''; });
+    }
+  });
+
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    mobileMenu.classList.remove('open');
+    const spans = hamburger.querySelectorAll('span');
+    spans.forEach(s => { s.style.transform = ''; s.style.opacity = ''; });
+  }));
+
+  /* ── Newsletter ────────────────────────────────────────────── */
+  document.getElementById('nl-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    this.style.display = 'none';
+    document.getElementById('nl-success').classList.add('show');
+  });
 </script>
+
 </body>
 </html>
