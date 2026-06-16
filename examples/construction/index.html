@@ -1,0 +1,2013 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cornerstone Build Group | General Contractor</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600;700&display=swap');
+
+    /* ── CSS Custom Properties ── */
+    :root {
+      --navy:       #0d1b2a;
+      --navy-mid:   #132236;
+      --navy-light: #1a2f47;
+      --charcoal:   #1c2535;
+      --orange:     #f07b0f;
+      --orange-dark:#c8660a;
+      --orange-glow:rgba(240,123,15,0.18);
+      --white:      #ffffff;
+      --off-white:  #e8edf2;
+      --gray:       #8a95a3;
+      --gray-light: #c4ccd4;
+      --border:     rgba(255,255,255,0.08);
+      --shadow:     0 4px 32px rgba(0,0,0,0.35);
+      --radius:     6px;
+      --transition: 0.28s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Barlow', sans-serif;
+      background: var(--navy);
+      color: var(--off-white);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+    img { display: block; max-width: 100%; }
+
+    /* ── Utility ── */
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .section-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 0.6rem;
+    }
+    .section-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 900;
+      line-height: 1.05;
+      color: var(--white);
+    }
+    .section-sub {
+      color: var(--gray);
+      font-size: 1.05rem;
+      max-width: 540px;
+      margin-top: 0.75rem;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.8rem 1.8rem;
+      border-radius: var(--radius);
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: all var(--transition);
+      white-space: nowrap;
+    }
+    .btn-primary {
+      background: var(--orange);
+      color: var(--white);
+    }
+    .btn-primary:hover {
+      background: var(--orange-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(240,123,15,0.45);
+    }
+    .btn-outline {
+      background: transparent;
+      border-color: rgba(255,255,255,0.5);
+      color: var(--white);
+    }
+    .btn-outline:hover {
+      border-color: var(--orange);
+      color: var(--orange);
+      transform: translateY(-2px);
+    }
+
+    /* ═══════════════════════════════════
+       NAV
+    ═══════════════════════════════════ */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: rgba(13,27,42,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      transition: background var(--transition), box-shadow var(--transition);
+    }
+    .nav.scrolled {
+      background: rgba(13,27,42,0.98);
+      box-shadow: 0 2px 32px rgba(0,0,0,0.5);
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 70px;
+    }
+    .nav-logo {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.55rem;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .nav-logo span.accent { color: var(--orange); }
+    .logo-icon {
+      width: 34px;
+      height: 34px;
+      background: var(--orange);
+      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .logo-icon::after {
+      content: '';
+      width: 16px;
+      height: 16px;
+      background: var(--white);
+      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+    .nav-links a {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gray-light);
+      transition: color var(--transition);
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      left: 0; bottom: -4px;
+      width: 0; height: 2px;
+      background: var(--orange);
+      transition: width var(--transition);
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-cta { margin-left: 1rem; }
+
+    /* Hamburger */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .nav-hamburger span {
+      display: block;
+      width: 26px;
+      height: 2px;
+      background: var(--white);
+      transition: all var(--transition);
+    }
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .nav-mobile {
+      display: none;
+      flex-direction: column;
+      background: var(--navy-mid);
+      border-top: 1px solid var(--border);
+      padding: 1.2rem 0;
+    }
+    .nav-mobile.open { display: flex; }
+    .nav-mobile a {
+      padding: 0.75rem 1.5rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gray-light);
+      border-bottom: 1px solid var(--border);
+      transition: color var(--transition), background var(--transition);
+    }
+    .nav-mobile a:hover { color: var(--orange); background: rgba(240,123,15,0.06); }
+    .nav-mobile .btn { margin: 1rem 1.5rem 0; text-align: center; justify-content: center; }
+
+    @media (max-width: 768px) {
+      .nav-links, .nav-cta { display: none; }
+      .nav-hamburger { display: flex; }
+    }
+
+    /* ═══════════════════════════════════
+       HERO
+    ═══════════════════════════════════ */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: 70px;
+      overflow: hidden;
+      background: var(--navy);
+    }
+    /* Geometric grid pattern */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    /* Diagonal accent lines */
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        repeating-linear-gradient(
+          -45deg,
+          transparent,
+          transparent 120px,
+          rgba(240,123,15,0.04) 120px,
+          rgba(240,123,15,0.04) 121px
+        );
+    }
+    .hero-glow {
+      position: absolute;
+      top: 15%;
+      right: -10%;
+      width: 60vw;
+      max-width: 700px;
+      aspect-ratio: 1;
+      background: radial-gradient(ellipse at center, rgba(240,123,15,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-glow-2 {
+      position: absolute;
+      bottom: -20%;
+      left: -10%;
+      width: 50vw;
+      max-width: 600px;
+      aspect-ratio: 1;
+      background: radial-gradient(ellipse at center, rgba(19,34,54,0.9) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 720px;
+      padding: 4rem 0;
+    }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 0.78rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 1.2rem;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 32px;
+      height: 2px;
+      background: var(--orange);
+    }
+    .hero-headline {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      font-weight: 900;
+      line-height: 0.95;
+      color: var(--white);
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+      margin-bottom: 1.4rem;
+    }
+    .hero-headline em {
+      font-style: normal;
+      color: var(--orange);
+    }
+    .hero-sub {
+      font-size: 1.1rem;
+      color: var(--gray);
+      max-width: 480px;
+      margin-bottom: 2.4rem;
+      line-height: 1.7;
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .hero-badge {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+      z-index: 2;
+    }
+    .badge-pill {
+      background: var(--navy-mid);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--orange);
+      padding: 1rem 1.2rem;
+      border-radius: var(--radius);
+      min-width: 160px;
+    }
+    .badge-pill .num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--white);
+    }
+    .badge-pill .label {
+      font-size: 0.78rem;
+      color: var(--gray);
+      letter-spacing: 0.05em;
+    }
+    .hero-scroll {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      color: var(--gray);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      z-index: 2;
+    }
+    .scroll-line {
+      width: 1px;
+      height: 48px;
+      background: linear-gradient(to bottom, var(--orange), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 1; transform: scaleY(1); }
+      50% { opacity: 0.4; transform: scaleY(0.7); }
+    }
+
+    @media (max-width: 900px) {
+      .hero-badge { display: none; }
+    }
+
+    /* ═══════════════════════════════════
+       STATS BAR
+    ═══════════════════════════════════ */
+    .stats {
+      background: var(--charcoal);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 0;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+    }
+    .stat-item {
+      padding: 2.4rem 1.5rem;
+      text-align: center;
+      border-right: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+      transition: background var(--transition);
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-item::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 0; height: 3px;
+      background: var(--orange);
+      transition: width 0.4s ease;
+    }
+    .stat-item:hover { background: rgba(240,123,15,0.05); }
+    .stat-item:hover::before { width: 60%; }
+    .stat-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(2.2rem, 4vw, 3rem);
+      font-weight: 900;
+      color: var(--orange);
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: 0.05em;
+      line-height: 1;
+    }
+    .stat-suffix {
+      font-size: 0.6em;
+      font-weight: 700;
+    }
+    .stat-label {
+      font-size: 0.83rem;
+      color: var(--gray);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-top: 0.4rem;
+    }
+
+    @media (max-width: 700px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .stat-item:nth-child(2) { border-right: none; }
+      .stat-item:nth-child(3) { border-right: 1px solid var(--border); border-top: 1px solid var(--border); }
+      .stat-item:nth-child(4) { border-top: 1px solid var(--border); border-right: none; }
+    }
+
+    /* ═══════════════════════════════════
+       SERVICES
+    ═══════════════════════════════════ */
+    .services {
+      padding: 7rem 0;
+      background: var(--navy);
+    }
+    .services-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 3.5rem;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .service-card {
+      background: var(--navy-mid);
+      padding: 2.2rem 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: background var(--transition);
+      cursor: default;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--orange-glow), transparent);
+      opacity: 0;
+      transition: opacity var(--transition);
+    }
+    .service-card:hover { background: var(--navy-light); }
+    .service-card:hover::before { opacity: 1; }
+    .service-card:hover .service-icon { transform: scale(1.1) rotate(-5deg); }
+    .service-icon {
+      width: 52px;
+      height: 52px;
+      margin-bottom: 1.2rem;
+      transition: transform var(--transition);
+      color: var(--orange);
+    }
+    .service-icon svg { width: 100%; height: 100%; }
+    .service-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--white);
+      margin-bottom: 0.6rem;
+      letter-spacing: 0.02em;
+    }
+    .service-desc {
+      font-size: 0.88rem;
+      color: var(--gray);
+      line-height: 1.65;
+    }
+    .service-arrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      margin-top: 1rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--orange);
+      opacity: 0;
+      transform: translateX(-8px);
+      transition: opacity var(--transition), transform var(--transition);
+    }
+    .service-card:hover .service-arrow { opacity: 1; transform: translateX(0); }
+
+    @media (max-width: 900px) { .services-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { .services-grid { grid-template-columns: 1fr; } }
+
+    /* ═══════════════════════════════════
+       PROJECTS
+    ═══════════════════════════════════ */
+    .projects {
+      padding: 7rem 0;
+      background: var(--charcoal);
+    }
+    .projects-header {
+      text-align: center;
+      margin-bottom: 3.5rem;
+    }
+    .projects-header .section-sub { margin: 0.75rem auto 0; }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .project-card {
+      border-radius: var(--radius);
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+    }
+    .project-image {
+      height: 240px;
+      position: relative;
+      overflow: hidden;
+    }
+    .project-image .img-placeholder {
+      width: 100%;
+      height: 100%;
+      transition: transform 0.5s cubic-bezier(0.4,0,0.2,1);
+    }
+    .project-card:hover .img-placeholder { transform: scale(1.07); }
+    .project-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 30%, rgba(13,27,42,0.95) 100%);
+      display: flex;
+      align-items: flex-end;
+      padding: 1.5rem;
+      opacity: 0;
+      transition: opacity var(--transition);
+    }
+    .project-card:hover .project-overlay { opacity: 1; }
+    .overlay-btn {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--white);
+      background: var(--orange);
+      padding: 0.6rem 1.2rem;
+      border-radius: calc(var(--radius)/2);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .project-meta {
+      background: var(--navy-mid);
+      padding: 1.2rem 1.4rem;
+      border: 1px solid var(--border);
+      border-top: none;
+      border-radius: 0 0 var(--radius) var(--radius);
+    }
+    .project-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--white);
+      margin-bottom: 0.2rem;
+    }
+    .project-info {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.8rem;
+      color: var(--gray);
+    }
+    .project-info .dot {
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--orange);
+    }
+
+    @media (max-width: 900px) { .projects-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { .projects-grid { grid-template-columns: 1fr; } }
+
+    /* ═══════════════════════════════════
+       WHY CHOOSE US
+    ═══════════════════════════════════ */
+    .why {
+      padding: 7rem 0;
+      background: var(--navy);
+      position: relative;
+      overflow: hidden;
+    }
+    .why::before {
+      content: '';
+      position: absolute;
+      right: -200px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      border: 1px solid rgba(240,123,15,0.08);
+    }
+    .why::after {
+      content: '';
+      position: absolute;
+      right: -100px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      border: 1px solid rgba(240,123,15,0.06);
+    }
+    .why-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+    .why-reasons {
+      display: flex;
+      flex-direction: column;
+      gap: 2.4rem;
+    }
+    .why-item {
+      display: flex;
+      gap: 1.5rem;
+      align-items: flex-start;
+    }
+    .why-icon-wrap {
+      flex-shrink: 0;
+      width: 54px;
+      height: 54px;
+      background: rgba(240,123,15,0.12);
+      border: 1px solid rgba(240,123,15,0.25);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--orange);
+      transition: background var(--transition), transform var(--transition);
+    }
+    .why-item:hover .why-icon-wrap {
+      background: rgba(240,123,15,0.22);
+      transform: scale(1.08);
+    }
+    .why-item-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--white);
+      margin-bottom: 0.4rem;
+    }
+    .why-item-desc {
+      font-size: 0.9rem;
+      color: var(--gray);
+      line-height: 1.65;
+    }
+    .why-visual {
+      position: relative;
+      z-index: 1;
+    }
+    .why-visual-main {
+      width: 100%;
+      aspect-ratio: 4/3;
+      background: linear-gradient(135deg, var(--navy-light) 0%, #0f2340 100%);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+    .why-visual-main::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 30px 30px;
+    }
+    .why-visual-badge {
+      position: absolute;
+      bottom: -1.5rem;
+      left: -1.5rem;
+      background: var(--orange);
+      color: var(--white);
+      padding: 1.2rem 1.4rem;
+      border-radius: var(--radius);
+      box-shadow: 0 8px 24px rgba(240,123,15,0.5);
+    }
+    .why-visual-badge .big {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2rem;
+      font-weight: 900;
+      line-height: 1;
+    }
+    .why-visual-badge .small {
+      font-size: 0.75rem;
+      opacity: 0.85;
+      margin-top: 0.15rem;
+    }
+    /* Blueprint-style illustration inside why-visual */
+    .blueprint-svg {
+      position: absolute;
+      inset: 1.5rem;
+      opacity: 0.35;
+    }
+
+    @media (max-width: 800px) {
+      .why-inner { grid-template-columns: 1fr; gap: 3rem; }
+      .why-visual { display: none; }
+    }
+
+    /* ═══════════════════════════════════
+       TESTIMONIALS
+    ═══════════════════════════════════ */
+    .testimonials {
+      padding: 7rem 0;
+      background: var(--charcoal);
+    }
+    .testimonials-header {
+      text-align: center;
+      margin-bottom: 3.5rem;
+    }
+    .testimonials-header .section-sub { margin: 0.75rem auto 0; }
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .testimonial-card {
+      background: var(--navy-mid);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color var(--transition), transform var(--transition);
+    }
+    .testimonial-card::before {
+      content: '\201C';
+      position: absolute;
+      top: -0.5rem;
+      right: 1.5rem;
+      font-family: Georgia, serif;
+      font-size: 8rem;
+      color: rgba(240,123,15,0.06);
+      line-height: 1;
+      pointer-events: none;
+    }
+    .testimonial-card:hover {
+      border-color: rgba(240,123,15,0.3);
+      transform: translateY(-4px);
+    }
+    .stars {
+      display: flex;
+      gap: 3px;
+      margin-bottom: 1.1rem;
+    }
+    .star {
+      width: 16px;
+      height: 16px;
+      color: var(--orange);
+    }
+    .testimonial-quote {
+      font-size: 0.95rem;
+      color: var(--off-white);
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+      font-style: italic;
+    }
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+    }
+    .author-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--white);
+      flex-shrink: 0;
+    }
+    .author-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--white);
+    }
+    .author-company {
+      font-size: 0.78rem;
+      color: var(--gray);
+      margin-top: 0.1rem;
+    }
+
+    @media (max-width: 900px) { .testimonials-grid { grid-template-columns: 1fr; max-width: 520px; margin: 0 auto; } }
+
+    /* ═══════════════════════════════════
+       CONTACT
+    ═══════════════════════════════════ */
+    .contact {
+      padding: 7rem 0;
+      background: var(--navy);
+      position: relative;
+    }
+    .contact-inner {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 5rem;
+      align-items: flex-start;
+    }
+    .contact-info { padding-top: 0.5rem; }
+    .contact-details {
+      margin-top: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.4rem;
+    }
+    .contact-detail-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    .contact-detail-icon {
+      width: 42px;
+      height: 42px;
+      background: rgba(240,123,15,0.1);
+      border: 1px solid rgba(240,123,15,0.2);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--orange);
+      flex-shrink: 0;
+    }
+    .contact-detail-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-bottom: 0.2rem;
+    }
+    .contact-detail-value {
+      font-size: 0.95rem;
+      color: var(--off-white);
+      font-weight: 500;
+    }
+    .contact-form-wrap {
+      background: var(--navy-mid);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2.5rem;
+    }
+    .form-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--white);
+      margin-bottom: 1.8rem;
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem; }
+    .form-group label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gray-light);
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: calc(var(--radius)/2);
+      padding: 0.8rem 1rem;
+      font-family: 'Barlow', sans-serif;
+      font-size: 0.92rem;
+      color: var(--white);
+      transition: border-color var(--transition), background var(--transition);
+      outline: none;
+      width: 100%;
+    }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: rgba(255,255,255,0.25); }
+    .form-group select { -webkit-appearance: none; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a95a3' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 1rem center; }
+    .form-group select option { background: var(--navy-mid); color: var(--white); }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--orange);
+      background: rgba(240,123,15,0.04);
+    }
+    .form-group textarea { resize: vertical; min-height: 120px; }
+    .form-submit { width: 100%; justify-content: center; margin-top: 0.5rem; padding: 1rem; font-size: 1rem; }
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 2rem;
+      color: var(--orange);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+
+    @media (max-width: 900px) {
+      .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
+    }
+    @media (max-width: 560px) {
+      .form-row { grid-template-columns: 1fr; }
+      .contact-form-wrap { padding: 1.5rem; }
+    }
+
+    /* ═══════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════ */
+    .footer {
+      background: #080f18;
+      border-top: 1px solid var(--border);
+      padding: 4rem 0 2rem;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1.4fr;
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+    .footer-brand-desc {
+      font-size: 0.88rem;
+      color: var(--gray);
+      line-height: 1.7;
+      margin-top: 1rem;
+      max-width: 260px;
+    }
+    .footer-social {
+      display: flex;
+      gap: 0.8rem;
+      margin-top: 1.4rem;
+    }
+    .social-btn {
+      width: 36px;
+      height: 36px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gray);
+      transition: all var(--transition);
+    }
+    .social-btn:hover {
+      background: var(--orange);
+      border-color: var(--orange);
+      color: var(--white);
+      transform: translateY(-2px);
+    }
+    .footer-col-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 1.2rem;
+    }
+    .footer-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+    .footer-links a {
+      font-size: 0.88rem;
+      color: var(--gray);
+      transition: color var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .footer-links a::before {
+      content: '';
+      width: 5px;
+      height: 1px;
+      background: var(--orange);
+      transition: width var(--transition);
+    }
+    .footer-links a:hover { color: var(--off-white); }
+    .footer-links a:hover::before { width: 10px; }
+    .footer-address {
+      font-size: 0.88rem;
+      color: var(--gray);
+      line-height: 1.7;
+    }
+    .footer-address strong {
+      display: block;
+      color: var(--off-white);
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+    .footer-license {
+      font-size: 0.78rem;
+      color: rgba(138,149,163,0.7);
+      margin-top: 1rem;
+    }
+    .footer-bottom {
+      border-top: 1px solid var(--border);
+      padding-top: 1.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-copy {
+      font-size: 0.82rem;
+      color: var(--gray);
+    }
+    .footer-copy span { color: var(--orange); }
+    .footer-bottom-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+    .footer-bottom-links a {
+      font-size: 0.82rem;
+      color: var(--gray);
+      transition: color var(--transition);
+    }
+    .footer-bottom-links a:hover { color: var(--orange); }
+
+    @media (max-width: 900px) {
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 540px) {
+      .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+    }
+
+    /* ═══════════════════════════════════
+       SCROLL REVEAL
+    ═══════════════════════════════════ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════
+     NAV
+═══════════════════════════════════ -->
+<nav class="nav" id="mainNav">
+  <div class="container nav-inner">
+    <a href="#" class="nav-logo">
+      <div class="logo-icon"></div>
+      CORNER<span class="accent">STONE</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#contact" class="btn btn-primary nav-cta">Get a Quote</a>
+    <div class="nav-hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+  <div class="nav-mobile" id="mobileMenu">
+    <a href="#services">Services</a>
+    <a href="#projects">Projects</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+    <a href="#contact" class="btn btn-primary">Get a Quote</a>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════
+     HERO
+═══════════════════════════════════ -->
+<section class="hero" id="home">
+  <div class="hero-glow"></div>
+  <div class="hero-glow-2"></div>
+  <div class="container" style="display:flex;align-items:center;justify-content:space-between;width:100%;">
+    <div class="hero-content">
+      <div class="hero-eyebrow">General Contracting &amp; Construction</div>
+      <h1 class="hero-headline">
+        We Build<br/>
+        What Others<br/>
+        <em>Can't.</em>
+      </h1>
+      <p class="hero-sub">
+        Cornerstone Build Group has delivered industry-leading commercial, residential, and industrial construction across the region for over 20 years. Quality you can stand on.
+      </p>
+      <div class="hero-actions">
+        <a href="#projects" class="btn btn-primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+          View Our Work
+        </a>
+        <a href="#contact" class="btn btn-outline">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+          Request a Quote
+        </a>
+      </div>
+    </div>
+    <div class="hero-badge">
+      <div class="badge-pill">
+        <div class="num">500<span style="font-size:0.55em;color:var(--orange);">+</span></div>
+        <div class="label">Projects Done</div>
+      </div>
+      <div class="badge-pill">
+        <div class="num">20</div>
+        <div class="label">Years in Business</div>
+      </div>
+      <div class="badge-pill">
+        <div class="num">98<span style="font-size:0.55em;color:var(--orange);">%</span></div>
+        <div class="label">Satisfaction Rate</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    Scroll
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     STATS
+═══════════════════════════════════ -->
+<section class="stats" id="stats">
+  <div class="stats-grid">
+    <div class="stat-item">
+      <div class="stat-num">
+        <span class="counter" data-target="500">0</span><span class="stat-suffix">+</span>
+      </div>
+      <div class="stat-label">Projects Completed</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">
+        <span class="counter" data-target="20">0</span>
+      </div>
+      <div class="stat-label">Years Experience</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">
+        <span class="counter" data-target="98">0</span><span class="stat-suffix">%</span>
+      </div>
+      <div class="stat-label">Client Satisfaction</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">
+        <span class="counter" data-target="45">0</span>
+      </div>
+      <div class="stat-label">Expert Staff</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     SERVICES
+═══════════════════════════════════ -->
+<section class="services" id="services">
+  <div class="container">
+    <div class="services-header">
+      <div>
+        <div class="section-label">What We Do</div>
+        <h2 class="section-title">Our Core Services</h2>
+        <p class="section-sub">End-to-end construction solutions delivered on time, on budget, and built to last.</p>
+      </div>
+      <a href="#contact" class="btn btn-outline reveal">Talk to an Expert</a>
+    </div>
+    <div class="services-grid">
+
+      <!-- Commercial Construction -->
+      <div class="service-card reveal">
+        <div class="service-icon">
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="6" y="14" width="36" height="30"/>
+            <path d="M6 14l18-10 18 10"/>
+            <rect x="18" y="28" width="6" height="16"/>
+            <rect x="26" y="28" width="6" height="8"/>
+            <line x1="14" y1="20" x2="14" y2="26"/>
+            <line x1="24" y1="20" x2="24" y2="26"/>
+            <line x1="34" y1="20" x2="34" y2="26"/>
+          </svg>
+        </div>
+        <div class="service-title">Commercial Construction</div>
+        <p class="service-desc">Office towers, retail centres, warehouses, and industrial facilities built to your exact specifications and zoning requirements.</p>
+        <div class="service-arrow">
+          Learn More
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </div>
+
+      <!-- Custom Homes -->
+      <div class="service-card reveal reveal-delay-1">
+        <div class="service-icon">
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 24L24 6l20 18"/>
+            <path d="M8 24v18h12V30h8v12h12V24"/>
+            <rect x="20" y="30" width="8" height="12"/>
+          </svg>
+        </div>
+        <div class="service-title">Custom Homes</div>
+        <p class="service-desc">Architecturally crafted custom residences from foundation to finish — built around how you want to live.</p>
+        <div class="service-arrow">
+          Learn More
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </div>
+
+      <!-- Renovations -->
+      <div class="service-card reveal reveal-delay-2">
+        <div class="service-icon">
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M8 40l24-24 6 6-24 24z"/>
+            <path d="M30 8l10 10-4 2-8-8z"/>
+            <path d="M34 6l6 6"/>
+            <line x1="8" y1="40" x2="4" y2="44"/>
+            <line x1="14" y1="34" x2="10" y2="38"/>
+          </svg>
+        </div>
+        <div class="service-title">Renovations</div>
+        <p class="service-desc">Full-scale commercial and residential renovations that modernise spaces while respecting structural integrity and existing character.</p>
+        <div class="service-arrow">
+          Learn More
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </div>
+
+      <!-- Project Management -->
+      <div class="service-card reveal reveal-delay-3">
+        <div class="service-icon">
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="6" y="6" width="36" height="36" rx="3"/>
+            <line x1="6" y1="16" x2="42" y2="16"/>
+            <line x1="16" y1="6" x2="16" y2="16"/>
+            <line x1="32" y1="6" x2="32" y2="16"/>
+            <line x1="14" y1="24" x2="22" y2="24"/>
+            <line x1="14" y1="30" x2="34" y2="30"/>
+            <line x1="14" y1="36" x2="28" y2="36"/>
+            <circle cx="30" cy="24" r="4"/>
+            <path d="M28 24l1.5 1.5L33 21"/>
+          </svg>
+        </div>
+        <div class="service-title">Project Management</div>
+        <p class="service-desc">Comprehensive oversight from feasibility through handover — scheduling, budgeting, contractor coordination, and compliance.</p>
+        <div class="service-arrow">
+          Learn More
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </div>
+
+      <!-- Steel Structures -->
+      <div class="service-card reveal reveal-delay-4">
+        <div class="service-icon">
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="10" y1="44" x2="10" y2="4"/>
+            <line x1="38" y1="44" x2="38" y2="4"/>
+            <line x1="10" y1="4" x2="38" y2="4"/>
+            <line x1="10" y1="44" x2="38" y2="44"/>
+            <line x1="10" y1="16" x2="38" y2="16"/>
+            <line x1="10" y1="28" x2="38" y2="28"/>
+            <line x1="10" y1="4" x2="38" y2="16"/>
+            <line x1="38" y1="4" x2="10" y2="16"/>
+            <line x1="10" y1="16" x2="38" y2="28"/>
+            <line x1="38" y1="16" x2="10" y2="28"/>
+          </svg>
+        </div>
+        <div class="service-title">Steel Structures</div>
+        <p class="service-desc">Engineered steel framing for industrial sheds, mezzanines, and long-span commercial structures. Fast-track fabrication and erection.</p>
+        <div class="service-arrow">
+          Learn More
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </div>
+
+      <!-- Green Building -->
+      <div class="service-card reveal reveal-delay-5">
+        <div class="service-icon">
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M24 44V20"/>
+            <path d="M24 20C24 20 12 18 10 8c8 0 14 6 14 12z"/>
+            <path d="M24 28C24 28 36 26 38 16c-8 0-14 6-14 12z"/>
+            <path d="M24 36C24 36 12 32 12 22"/>
+            <circle cx="24" cy="10" r="4"/>
+          </svg>
+        </div>
+        <div class="service-title">Green Building</div>
+        <p class="service-desc">Sustainable construction practices, energy-efficient systems, and materials that meet leading environmental standards without compromising on performance.</p>
+        <div class="service-arrow">
+          Learn More
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     PROJECTS
+═══════════════════════════════════ -->
+<section class="projects" id="projects">
+  <div class="container">
+    <div class="projects-header reveal">
+      <div class="section-label">Our Portfolio</div>
+      <h2 class="section-title">Featured Projects</h2>
+      <p class="section-sub">A selection of landmark builds that demonstrate our capabilities across every sector.</p>
+    </div>
+    <div class="projects-grid">
+
+      <div class="project-card reveal">
+        <div class="project-image">
+          <div class="img-placeholder" style="background:linear-gradient(135deg,#1a3a5c 0%,#0d2240 40%,#1c4060 100%);"></div>
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0.12;">
+            <svg width="100" height="100" viewBox="0 0 100 100" fill="none" stroke="white" stroke-width="1">
+              <rect x="15" y="30" width="70" height="55"/>
+              <path d="M15 30L50 10L85 30"/>
+              <rect x="35" y="55" width="15" height="30"/>
+              <rect x="55" y="55" width="15" height="20"/>
+              <line x1="25" y1="40" x2="25" y2="52"/><line x1="38" y1="40" x2="38" y2="52"/><line x1="51" y1="40" x2="51" y2="52"/><line x1="64" y1="40" x2="64" y2="52"/><line x1="77" y1="40" x2="77" y2="52"/>
+            </svg>
+          </div>
+          <div class="project-overlay">
+            <div class="overlay-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              View Project
+            </div>
+          </div>
+        </div>
+        <div class="project-meta">
+          <div class="project-name">Harrington Tower</div>
+          <div class="project-info">
+            <span>Chicago, IL</span>
+            <span class="dot"></span>
+            <span>2024</span>
+            <span class="dot"></span>
+            <span>Commercial</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card reveal reveal-delay-1">
+        <div class="project-image">
+          <div class="img-placeholder" style="background:linear-gradient(135deg,#2d1a0a 0%,#3d2510 40%,#1a0f05 100%);"></div>
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0.15;">
+            <svg width="100" height="100" viewBox="0 0 100 100" fill="none" stroke="white" stroke-width="1">
+              <path d="M10 90V50L50 20L90 50V90"/>
+              <rect x="38" y="65" width="24" height="25"/>
+              <rect x="20" y="58" width="18" height="20"/>
+              <rect x="62" y="58" width="18" height="20"/>
+              <path d="M30 50h10v10H30z"/><path d="M60 50h10v10H60z"/>
+            </svg>
+          </div>
+          <div class="project-overlay">
+            <div class="overlay-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              View Project
+            </div>
+          </div>
+        </div>
+        <div class="project-meta">
+          <div class="project-name">The Whitmore Estate</div>
+          <div class="project-info">
+            <span>Lake Geneva, WI</span>
+            <span class="dot"></span>
+            <span>2023</span>
+            <span class="dot"></span>
+            <span>Custom Home</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card reveal reveal-delay-2">
+        <div class="project-image">
+          <div class="img-placeholder" style="background:linear-gradient(135deg,#0a2e1a 0%,#0f3d22 40%,#051a0e 100%);"></div>
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0.13;">
+            <svg width="100" height="100" viewBox="0 0 100 100" fill="none" stroke="white" stroke-width="1">
+              <rect x="10" y="30" width="80" height="60"/>
+              <rect x="10" y="20" width="80" height="10"/>
+              <line x1="30" y1="20" x2="30" y2="10"/>
+              <line x1="70" y1="20" x2="70" y2="10"/>
+              <line x1="30" y1="10" x2="70" y2="10"/>
+              <rect x="20" y="45" width="25" height="45"/>
+              <rect x="55" y="45" width="25" height="25"/>
+              <rect x="55" y="75" width="10" height="15"/>
+            </svg>
+          </div>
+          <div class="project-overlay">
+            <div class="overlay-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              View Project
+            </div>
+          </div>
+        </div>
+        <div class="project-meta">
+          <div class="project-name">Meridian Medical Centre</div>
+          <div class="project-info">
+            <span>Milwaukee, WI</span>
+            <span class="dot"></span>
+            <span>2023</span>
+            <span class="dot"></span>
+            <span>Healthcare</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-image">
+          <div class="img-placeholder" style="background:linear-gradient(135deg,#1a0a2e 0%,#25103d 40%,#0e051a 100%);"></div>
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0.14;">
+            <svg width="100" height="100" viewBox="0 0 100 100" fill="none" stroke="white" stroke-width="1">
+              <rect x="5" y="40" width="90" height="50"/>
+              <rect x="15" y="20" width="70" height="20"/>
+              <line x1="15" y1="20" x2="5" y2="40"/>
+              <line x1="85" y1="20" x2="95" y2="40"/>
+              <line x1="25" y1="20" x2="25" y2="10"/><line x1="50" y1="20" x2="50" y2="10"/><line x1="75" y1="20" x2="75" y2="10"/>
+              <line x1="25" y1="10" x2="75" y2="10"/>
+              <rect x="20" y="60" width="15" height="30"/><rect x="45" y="60" width="15" height="30"/><rect x="70" y="60" width="15" height="30"/>
+            </svg>
+          </div>
+          <div class="project-overlay">
+            <div class="overlay-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              View Project
+            </div>
+          </div>
+        </div>
+        <div class="project-meta">
+          <div class="project-name">Apex Distribution Hub</div>
+          <div class="project-info">
+            <span>Rockford, IL</span>
+            <span class="dot"></span>
+            <span>2022</span>
+            <span class="dot"></span>
+            <span>Industrial</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card reveal reveal-delay-1">
+        <div class="project-image">
+          <div class="img-placeholder" style="background:linear-gradient(135deg,#1a1a0a 0%,#2e2e10 40%,#0a0a05 100%);"></div>
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0.13;">
+            <svg width="100" height="100" viewBox="0 0 100 100" fill="none" stroke="white" stroke-width="1">
+              <rect x="10" y="25" width="35" height="65"/>
+              <rect x="50" y="40" width="40" height="50"/>
+              <path d="M10 25L27 10L45 25"/>
+              <path d="M50 40L70 28L90 40"/>
+              <rect x="18" y="45" width="10" height="12"/><rect x="32" y="45" width="10" height="12"/>
+              <rect x="18" y="62" width="10" height="12"/><rect x="32" y="62" width="10" height="12"/>
+              <rect x="58" y="52" width="12" height="12"/><rect x="74" y="52" width="12" height="12"/>
+            </svg>
+          </div>
+          <div class="project-overlay">
+            <div class="overlay-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              View Project
+            </div>
+          </div>
+        </div>
+        <div class="project-meta">
+          <div class="project-name">Lakeside Mixed-Use Development</div>
+          <div class="project-info">
+            <span>Evanston, IL</span>
+            <span class="dot"></span>
+            <span>2022</span>
+            <span class="dot"></span>
+            <span>Mixed-Use</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card reveal reveal-delay-2">
+        <div class="project-image">
+          <div class="img-placeholder" style="background:linear-gradient(135deg,#0a1a2e 0%,#102840 40%,#060f1a 100%);"></div>
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0.14;">
+            <svg width="100" height="100" viewBox="0 0 100 100" fill="none" stroke="white" stroke-width="1">
+              <rect x="8" y="20" width="84" height="70"/>
+              <line x1="8" y1="20" x2="50" y2="5"/>
+              <line x1="50" y1="5" x2="92" y2="20"/>
+              <line x1="8" y1="44" x2="92" y2="44"/>
+              <line x1="8" y1="68" x2="92" y2="68"/>
+              <line x1="34" y1="20" x2="34" y2="90"/>
+              <line x1="66" y1="20" x2="66" y2="90"/>
+              <rect x="38" y="70" width="24" height="20"/>
+            </svg>
+          </div>
+          <div class="project-overlay">
+            <div class="overlay-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              View Project
+            </div>
+          </div>
+        </div>
+        <div class="project-meta">
+          <div class="project-name">Centerfield Civic Plaza</div>
+          <div class="project-info">
+            <span>Springfield, IL</span>
+            <span class="dot"></span>
+            <span>2021</span>
+            <span class="dot"></span>
+            <span>Civic</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     WHY CHOOSE US
+═══════════════════════════════════ -->
+<section class="why" id="about">
+  <div class="container">
+    <div class="why-inner">
+      <div>
+        <div class="section-label">Why Cornerstone</div>
+        <h2 class="section-title reveal">Built on Integrity,<br/>Delivered with Precision</h2>
+        <p class="section-sub reveal reveal-delay-1">When you hire Cornerstone Build Group, you're not just hiring contractors — you're partnering with professionals who treat your project as their own.</p>
+        <div class="why-reasons" style="margin-top:2.5rem;">
+          <div class="why-item reveal">
+            <div class="why-icon-wrap">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                <path d="M9 12l2 2 4-4"/>
+              </svg>
+            </div>
+            <div>
+              <div class="why-item-title">Uncompromising Quality Standards</div>
+              <p class="why-item-desc">Every pour, frame, and finish is inspected against our rigorous internal quality programme. We don't sign off until it's right — and our warranty backs that promise.</p>
+            </div>
+          </div>
+          <div class="why-item reveal reveal-delay-1">
+            <div class="why-icon-wrap">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+            </div>
+            <div>
+              <div class="why-item-title">On Time, Every Time</div>
+              <p class="why-item-desc">Our milestone-driven scheduling methodology has delivered 94% of projects on or ahead of schedule over the past decade. Your opening date is our deadline.</p>
+            </div>
+          </div>
+          <div class="why-item reveal reveal-delay-2">
+            <div class="why-icon-wrap">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="1" x2="12" y2="23"/>
+                <path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
+              </svg>
+            </div>
+            <div>
+              <div class="why-item-title">Transparent Budgeting</div>
+              <p class="why-item-desc">Open-book estimating, real-time cost tracking, and zero surprise invoices. We work hard to protect your contingency — not spend it.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="why-visual reveal">
+        <div class="why-visual-main">
+          <svg class="blueprint-svg" viewBox="0 0 300 200" fill="none" stroke="rgba(240,123,15,0.7)" stroke-width="0.8">
+            <rect x="20" y="20" width="260" height="160"/>
+            <rect x="30" y="30" width="100" height="80"/>
+            <rect x="140" y="30" width="130" height="80"/>
+            <rect x="30" y="120" width="60" height="50"/>
+            <rect x="100" y="120" width="80" height="50"/>
+            <rect x="190" y="120" width="80" height="50"/>
+            <line x1="30" y1="55" x2="130" y2="55"/>
+            <line x1="80" y1="30" x2="80" y2="110"/>
+            <line x1="140" y1="65" x2="270" y2="65"/>
+            <line x1="205" y1="30" x2="205" y2="110"/>
+            <circle cx="80" cy="55" r="3" fill="rgba(240,123,15,0.7)"/>
+            <circle cx="205" cy="65" r="3" fill="rgba(240,123,15,0.7)"/>
+            <text x="40" y="48" font-size="7" fill="rgba(240,123,15,0.8)" font-family="monospace">LOBBY</text>
+            <text x="155" y="48" font-size="7" fill="rgba(240,123,15,0.8)" font-family="monospace">MAIN HALL</text>
+            <text x="38" y="150" font-size="6" fill="rgba(240,123,15,0.7)" font-family="monospace">OFFICE A</text>
+            <text x="108" y="150" font-size="6" fill="rgba(240,123,15,0.7)" font-family="monospace">CONFERENCE</text>
+            <text x="198" y="150" font-size="6" fill="rgba(240,123,15,0.7)" font-family="monospace">OFFICE B</text>
+            <line x1="20" y1="5" x2="280" y2="5"/>
+            <text x="20" y="12" font-size="5" fill="rgba(240,123,15,0.5)" font-family="monospace">CORNERSTONE BUILD GROUP — FLOOR PLAN A</text>
+          </svg>
+        </div>
+        <div class="why-visual-badge">
+          <div class="big">A+</div>
+          <div class="small">Safety Rating</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     TESTIMONIALS
+═══════════════════════════════════ -->
+<section class="testimonials" id="testimonials">
+  <div class="container">
+    <div class="testimonials-header reveal">
+      <div class="section-label">Client Voices</div>
+      <h2 class="section-title">What Our Clients Say</h2>
+      <p class="section-sub">Real results, real relationships — built over 20 years of delivering on our word.</p>
+    </div>
+    <div class="testimonials-grid">
+
+      <div class="testimonial-card reveal">
+        <div class="stars">
+          <svg class="star" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg class="star" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg class="star" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg class="star" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg class="star" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <p class="testimonial-quote">"Cornerstone delivered our 18-storey office tower three weeks ahead of schedule and 4% under budget. Their site management was the most professional I've seen in 25 years of development. We have already awarded them our next three projects."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar" style="background:linear-gradient(135deg,#1a5276,#2980b9);">RK</div>
+          <div>
+            <div class="author-name">Robert Keller</div>
+            <div class="author-company">CEO, Keller Property Group</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card reveal reveal-delay-1">
+        <div class="stars">
+          <svg class="star" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg class="star" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg class="star" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg class="star" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg class="star" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <p class="testimonial-quote">"Our custom home is everything we dreamed of and more. The team listened to every detail, kept us informed every week, and the craftsmanship is genuinely extraordinary. It's not just a house — it's a work of art we get to live in."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar" style="background:linear-gradient(135deg,#6c3483,#9b59b6);">SM</div>
+          <div>
+            <div class="author-name">Sarah &amp; Marcus Webb</div>
+            <div class="author-company">Homeowners, Lake Geneva</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card reveal reveal-delay-2">
+        <div class="stars">
+          <svg class="star" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg class="star" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg class="star" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg class="star" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg class="star" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <p class="testimonial-quote">"We were skeptical after a bad experience with a previous contractor. Cornerstone changed our entire perception of what a construction partner should be. Transparent, responsive, safety-first — and they finished our distribution centre on the dot."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar" style="background:linear-gradient(135deg,#1e8449,#27ae60);">DL</div>
+          <div>
+            <div class="author-name">Dana Loomis</div>
+            <div class="author-company">COO, Apex Logistics Inc.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     CONTACT
+═══════════════════════════════════ -->
+<section class="contact" id="contact">
+  <div class="container">
+    <div class="contact-inner">
+      <div class="contact-info reveal">
+        <div class="section-label">Let's Talk</div>
+        <h2 class="section-title">Start Your<br/>Project Today</h2>
+        <p class="section-sub" style="margin-top:0.75rem;">Tell us about your project and we'll have a senior estimator reach out within one business day.</p>
+        <div class="contact-details">
+          <div class="contact-detail-item">
+            <div class="contact-detail-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div>
+              <div class="contact-detail-label">Address</div>
+              <div class="contact-detail-value">4820 Industrial Pkwy, Suite 300<br/>Chicago, IL 60632</div>
+            </div>
+          </div>
+          <div class="contact-detail-item">
+            <div class="contact-detail-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.02 1.18 2 2 0 012 .02h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92v2z"/></svg>
+            </div>
+            <div>
+              <div class="contact-detail-label">Phone</div>
+              <div class="contact-detail-value">(312) 555-0190</div>
+            </div>
+          </div>
+          <div class="contact-detail-item">
+            <div class="contact-detail-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div>
+              <div class="contact-detail-label">Email</div>
+              <div class="contact-detail-value">info@cornerstonebuildgroup.com</div>
+            </div>
+          </div>
+          <div class="contact-detail-item">
+            <div class="contact-detail-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div>
+              <div class="contact-detail-label">Office Hours</div>
+              <div class="contact-detail-value">Mon – Fri, 7:00 AM – 5:00 PM CST</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-form-wrap reveal reveal-delay-1">
+        <div class="form-title">Request a Free Quote</div>
+        <form id="contactForm" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="fname">First Name</label>
+              <input type="text" id="fname" name="fname" placeholder="John" required />
+            </div>
+            <div class="form-group">
+              <label for="lname">Last Name</label>
+              <input type="text" id="lname" name="lname" placeholder="Doe" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" name="email" placeholder="john@company.com" required />
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone Number</label>
+              <input type="tel" id="phone" name="phone" placeholder="(312) 555-0100" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="project">Project Type</label>
+            <select id="project" name="project" required>
+              <option value="" disabled selected>Select project type...</option>
+              <option>Commercial Construction</option>
+              <option>Custom Home</option>
+              <option>Renovation / Remodel</option>
+              <option>Steel Structure</option>
+              <option>Project Management</option>
+              <option>Green Building</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="message">Project Details</label>
+            <textarea id="message" name="message" placeholder="Tell us about your project — scope, location, timeline, budget range..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary form-submit">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            Send My Request
+          </button>
+          <div class="form-success" id="formSuccess">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin:0 auto 0.75rem;display:block;color:var(--orange)"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            Thank you! We'll be in touch within one business day.
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     FOOTER
+═══════════════════════════════════ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a href="#" class="nav-logo" style="font-size:1.35rem;">
+          <div class="logo-icon"></div>
+          CORNER<span class="accent">STONE</span>
+        </a>
+        <p class="footer-brand-desc">Building the commercial, residential, and industrial structures that shape communities — with integrity, precision, and pride since 2004.</p>
+        <div class="footer-social">
+          <a href="#" class="social-btn" aria-label="LinkedIn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+          <a href="#" class="social-btn" aria-label="Facebook">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+          </a>
+          <a href="#" class="social-btn" aria-label="Instagram">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
+          </a>
+          <a href="#" class="social-btn" aria-label="YouTube">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 00-1.95 1.96A29 29 0 001 12a29 29 0 00.46 5.58 2.78 2.78 0 001.95 1.95C5.12 20 12 20 12 20s6.88 0 8.59-.47a2.78 2.78 0 001.95-1.95A29 29 0 0023 12a29 29 0 00-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="white"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Services</div>
+        <ul class="footer-links">
+          <li><a href="#services">Commercial Construction</a></li>
+          <li><a href="#services">Custom Homes</a></li>
+          <li><a href="#services">Renovations</a></li>
+          <li><a href="#services">Project Management</a></li>
+          <li><a href="#services">Steel Structures</a></li>
+          <li><a href="#services">Green Building</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Company</div>
+        <ul class="footer-links">
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#projects">Our Projects</a></li>
+          <li><a href="#testimonials">Testimonials</a></li>
+          <li><a href="#contact">Careers</a></li>
+          <li><a href="#contact">Safety</a></li>
+          <li><a href="#contact">Press</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Contact Us</div>
+        <div class="footer-address">
+          <strong>Cornerstone Build Group</strong>
+          4820 Industrial Pkwy, Suite 300<br/>
+          Chicago, IL 60632<br/><br/>
+          <strong style="display:inline;color:var(--orange);font-size:0.85rem;">P:</strong> (312) 555-0190<br/>
+          <strong style="display:inline;color:var(--orange);font-size:0.85rem;">E:</strong> info@cornerstonebuildgroup.com
+        </div>
+        <div class="footer-license">
+          Licensed &amp; Insured — IL GC Lic. #104-037218<br/>
+          OSHA 30-Hour Certified Team
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="footer-copy">
+        &copy; 2026 <span>Cornerstone Build Group</span>. All rights reserved.
+      </div>
+      <div class="footer-bottom-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Sitemap</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* ── Nav scroll effect ── */
+  const nav = document.getElementById('mainNav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  }, { passive: true });
+
+  /* ── Hamburger menu ── */
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => {
+    const open = mobileMenu.classList.toggle('open');
+    hamburger.classList.toggle('open', open);
+  });
+  mobileMenu.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      mobileMenu.classList.remove('open');
+      hamburger.classList.remove('open');
+    });
+  });
+
+  /* ── Stat Counter Animation ── */
+  function animateCounter(el) {
+    const target = parseInt(el.dataset.target, 10);
+    const duration = 1800;
+    const startTime = performance.now();
+    function update(now) {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      // Ease-out cubic
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.round(eased * target);
+      if (progress < 1) requestAnimationFrame(update);
+      else el.textContent = target;
+    }
+    requestAnimationFrame(update);
+  }
+
+  const statsSection = document.getElementById('stats');
+  let countersStarted = false;
+  const statsObserver = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting && !countersStarted) {
+      countersStarted = true;
+      document.querySelectorAll('.counter').forEach(animateCounter);
+    }
+  }, { threshold: 0.3 });
+  statsObserver.observe(statsSection);
+
+  /* ── Scroll Reveal ── */
+  const revealEls = document.querySelectorAll('.reveal');
+  const revealObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => revealObserver.observe(el));
+
+  /* ── Contact Form ── */
+  const form = document.getElementById('contactForm');
+  const formSuccess = document.getElementById('formSuccess');
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    // Basic validation
+    const required = form.querySelectorAll('[required]');
+    let valid = true;
+    required.forEach(field => {
+      if (!field.value.trim()) {
+        valid = false;
+        field.style.borderColor = 'rgba(220,53,69,0.7)';
+        field.addEventListener('input', () => { field.style.borderColor = ''; }, { once: true });
+      }
+    });
+    if (!valid) return;
+    // Simulate submission
+    const submitBtn = form.querySelector('.form-submit');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending…';
+    setTimeout(() => {
+      form.style.display = 'none';
+      formSuccess.style.display = 'block';
+    }, 800);
+  });
+
+  /* ── Smooth anchor offset for sticky nav ── */
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', e => {
+      const target = document.querySelector(link.getAttribute('href'));
+      if (!target) return;
+      e.preventDefault();
+      const top = target.getBoundingClientRect().top + window.scrollY - 72;
+      window.scrollTo({ top, behavior: 'smooth' });
+    });
+  });
+</script>
+</body>
+</html>
