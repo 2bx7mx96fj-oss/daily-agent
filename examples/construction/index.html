@@ -2009,5 +2009,197 @@
     });
   });
 </script>
+
+<!-- ── ANIMATIONS ── -->
+<style>
+  /* Base hidden state */
+  [data-a] {
+    opacity: 0;
+    transition: opacity .75s cubic-bezier(.22,1,.36,1), transform .75s cubic-bezier(.22,1,.36,1);
+    transition-delay: var(--delay, 0s);
+  }
+  [data-a="up"]    { transform: translateY(44px); }
+  [data-a="left"]  { transform: translateX(-44px); }
+  [data-a="right"] { transform: translateX(44px); }
+  [data-a="scale"] { transform: scale(.9); }
+  [data-a="fade"]  { }
+  [data-a].in { opacity: 1 !important; transform: none !important; }
+
+  /* Hero entrance */
+  .hero-animate > * {
+    opacity: 0;
+    animation: heroSlide .85s cubic-bezier(.22,1,.36,1) forwards;
+  }
+  .hero-animate > *:nth-child(1) { animation-delay: .05s; }
+  .hero-animate > *:nth-child(2) { animation-delay: .2s; }
+  .hero-animate > *:nth-child(3) { animation-delay: .33s; }
+  .hero-animate > *:nth-child(4) { animation-delay: .44s; }
+  .hero-animate > *:nth-child(5) { animation-delay: .53s; }
+  @keyframes heroSlide {
+    from { opacity:0; transform:translateY(32px); }
+    to   { opacity:1; transform:none; }
+  }
+
+  /* Stats bar pulse on counter completion */
+  @keyframes statPulse {
+    0%,100% { transform:scale(1); }
+    50%     { transform:scale(1.04); }
+  }
+  .stat-done { animation: statPulse .4s ease; }
+
+  /* Service card border sweep */
+  .service-card {
+    --border-progress: 0%;
+    transition: transform .3s ease, box-shadow .3s ease, background .3s ease;
+  }
+  .service-card.in-view {
+    animation: cardReveal .5s ease forwards;
+  }
+  @keyframes cardReveal {
+    from { box-shadow: none; }
+    to   { box-shadow: 0 4px 24px rgba(0,0,0,.08); }
+  }
+
+  /* Project card pop */
+  .project-card { transition: transform .35s cubic-bezier(.22,1,.36,1), box-shadow .35s ease; }
+  .project-card:hover { transform: translateY(-6px) scale(1.01); box-shadow: 0 24px 48px rgba(0,0,0,.3); }
+
+  /* Testimonial subtle tilt on hover */
+  .testimonial-card {
+    transition: transform .3s ease, box-shadow .3s ease;
+  }
+  .testimonial-card:hover { transform: translateY(-4px) rotate(.4deg); box-shadow: 0 16px 40px rgba(0,0,0,.1); }
+
+  /* Diagonal hero line animation */
+  @keyframes lineSweep {
+    from { transform: scaleX(0); transform-origin: left; }
+    to   { transform: scaleX(1); transform-origin: left; }
+  }
+  .hero-line { animation: lineSweep .8s .6s ease forwards; opacity:0; animation-fill-mode: forwards; }
+  @keyframes lineFade { to { opacity:.15; } }
+
+  /* Orange underline for section tags */
+  .section-tag-line::after {
+    content:'';display:block;height:2px;width:0;
+    background:var(--orange,#f28c28);border-radius:2px;
+    margin-top:5px;transition:width .6s .25s ease;
+  }
+  [data-a].in .section-tag-line::after { width:2.5rem; }
+
+  /* Nav scroll shrink */
+  nav { transition: height .3s ease, box-shadow .3s ease; }
+  nav.compact { height:58px; box-shadow:0 2px 20px rgba(0,0,0,.2); }
+
+  /* Contact form field focus glow */
+  .form-field input:focus,
+  .form-field select:focus,
+  .form-field textarea:focus {
+    box-shadow: 0 0 0 3px rgba(242,140,40,.18);
+  }
+</style>
+<script>
+(function() {
+  /* ── Scroll-reveal ── */
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('in');
+      io.unobserve(e.target);
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+
+  function tag(el, dir, delay) {
+    if (!el) return;
+    el.dataset.a = dir;
+    if (delay) el.style.setProperty('--delay', delay + 's');
+    io.observe(el);
+  }
+
+  /* Hero content stagger */
+  const heroInner = document.querySelector('.hero-inner, .hero > div');
+  if (heroInner) heroInner.classList.add('hero-animate');
+
+  /* Section tags */
+  document.querySelectorAll('.section-tag').forEach(el => {
+    el.classList.add('section-tag-line');
+    tag(el, 'up', 0);
+  });
+
+  /* Section headings */
+  document.querySelectorAll('.section-title, h2').forEach(el => tag(el, 'up', 0.07));
+  document.querySelectorAll('.section-sub').forEach(el => tag(el, 'up', 0.13));
+
+  /* Stats bar items */
+  document.querySelectorAll('.stat-item').forEach((el, i) => tag(el, 'up', i * 0.1));
+
+  /* Service cards — stagger */
+  document.querySelectorAll('.service-card').forEach((el, i) => tag(el, 'up', i * 0.08));
+
+  /* Project cards — stagger with scale */
+  document.querySelectorAll('.project-card').forEach((el, i) => tag(el, 'scale', i * 0.07));
+
+  /* Testimonials */
+  document.querySelectorAll('.testimonial-card').forEach((el, i) => tag(el, 'up', i * 0.1));
+
+  /* Contact section — split */
+  const ci = document.querySelector('.contact-info');
+  const cf = document.querySelector('.contact-form');
+  if (ci) tag(ci, 'left', 0);
+  if (cf) tag(cf, 'right', 0.1);
+  document.querySelectorAll('.contact-detail').forEach((el, i) => tag(el, 'up', i * 0.08));
+
+  /* Why choose us */
+  document.querySelectorAll('.why-item, .feature-item').forEach((el, i) => tag(el, 'up', i * 0.1));
+
+  /* Footer */
+  document.querySelectorAll('.footer-col, .footer-inner > div').forEach((el, i) => tag(el, 'up', i * 0.07));
+
+  /* ── Nav compact on scroll ── */
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('compact', window.scrollY > 60);
+  }, { passive: true });
+
+  /* ── Stat counter pulse on finish ── */
+  document.querySelectorAll('.stat-num[data-target]').forEach(el => {
+    const orig = new IntersectionObserver(([e]) => {
+      if (!e.isIntersecting) return;
+      const target = parseInt(el.dataset.target);
+      const suffix = el.dataset.suffix || '';
+      const duration = 1800;
+      const start = Date.now();
+      function tick() {
+        const p = Math.min((Date.now() - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.round(eased * target) + suffix;
+        if (p < 1) requestAnimationFrame(tick);
+        else {
+          el.classList.add('stat-done');
+          setTimeout(() => el.classList.remove('stat-done'), 450);
+        }
+      }
+      tick();
+      orig.unobserve(el);
+    }, { threshold: 0.5 });
+    orig.observe(el);
+  });
+
+  /* ── Parallax on hero grid pattern ── */
+  const hero = document.querySelector('.hero');
+  if (hero) {
+    window.addEventListener('scroll', () => {
+      if (window.scrollY < hero.offsetHeight * 1.5) {
+        hero.style.setProperty('--parallax-y', (window.scrollY * 0.18) + 'px');
+      }
+    }, { passive: true });
+    const before = document.styleSheets[0];
+    try {
+      document.head.insertAdjacentHTML('beforeend',
+        '<style>.hero::before{transform:translateY(var(--parallax-y,0))}</style>');
+    } catch(e) {}
+  }
+})();
+</script>
+
 </body>
 </html>

@@ -1751,5 +1751,133 @@
   });
 </script>
 
+<!-- ── ANIMATIONS ── -->
+<style>
+  /* Base states — elements start hidden */
+  [data-a] { opacity: 0; transition: opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1); }
+  [data-a="up"]    { transform: translateY(40px); }
+  [data-a="left"]  { transform: translateX(-40px); }
+  [data-a="right"] { transform: translateX(40px); }
+  [data-a="scale"] { transform: scale(.92); }
+  [data-a].in { opacity: 1 !important; transform: none !important; }
+
+  /* Hero entrance (runs immediately on load) */
+  .hero-animate > * { opacity: 0; animation: heroUp .8s cubic-bezier(.22,1,.36,1) forwards; }
+  .hero-animate > *:nth-child(1) { animation-delay: .05s; }
+  .hero-animate > *:nth-child(2) { animation-delay: .18s; }
+  .hero-animate > *:nth-child(3) { animation-delay: .30s; }
+  .hero-animate > *:nth-child(4) { animation-delay: .42s; }
+  .hero-animate > *:nth-child(5) { animation-delay: .52s; }
+  @keyframes heroUp {
+    from { opacity:0; transform:translateY(28px); }
+    to   { opacity:1; transform:none; }
+  }
+
+  /* Stagger delays for grid children */
+  [data-a].in { transition-delay: var(--delay, 0s); }
+
+  /* Floating card keep moving after page load */
+  @keyframes floatA { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+  @keyframes floatB { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+
+  /* Shimmer on product cards */
+  .product-card { position: relative; }
+  .product-card::after {
+    content:''; position:absolute; inset:0; border-radius:14px;
+    background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.35) 50%,transparent 60%);
+    background-size:200% 100%; background-position:200% 0;
+    opacity:0; transition:opacity .3s;
+  }
+  .product-card:hover::after { opacity:1; animation:shimmer .6s ease forwards; }
+  @keyframes shimmer { to { background-position:-200% 0; } }
+
+  /* Underline grow on section eyebrows */
+  .eyebrow-line::after {
+    content:''; display:block; height:2px; width:0;
+    background:var(--sage,#6b8f71); border-radius:2px;
+    margin-top:4px; transition:width .6s .3s cubic-bezier(.22,1,.36,1);
+  }
+  [data-a].in .eyebrow-line::after { width:100%; }
+
+  /* Parallax hero bg */
+  #hero { will-change: background-position; }
+</style>
+<script>
+(function() {
+  /* ── Scroll-reveal via IntersectionObserver ── */
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('in');
+      io.unobserve(e.target);
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+  function tag(el, dir, delay) {
+    el.dataset.a = dir;
+    if (delay) el.style.setProperty('--delay', delay + 's');
+    io.observe(el);
+  }
+
+  /* Hero left-column — immediate stagger */
+  const heroLeft = document.querySelector('.hero-copy, .hero-left, #hero .container > div');
+  if (heroLeft) heroLeft.classList.add('hero-animate');
+
+  /* Section eyebrows */
+  document.querySelectorAll('.section-label, .eyebrow-sm').forEach(el => {
+    el.classList.add('eyebrow-line');
+    tag(el, 'up', 0);
+  });
+
+  /* Section headings */
+  document.querySelectorAll('.section-title, h2').forEach((el, i) => tag(el, 'up', 0.06));
+
+  /* Section subtitles */
+  document.querySelectorAll('.section-sub').forEach(el => tag(el, 'up', 0.12));
+
+  /* Category cards — stagger */
+  document.querySelectorAll('.cat-card').forEach((el, i) => tag(el, 'up', i * 0.09));
+
+  /* Product cards — stagger */
+  document.querySelectorAll('.product-card').forEach((el, i) => tag(el, 'scale', i * 0.07));
+
+  /* USP items */
+  document.querySelectorAll('.usp-item').forEach((el, i) => tag(el, 'up', i * 0.1));
+
+  /* Story stats */
+  document.querySelectorAll('.story-stat').forEach((el, i) => tag(el, 'scale', i * 0.1));
+  const storyText = document.querySelector('.story-text');
+  if (storyText) tag(storyText, 'left', 0);
+  const storyStats = document.querySelector('.story-stats');
+  if (storyStats) tag(storyStats, 'right', 0.15);
+
+  /* Newsletter */
+  const nlLeft = document.querySelector('.newsletter-copy, .nl-copy');
+  const nlRight = document.querySelector('.nl-form');
+  if (nlLeft) tag(nlLeft, 'left', 0);
+  if (nlRight) tag(nlRight, 'right', 0.1);
+
+  /* Footer cols */
+  document.querySelectorAll('.footer-col').forEach((el, i) => tag(el, 'up', i * 0.08));
+
+  /* ── Subtle parallax on hero bg ── */
+  const hero = document.getElementById('hero');
+  if (hero) {
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY;
+      const heroH = hero.offsetHeight;
+      if (y < heroH) {
+        hero.style.backgroundPositionY = (y * 0.3) + 'px';
+      }
+    }, { passive: true });
+  }
+
+  /* ── Floating hero cards ── */
+  document.querySelectorAll('.hero-badge, .floating-badge, [class*="floating"]').forEach((el, i) => {
+    el.style.animation = `${i % 2 === 0 ? 'floatA' : 'floatB'} ${3 + i * 0.7}s ease-in-out infinite`;
+  });
+})();
+</script>
+
 </body>
 </html>
