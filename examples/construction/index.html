@@ -84,6 +84,8 @@ nav.compact{height:60px}
   background:var(--navy);overflow:hidden;
   display:flex;align-items:center;
 }
+.hero-bg{position:absolute;inset:0;overflow:hidden}
+.hero-bg img{width:100%;height:120%;position:absolute;top:-10%;object-fit:cover;opacity:.22;will-change:transform;filter:saturate(.5)}
 .hero.bp-grid{}
 .hero-overlay{
   position:absolute;inset:0;
@@ -678,6 +680,7 @@ footer{background:var(--navy);border-top:1px solid rgba(74,158,255,.1);padding:6
 
 <!-- HERO -->
 <section class="hero bp-grid">
+  <div class="hero-bg"><img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=1920&auto=format&fit=crop&q=80" alt=""></div>
   <div class="hero-overlay"></div>
 
   <!-- Animated blueprint lines -->
@@ -1354,9 +1357,16 @@ const io = new IntersectionObserver(entries => {
 }, {threshold: 0.08, rootMargin: '0px 0px -30px 0px'});
 document.querySelectorAll('[data-a]').forEach(el => io.observe(el));
 
-/* ── Nav compact ── */
+/* ── Nav compact + hero parallax ── */
 const nav = document.getElementById('nav');
-window.addEventListener('scroll', () => nav.classList.toggle('compact', window.scrollY > 60), {passive:true});
+const _heroBg = document.querySelector('.hero-bg img');
+window.addEventListener('scroll', () => {
+  const y = window.scrollY;
+  nav.classList.toggle('compact', y > 60);
+  if (_heroBg && y < window.innerHeight * 1.5) {
+    _heroBg.style.transform = `translateY(${y * 0.35}px)`;
+  }
+}, {passive:true});
 
 /* ── Stat counters ── */
 const statObs = new IntersectionObserver(entries => {

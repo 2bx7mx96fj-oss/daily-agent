@@ -68,8 +68,8 @@ nav.scrolled{box-shadow:0 4px 24px rgba(0,0,0,.07)}
   position:relative;height:92vh;min-height:600px;
   display:flex;align-items:center;overflow:hidden;
 }
-.hero-photo{position:absolute;inset:0}
-.hero-photo img{object-position:center 40%}
+.hero-photo{position:absolute;inset:0;overflow:hidden}
+.hero-photo img{object-position:center 40%;height:120%;width:100%;position:absolute;top:-10%;will-change:transform}
 .hero-overlay{
   position:absolute;inset:0;
   background:linear-gradient(105deg,rgba(26,22,18,.72) 0%,rgba(26,22,18,.3) 60%,transparent 100%);
@@ -617,9 +617,14 @@ setInterval(() => {
     `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
 }, 1000);
 
-// Nav shadow on scroll
+// Nav shadow + hero parallax on scroll
+const _heroImg = document.querySelector('.hero-photo img');
 window.addEventListener('scroll', () => {
-  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 10);
+  const y = window.scrollY;
+  document.getElementById('nav').classList.toggle('scrolled', y > 10);
+  if (_heroImg && y < window.innerHeight * 1.5) {
+    _heroImg.style.transform = `translateY(${y * 0.32}px)`;
+  }
 }, {passive:true});
 
 // Scroll-reveal
