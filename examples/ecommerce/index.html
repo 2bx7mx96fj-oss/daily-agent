@@ -25,7 +25,6 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{font-family:var(--sans);background:var(--cream);color:var(--ink);-webkit-font-smoothing:antialiased}
-img{display:block;width:100%;height:100%;object-fit:cover}
 a{text-decoration:none;color:inherit}
 
 /* ── TOP BAR ── */
@@ -111,8 +110,14 @@ nav.scrolled{box-shadow:0 4px 24px rgba(0,0,0,.07)}
 .cart-item-img{
   width:76px;height:76px;border-radius:8px;overflow:hidden;
   background:var(--warm);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
 }
-.cart-item-img img{width:100%;height:100%;object-fit:cover}
+.cart-item-img-swatch{
+  width:100%;height:100%;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:600;color:rgba(0,0,0,.35);
+  letter-spacing:.02em;text-align:center;padding:4px;
+}
 .cart-item-name{font-size:14px;font-weight:500;color:var(--ink);margin-bottom:4px;line-height:1.3}
 .cart-item-price{font-size:13px;color:var(--mid);margin-bottom:10px}
 .cart-qty{display:flex;align-items:center;gap:0;border:1px solid var(--sand);border-radius:4px;width:fit-content}
@@ -163,12 +168,13 @@ nav.scrolled{box-shadow:0 4px 24px rgba(0,0,0,.07)}
 .hero{
   position:relative;height:92vh;min-height:600px;
   display:flex;align-items:center;overflow:hidden;
+  background:linear-gradient(135deg, #1a1612 0%, #2d1f14 40%, #1a1612 100%);
 }
-.hero-photo{position:absolute;inset:0;overflow:hidden}
-.hero-photo img{object-position:center 40%;height:120%;width:100%;position:absolute;top:-10%;will-change:transform}
 .hero-overlay{
   position:absolute;inset:0;
-  background:linear-gradient(105deg,rgba(26,22,18,.72) 0%,rgba(26,22,18,.3) 60%,transparent 100%);
+  background:
+    radial-gradient(ellipse at 20% 60%, rgba(201,168,76,.08) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 30%, rgba(107,143,113,.06) 0%, transparent 50%);
 }
 .hero-content{
   position:relative;z-index:1;
@@ -284,15 +290,40 @@ nav.scrolled{box-shadow:0 4px 24px rgba(0,0,0,.07)}
 }
 .cat-card:hover .cat-arrow{transform:translateX(4px);background:rgba(255,255,255,.22)}
 
+/* Category icon labels */
+.cat-icon{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-60%);
+  font-family:var(--serif);font-size:56px;font-weight:600;
+  color:rgba(255,255,255,.18);letter-spacing:-.02em;
+  pointer-events:none;user-select:none;line-height:1;
+  transition:opacity .3s;
+}
+.cat-card:nth-child(1) .cat-icon{font-size:80px}
+
 /* ── PRODUCTS ── */
 .prod-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
 .prod-card{cursor:pointer;group:true}
 .prod-img{
   border-radius:12px;overflow:hidden;aspect-ratio:4/5;
-  position:relative;margin-bottom:16px;background:var(--warm);
+  position:relative;margin-bottom:16px;
+  display:flex;align-items:center;justify-content:center;
 }
-.prod-img img{transition:transform .5s ease}
-.prod-card:hover .prod-img img{transform:scale(1.05)}
+.prod-img-swatch{
+  width:100%;height:100%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:10px;
+  transition:transform .5s ease;
+}
+.prod-card:hover .prod-img-swatch{transform:scale(1.03)}
+.prod-swatch-label{
+  font-family:var(--serif);font-size:15px;font-weight:500;
+  color:rgba(26,22,18,.4);letter-spacing:.03em;text-align:center;
+  padding:0 20px;line-height:1.3;
+}
+.prod-swatch-cat{
+  font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
+  color:rgba(26,22,18,.3);
+}
 .prod-actions{
   position:absolute;bottom:0;left:0;right:0;padding:14px;
   background:linear-gradient(0deg,rgba(26,22,18,.5) 0%,transparent 100%);
@@ -327,7 +358,21 @@ nav.scrolled{box-shadow:0 4px 24px rgba(0,0,0,.07)}
 
 /* ── EDITORIAL ── */
 .editorial{display:grid;grid-template-columns:1fr 1fr;min-height:520px;border-radius:20px;overflow:hidden;margin:0 5%}
-.editorial-photo{position:relative;background:var(--sand);min-height:400px}
+.editorial-photo{
+  position:relative;min-height:400px;
+  background:linear-gradient(160deg, #2a2018 0%, #3d2e1e 40%, #1e160e 100%);
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
+}
+.editorial-deco{
+  font-family:var(--serif);font-size:220px;font-weight:600;
+  color:rgba(201,168,76,.12);line-height:1;
+  user-select:none;pointer-events:none;
+  position:absolute;
+}
+.editorial-deco-line{
+  position:absolute;
+  background:rgba(201,168,76,.15);
+}
 .editorial-text{
   background:var(--ink);
   display:flex;flex-direction:column;justify-content:center;
@@ -481,9 +526,6 @@ footer{background:var(--ink);padding:64px 5% 28px}
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-photo">
-    <img src="https://images.pexels.com/photos/20390760/pexels-photo-20390760.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="Modern living room" loading="eager"/>
-  </div>
   <div class="hero-overlay"></div>
   <div class="hero-content">
     <div class="hero-tag">New Collection 2026</div>
@@ -520,25 +562,33 @@ footer{background:var(--ink);padding:64px 5% 28px}
   <div style="max-width:1240px;margin:0 auto;padding:0 5%">
     <div class="cat-grid">
       <div class="cat-card" data-a="scale" style="--d:.05s">
-        <div class="cat-photo"><img src="https://images.pexels.com/photos/3952034/pexels-photo-3952034.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Living Room"/></div>
+        <div class="cat-photo" style="background:linear-gradient(135deg,#6b8f71 0%,#4a6b50 100%)">
+          <span class="cat-icon">I</span>
+        </div>
         <div class="cat-grad"></div>
         <div class="cat-info"><div class="cat-name">Living Room</div><div class="cat-count">142 pieces</div></div>
         <div class="cat-arrow">›</div>
       </div>
       <div class="cat-card" data-a="scale" style="--d:.12s">
-        <div class="cat-photo"><img src="https://images.pexels.com/photos/28536695/pexels-photo-28536695.jpeg?auto=compress&cs=tinysrgb&w=700" alt="Bedroom"/></div>
+        <div class="cat-photo" style="background:linear-gradient(135deg,#b85c38 0%,#8a3e22 100%)">
+          <span class="cat-icon">II</span>
+        </div>
         <div class="cat-grad"></div>
         <div class="cat-info"><div class="cat-name">Bedroom</div><div class="cat-count">98 pieces</div></div>
         <div class="cat-arrow">›</div>
       </div>
       <div class="cat-card" data-a="scale" style="--d:.18s">
-        <div class="cat-photo"><img src="https://images.pexels.com/photos/6301168/pexels-photo-6301168.jpeg?auto=compress&cs=tinysrgb&w=700" alt="Kitchen"/></div>
+        <div class="cat-photo" style="background:linear-gradient(135deg,#c9a84c 0%,#9a7a30 100%)">
+          <span class="cat-icon">III</span>
+        </div>
         <div class="cat-grad"></div>
         <div class="cat-info"><div class="cat-name">Kitchen & Dining</div><div class="cat-count">74 pieces</div></div>
         <div class="cat-arrow">›</div>
       </div>
       <div class="cat-card" data-a="scale" style="--d:.22s">
-        <div class="cat-photo"><img src="https://images.pexels.com/photos/30047570/pexels-photo-30047570.jpeg?auto=compress&cs=tinysrgb&w=700" alt="Home Office"/></div>
+        <div class="cat-photo" style="background:linear-gradient(135deg,#7a7267 0%,#4a4540 100%)">
+          <span class="cat-icon">IV</span>
+        </div>
         <div class="cat-grad"></div>
         <div class="cat-info"><div class="cat-name">Home Office</div><div class="cat-count">56 pieces</div></div>
         <div class="cat-arrow">›</div>
@@ -563,7 +613,10 @@ footer{background:var(--ink);padding:64px 5% 28px}
 <div style="padding-bottom:90px">
   <div class="editorial" data-a="up">
     <div class="editorial-photo">
-      <img src="https://images.pexels.com/photos/6312360/pexels-photo-6312360.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Nova Home story"/>
+      <div class="editorial-deco">&ldquo;</div>
+      <div class="editorial-deco-line" style="width:1px;height:60%;top:20%;left:32%"></div>
+      <div class="editorial-deco-line" style="width:40%;height:1px;top:38%;left:10%"></div>
+      <div class="editorial-deco-line" style="width:25%;height:1px;bottom:28%;right:8%"></div>
     </div>
     <div class="editorial-text">
       <div class="tag">Our Story</div>
@@ -648,33 +701,33 @@ footer{background:var(--ink);padding:64px 5% 28px}
 const PRODUCTS = [
   {
     name:'Linen Cloud Sofa', price:1299, old:1599, stars:5, reviews:84, badge:'sale',
-    desc:'Deep-seated, cloud-soft linen upholstery. Solid oak frame with removable cushion covers.',
-    img:'https://images.pexels.com/photos/3952034/pexels-photo-3952034.jpeg?auto=compress&cs=tinysrgb&w=600'
+    cat:'Living Room',
+    gradient:'linear-gradient(135deg, #e8ddd0 0%, #c4b5a0 100%)'
   },
   {
     name:'Walnut Side Table', price:249, old:null, stars:5, reviews:112, badge:'new',
-    desc:'Hand-turned solid American walnut. A timeless accent piece for any living space.',
-    img:'https://images.pexels.com/photos/8251682/pexels-photo-8251682.jpeg?auto=compress&cs=tinysrgb&w=600'
+    cat:'Living Room',
+    gradient:'linear-gradient(135deg, #d4c9b8 0%, #b8a898 100%)'
   },
   {
     name:'Ceramic Table Lamp', price:119, old:149, stars:4, reviews:67, badge:'sale',
-    desc:'Handcrafted ceramic base with a linen drum shade. Warm, ambient glow for any room.',
-    img:'https://images.pexels.com/photos/6782567/pexels-photo-6782567.jpeg?auto=compress&cs=tinysrgb&w=600'
+    cat:'Bedroom',
+    gradient:'linear-gradient(135deg, #e0d5c5 0%, #c8baa8 100%)'
   },
   {
     name:'Bouclé Accent Chair', price:699, old:null, stars:5, reviews:203, badge:'new',
-    desc:'Plush bouclé fabric over a beechwood frame. The statement chair your living room deserves.',
-    img:'https://images.pexels.com/photos/6758281/pexels-photo-6758281.jpeg?auto=compress&cs=tinysrgb&w=600'
+    cat:'Living Room',
+    gradient:'linear-gradient(135deg, #d8cfc0 0%, #bfb3a0 100%)'
   },
   {
     name:'Rattan Pendant Light', price:189, old:220, stars:4, reviews:45, badge:null,
-    desc:'Hand-woven natural rattan pendant. Casts a warm, textured glow perfect for dining areas.',
-    img:'https://images.pexels.com/photos/534172/pexels-photo-534172.jpeg?auto=compress&cs=tinysrgb&w=600'
+    cat:'Kitchen & Dining',
+    gradient:'linear-gradient(135deg, #ddd4c5 0%, #c4b8a5 100%)'
   },
   {
     name:'Stonewash Throw Blanket', price:89, old:null, stars:5, reviews:318, badge:null,
-    desc:'100% stonewashed cotton. Soft, breathable, and available in six muted tones.',
-    img:'https://images.pexels.com/photos/5629134/pexels-photo-5629134.jpeg?auto=compress&cs=tinysrgb&w=600'
+    cat:'Bedroom',
+    gradient:'linear-gradient(135deg, #e4dbd0 0%, #ccbfb0 100%)'
   }
 ];
 
@@ -755,7 +808,9 @@ function renderCart() {
     const p = PRODUCTS[c.idx];
     subtotal += p.price * c.qty;
     return `<div class="cart-item">
-      <div class="cart-item-img"><img src="${p.img}" alt="${p.name}"></div>
+      <div class="cart-item-img">
+        <div class="cart-item-img-swatch" style="background:${p.gradient}">${p.name.split(' ').slice(0,2).join('<br>')}</div>
+      </div>
       <div>
         <div class="cart-item-name">${p.name}</div>
         <div class="cart-item-price">$${p.price.toLocaleString()}</div>
@@ -774,7 +829,10 @@ function renderCart() {
 document.getElementById('prod-grid').innerHTML = PRODUCTS.map((p, i) => `
   <div class="prod-card" data-a="scale" style="--d:${i * 0.08}s">
     <div class="prod-img">
-      <img src="${p.img}" alt="${p.name}" loading="lazy"/>
+      <div class="prod-img-swatch" style="background:${p.gradient}">
+        <span class="prod-swatch-label">${p.name}</span>
+        <span class="prod-swatch-cat">${p.cat}</span>
+      </div>
       <div class="prod-badges">
         ${p.badge === 'sale' ? '<span class="badge badge-sale">Sale</span>' : ''}
         ${p.badge === 'new'  ? '<span class="badge badge-new">New</span>'  : ''}
@@ -802,14 +860,10 @@ setInterval(() => {
     `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
 }, 1000);
 
-// Nav shadow + hero parallax on scroll
-const _heroImg = document.querySelector('.hero-photo img');
+// Nav shadow on scroll
 window.addEventListener('scroll', () => {
   const y = window.scrollY;
   document.getElementById('nav').classList.toggle('scrolled', y > 10);
-  if (_heroImg && y < window.innerHeight * 1.5) {
-    _heroImg.style.transform = `translateY(${y * 0.32}px)`;
-  }
 }, {passive:true});
 
 // Scroll-reveal

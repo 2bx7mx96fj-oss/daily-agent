@@ -84,9 +84,6 @@ nav.compact{height:60px}
   background:var(--navy);overflow:hidden;
   display:flex;align-items:center;
 }
-.hero-bg{position:absolute;inset:0;overflow:hidden}
-.hero-bg img{width:100%;height:120%;position:absolute;top:-10%;object-fit:cover;opacity:.22;will-change:transform;filter:saturate(.5)}
-.hero.bp-grid{}
 .hero-overlay{
   position:absolute;inset:0;
   background:
@@ -359,15 +356,24 @@ nav.compact{height:60px}
   cursor:pointer;group:true;
 }
 .project-img{
-  aspect-ratio:4/3;background:var(--navy2);
+  aspect-ratio:4/3;
+  background:linear-gradient(135deg, var(--navy) 0%, var(--navy2) 100%);
   display:flex;align-items:center;justify-content:center;
   overflow:hidden;position:relative;
   transition:transform .4s ease;
 }
 .project-card:hover .project-img{transform:scale(1.03)}
-.proj-bg{
-  position:absolute;inset:0;
-  display:flex;align-items:center;justify-content:center;
+.proj-num{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:96px;font-weight:900;
+  color:rgba(74,158,255,.1);
+  line-height:1;user-select:none;
+  position:absolute;
+  right:16px;bottom:50px;
+}
+.proj-icon{
+  position:absolute;
+  top:50%;left:50%;transform:translate(-50%,-50%);
 }
 .project-overlay{
   position:absolute;inset:0;
@@ -390,6 +396,7 @@ nav.compact{height:60px}
   padding:11px 22px;border-radius:3px;
   font-size:12.5px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;
   opacity:0;transition:opacity .25s;white-space:nowrap;
+  z-index:2;
 }
 .project-card:hover .project-view{opacity:1}
 .project-value{
@@ -428,7 +435,17 @@ nav.compact{height:60px}
 .team-photo{
   aspect-ratio:1;background:var(--navy2);
   display:flex;align-items:center;justify-content:center;
-  font-size:56px;overflow:hidden;position:relative;
+  overflow:hidden;position:relative;
+}
+.team-avatar-initials{
+  width:90px;height:90px;border-radius:50%;
+  background:var(--orange);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:32px;font-weight:900;color:#fff;
+  letter-spacing:.04em;
+  position:relative;z-index:1;
+  box-shadow:0 0 0 4px rgba(240,123,15,.2);
 }
 .team-grad{position:absolute;bottom:0;left:0;right:0;height:50%;background:linear-gradient(0deg,var(--navy2),transparent)}
 .team-body{padding:18px}
@@ -680,7 +697,6 @@ footer{background:var(--navy);border-top:1px solid rgba(74,158,255,.1);padding:6
 
 <!-- HERO -->
 <section class="hero bp-grid">
-  <div class="hero-bg"><img src="https://images.pexels.com/photos/10202865/pexels-photo-10202865.jpeg?auto=compress&cs=tinysrgb&w=1920" alt="Construction site"></div>
   <div class="hero-overlay"></div>
 
   <!-- Animated blueprint lines -->
@@ -966,16 +982,14 @@ footer{background:var(--navy);border-top:1px solid rgba(74,158,255,.1);padding:6
     <div class="projects-grid">
       <div class="project-card" data-a="scale" style="--d:.05s">
         <div class="project-img">
-          <div class="proj-bg" style="background:linear-gradient(135deg,#1a3a6e,#0a2040)">
-            <svg width="80" height="80" viewBox="0 0 80 80" opacity=".15" fill="rgba(74,158,255,.6)">
-              <rect x="10" y="30" width="60" height="40" stroke="rgba(74,158,255,.6)" stroke-width="1.5" fill="none"/>
-              <rect x="15" y="20" width="50" height="15" stroke="rgba(74,158,255,.6)" stroke-width="1.5" fill="none"/>
-              <rect x="20" y="38" width="12" height="16" fill="rgba(74,158,255,.3)"/>
-              <rect x="38" y="38" width="12" height="16" fill="rgba(74,158,255,.3)"/>
-              <rect x="56" y="38" width="12" height="16" fill="rgba(74,158,255,.3)"/>
-            </svg>
-          </div>
-          <img src="https://images.pexels.com/photos/29443801/pexels-photo-29443801.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Meridian Office Park" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.7"/>
+          <div class="proj-num">01</div>
+          <svg class="proj-icon" width="72" height="72" viewBox="0 0 72 72" fill="none" opacity=".18">
+            <rect x="8" y="28" width="56" height="36" stroke="rgba(74,158,255,.8)" stroke-width="1.5" fill="none"/>
+            <rect x="14" y="18" width="44" height="14" stroke="rgba(74,158,255,.8)" stroke-width="1.5" fill="none"/>
+            <rect x="18" y="36" width="10" height="14" fill="rgba(74,158,255,.5)"/>
+            <rect x="34" y="36" width="10" height="14" fill="rgba(74,158,255,.5)"/>
+            <rect x="50" y="36" width="10" height="14" fill="rgba(74,158,255,.5)"/>
+          </svg>
         </div>
         <div class="project-overlay"></div>
         <div class="project-value">$4.2M</div>
@@ -989,9 +1003,12 @@ footer{background:var(--navy);border-top:1px solid rgba(74,158,255,.1);padding:6
 
       <div class="project-card" data-a="scale" style="--d:.10s">
         <div class="project-img">
-          <div class="proj-bg" style="background:linear-gradient(135deg,#2a1a0a,#4a3010)">
-          </div>
-          <img src="https://images.pexels.com/photos/8134821/pexels-photo-8134821.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Hartley Residence" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.75"/>
+          <div class="proj-num">02</div>
+          <svg class="proj-icon" width="72" height="72" viewBox="0 0 72 72" fill="none" opacity=".18">
+            <polyline points="8,44 36,16 64,44" stroke="rgba(240,123,15,.8)" stroke-width="1.5" fill="none"/>
+            <rect x="14" y="44" width="44" height="22" stroke="rgba(74,158,255,.8)" stroke-width="1.5" fill="none"/>
+            <rect x="30" y="52" width="12" height="14" fill="rgba(240,123,15,.4)"/>
+          </svg>
         </div>
         <div class="project-overlay"></div>
         <div class="project-value">$1.8M</div>
@@ -1005,7 +1022,14 @@ footer{background:var(--navy);border-top:1px solid rgba(74,158,255,.1);padding:6
 
       <div class="project-card" data-a="scale" style="--d:.15s">
         <div class="project-img">
-          <img src="https://images.pexels.com/photos/28453365/pexels-photo-28453365.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Southern Logistics Hub" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.7"/>
+          <div class="proj-num">03</div>
+          <svg class="proj-icon" width="72" height="72" viewBox="0 0 72 72" fill="none" opacity=".18">
+            <rect x="6" y="24" width="60" height="36" stroke="rgba(74,158,255,.8)" stroke-width="1.5" fill="none"/>
+            <line x1="6" y1="36" x2="66" y2="36" stroke="rgba(74,158,255,.5)" stroke-width="1"/>
+            <line x1="6" y1="48" x2="66" y2="48" stroke="rgba(74,158,255,.5)" stroke-width="1"/>
+            <line x1="22" y1="24" x2="22" y2="60" stroke="rgba(74,158,255,.5)" stroke-width="1"/>
+            <line x1="50" y1="24" x2="50" y2="60" stroke="rgba(74,158,255,.5)" stroke-width="1"/>
+          </svg>
         </div>
         <div class="project-overlay"></div>
         <div class="project-value">$7.6M</div>
@@ -1019,7 +1043,13 @@ footer{background:var(--navy);border-top:1px solid rgba(74,158,255,.1);padding:6
 
       <div class="project-card" data-a="scale" style="--d:.20s">
         <div class="project-img">
-          <img src="https://images.pexels.com/photos/6127935/pexels-photo-6127935.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Harbour View Retail" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.65"/>
+          <div class="proj-num">04</div>
+          <svg class="proj-icon" width="72" height="72" viewBox="0 0 72 72" fill="none" opacity=".18">
+            <rect x="10" y="20" width="52" height="42" stroke="rgba(74,158,255,.8)" stroke-width="1.5" fill="none"/>
+            <rect x="18" y="28" width="14" height="10" stroke="rgba(74,158,255,.6)" stroke-width="1" fill="rgba(74,158,255,.2)"/>
+            <rect x="40" y="28" width="14" height="10" stroke="rgba(74,158,255,.6)" stroke-width="1" fill="rgba(74,158,255,.2)"/>
+            <rect x="28" y="44" width="16" height="18" fill="rgba(240,123,15,.3)"/>
+          </svg>
         </div>
         <div class="project-overlay"></div>
         <div class="project-value">$2.9M</div>
@@ -1033,7 +1063,13 @@ footer{background:var(--navy);border-top:1px solid rgba(74,158,255,.1);padding:6
 
       <div class="project-card" data-a="scale" style="--d:.25s">
         <div class="project-img">
-          <img src="https://images.pexels.com/photos/16514712/pexels-photo-16514712.jpeg?auto=compress&cs=tinysrgb&w=800" alt="EcoLiving Townhouses" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.7"/>
+          <div class="proj-num">05</div>
+          <svg class="proj-icon" width="72" height="72" viewBox="0 0 72 72" fill="none" opacity=".18">
+            <polyline points="10,48 20,28 36,20 52,28 62,48" stroke="rgba(240,123,15,.8)" stroke-width="1.5" fill="none"/>
+            <rect x="10" y="48" width="52" height="16" stroke="rgba(74,158,255,.8)" stroke-width="1.5" fill="none"/>
+            <rect x="22" y="34" width="10" height="14" fill="rgba(74,158,255,.3)"/>
+            <rect x="40" y="34" width="10" height="14" fill="rgba(74,158,255,.3)"/>
+          </svg>
         </div>
         <div class="project-overlay"></div>
         <div class="project-value">$5.1M</div>
@@ -1047,7 +1083,14 @@ footer{background:var(--navy);border-top:1px solid rgba(74,158,255,.1);padding:6
 
       <div class="project-card" data-a="scale" style="--d:.30s">
         <div class="project-img">
-          <img src="https://images.pexels.com/photos/5261943/pexels-photo-5261943.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Apex Steel Depot" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.65"/>
+          <div class="proj-num">06</div>
+          <svg class="proj-icon" width="72" height="72" viewBox="0 0 72 72" fill="none" opacity=".18">
+            <rect x="6" y="16" width="60" height="48" stroke="rgba(74,158,255,.8)" stroke-width="1.5" fill="none"/>
+            <line x1="6" y1="28" x2="66" y2="28" stroke="rgba(74,158,255,.5)" stroke-width="1"/>
+            <rect x="14" y="34" width="8" height="22" fill="rgba(240,123,15,.3)"/>
+            <rect x="30" y="34" width="8" height="22" fill="rgba(240,123,15,.3)"/>
+            <rect x="46" y="34" width="8" height="22" fill="rgba(240,123,15,.3)"/>
+          </svg>
         </div>
         <div class="project-overlay"></div>
         <div class="project-value">$3.4M</div>
@@ -1106,7 +1149,7 @@ footer{background:var(--navy);border-top:1px solid rgba(74,158,255,.1);padding:6
     <div class="team-grid">
       <div class="team-card" data-a="up" style="--d:.05s">
         <div class="team-photo">
-          <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Craig Donaldson" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top"/>
+          <div class="team-avatar-initials">CD</div>
           <div class="team-grad"></div>
         </div>
         <div class="team-body">
@@ -1117,7 +1160,7 @@ footer{background:var(--navy);border-top:1px solid rgba(74,158,255,.1);padding:6
       </div>
       <div class="team-card" data-a="up" style="--d:.10s">
         <div class="team-photo">
-          <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sarah Kim" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top"/>
+          <div class="team-avatar-initials">SK</div>
           <div class="team-grad"></div>
         </div>
         <div class="team-body">
@@ -1128,7 +1171,7 @@ footer{background:var(--navy);border-top:1px solid rgba(74,158,255,.1);padding:6
       </div>
       <div class="team-card" data-a="up" style="--d:.15s">
         <div class="team-photo">
-          <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="James Parata" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top"/>
+          <div class="team-avatar-initials">JP</div>
           <div class="team-grad"></div>
         </div>
         <div class="team-body">
@@ -1139,7 +1182,7 @@ footer{background:var(--navy);border-top:1px solid rgba(74,158,255,.1);padding:6
       </div>
       <div class="team-card" data-a="up" style="--d:.20s">
         <div class="team-photo">
-          <img src="https://randomuser.me/api/portraits/women/28.jpg" alt="Mel Turner" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top"/>
+          <div class="team-avatar-initials">MT</div>
           <div class="team-grad"></div>
         </div>
         <div class="team-body">
@@ -1357,15 +1400,11 @@ const io = new IntersectionObserver(entries => {
 }, {threshold: 0.08, rootMargin: '0px 0px -30px 0px'});
 document.querySelectorAll('[data-a]').forEach(el => io.observe(el));
 
-/* ── Nav compact + hero parallax ── */
+/* ── Nav compact on scroll ── */
 const nav = document.getElementById('nav');
-const _heroBg = document.querySelector('.hero-bg img');
 window.addEventListener('scroll', () => {
   const y = window.scrollY;
   nav.classList.toggle('compact', y > 60);
-  if (_heroBg && y < window.innerHeight * 1.5) {
-    _heroBg.style.transform = `translateY(${y * 0.35}px)`;
-  }
 }, {passive:true});
 
 /* ── Stat counters ── */
