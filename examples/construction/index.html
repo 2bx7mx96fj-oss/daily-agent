@@ -428,30 +428,13 @@ nav.compact{height:60px}
 .team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
 .team-card{
   background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);
-  border-radius:8px;overflow:hidden;
+  border-radius:8px;overflow:hidden;padding:28px;
   transition:border-color .25s,transform .25s;
 }
 .team-card:hover{border-color:rgba(240,123,15,.4);transform:translateY(-4px)}
-.team-photo{
-  aspect-ratio:1;background:var(--navy2);
-  display:flex;align-items:center;justify-content:center;
-  overflow:hidden;position:relative;
-}
-.team-avatar-initials{
-  width:90px;height:90px;border-radius:50%;
-  background:var(--orange);
-  display:flex;align-items:center;justify-content:center;
-  font-family:'Barlow Condensed',sans-serif;
-  font-size:32px;font-weight:900;color:#fff;
-  letter-spacing:.04em;
-  position:relative;z-index:1;
-  box-shadow:0 0 0 4px rgba(240,123,15,.2);
-}
-.team-grad{position:absolute;bottom:0;left:0;right:0;height:50%;background:linear-gradient(0deg,var(--navy2),transparent)}
-.team-body{padding:18px}
-.team-name{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;color:#fff;text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px}
-.team-role{font-size:12px;color:var(--orange);font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
-.team-cred{font-size:12px;color:rgba(255,255,255,.4);line-height:1.5}
+.team-name{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800;color:#fff;text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
+.team-role{font-size:12px;color:var(--orange);font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.team-cred{font-size:12.5px;color:rgba(255,255,255,.45);line-height:1.6}
 
 /* ── TESTIMONIALS ── */
 .testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
@@ -1148,48 +1131,24 @@ footer{background:var(--navy);border-top:1px solid rgba(74,158,255,.1);padding:6
     <p class="sub sub-white" data-a="up" style="--d:.12s">Our leadership team brings 100+ combined years of construction experience to every project we take on.</p>
     <div class="team-grid">
       <div class="team-card" data-a="up" style="--d:.05s">
-        <div class="team-photo">
-          <div class="team-avatar-initials">CD</div>
-          <div class="team-grad"></div>
-        </div>
-        <div class="team-body">
-          <div class="team-name">Craig Donaldson</div>
-          <div class="team-role">Founder & Director</div>
-          <div class="team-cred">LBP #04821 · 22 years in commercial construction · Master Builder</div>
-        </div>
+        <div class="team-name">Craig Donaldson</div>
+        <div class="team-role">Founder & Director</div>
+        <div class="team-cred">LBP #04821 · 22 years in commercial construction · Master Builder certified</div>
       </div>
       <div class="team-card" data-a="up" style="--d:.10s">
-        <div class="team-photo">
-          <div class="team-avatar-initials">SK</div>
-          <div class="team-grad"></div>
-        </div>
-        <div class="team-body">
-          <div class="team-name">Sarah Kim</div>
-          <div class="team-role">Head of Residential</div>
-          <div class="team-cred">LBP #11203 · 14 years custom homes · Homestar Assessor</div>
-        </div>
+        <div class="team-name">Sarah Kim</div>
+        <div class="team-role">Head of Residential</div>
+        <div class="team-cred">LBP #11203 · 14 years custom homes · Homestar Assessor</div>
       </div>
       <div class="team-card" data-a="up" style="--d:.15s">
-        <div class="team-photo">
-          <div class="team-avatar-initials">JP</div>
-          <div class="team-grad"></div>
-        </div>
-        <div class="team-body">
-          <div class="team-name">James Parata</div>
-          <div class="team-role">Commercial Project Lead</div>
-          <div class="team-cred">BCom & BEng · 17 years large-scale commercial · $50M+ delivered</div>
-        </div>
+        <div class="team-name">James Parata</div>
+        <div class="team-role">Commercial Project Lead</div>
+        <div class="team-cred">BCom & BEng · 17 years large-scale commercial · $50M+ delivered</div>
       </div>
       <div class="team-card" data-a="up" style="--d:.20s">
-        <div class="team-photo">
-          <div class="team-avatar-initials">MT</div>
-          <div class="team-grad"></div>
-        </div>
-        <div class="team-body">
-          <div class="team-name">Mel Turner</div>
-          <div class="team-role">Client Relations Manager</div>
-          <div class="team-cred">Your first call & ongoing liaison · 10 years client management</div>
-        </div>
+        <div class="team-name">Mel Turner</div>
+        <div class="team-role">Client Relations Manager</div>
+        <div class="team-cred">Your first call & ongoing liaison · 10 years client management</div>
       </div>
     </div>
   </div>
