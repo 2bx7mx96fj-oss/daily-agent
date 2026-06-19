@@ -232,6 +232,8 @@ nav.scrolled{box-shadow:0 4px 24px rgba(0,0,0,.07)}
 }
 .usp-item:last-child{border:none}
 .usp-icon{font-size:20px;margin-bottom:5px}
+.usp-item{position:relative}
+.usp-item::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:32px;height:2px;background:rgba(201,168,76,.4)}
 .usp-label{font-size:12px;font-weight:600;color:rgba(255,255,255,.6);letter-spacing:.04em}
 
 /* ── SHARED ── */
@@ -505,6 +507,9 @@ footer{background:var(--ink);padding:64px 5% 28px}
   .quiz-cta h2{font-size:32px}
 }
 
+/* ── SCROLL PROGRESS ── */
+.scroll-progress{position:fixed;top:0;left:0;height:2px;width:0%;background:linear-gradient(90deg,var(--sage),var(--gold));z-index:999;pointer-events:none}
+
 /* ── ABOUT / STORY ── */
 .about-section{padding:100px 5%;background:var(--cream)}
 .about-grid{
@@ -553,7 +558,11 @@ footer{background:var(--ink);padding:64px 5% 28px}
   transition:background .3s;
 }
 .value-card:hover{background:#2d2820}
-.value-icon{font-size:32px;margin-bottom:18px}
+.value-num{
+  font-family:var(--serif);font-size:44px;font-weight:600;line-height:1;
+  color:rgba(201,168,76,.18);margin-bottom:14px;letter-spacing:-.02em;
+}
+.value-card:hover .value-num{color:rgba(201,168,76,.3);transition:color .3s}
 .value-title{font-family:var(--serif);font-size:20px;color:#fff;margin-bottom:10px}
 .value-desc{font-size:14px;color:rgba(255,255,255,.5);line-height:1.7}
 
@@ -624,7 +633,12 @@ footer{background:var(--ink);padding:64px 5% 28px}
 .journal-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.1)}
 .journal-thumb{
   height:200px;display:flex;align-items:center;justify-content:center;
-  font-size:48px;
+  font-size:48px;position:relative;overflow:hidden;
+}
+.journal-thumb-word{
+  font-family:var(--serif);font-size:72px;font-weight:600;font-style:italic;
+  color:rgba(26,22,18,.1);user-select:none;pointer-events:none;
+  position:absolute;white-space:nowrap;letter-spacing:-.02em;
 }
 .journal-body{padding:24px}
 .journal-cat{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--sage);margin-bottom:10px}
@@ -655,6 +669,7 @@ footer{background:var(--ink);padding:64px 5% 28px}
 </head>
 <body>
 
+<div class="scroll-progress" id="sp"></div>
 <div class="topbar">Summer Collection Now Live &nbsp;·&nbsp; <b>Extra 15% off</b> with code SUMMER15</div>
 <div class="countdown-bar">
   Free shipping on orders over $75 ends in &nbsp;<span class="cd-timer" id="cd">23:59:59</span>
@@ -831,18 +846,22 @@ footer{background:var(--ink);padding:64px 5% 28px}
     </div>
     <div class="values-grid">
       <div class="value-card" data-a="up" style="--d:.05s">
+        <div class="value-num">01</div>
         <div class="value-title">Sustainably Sourced</div>
         <div class="value-desc">Every material we use is chosen with the planet in mind. FSC-certified timber, recycled textiles, and zero single-use plastic packaging across our entire range.</div>
       </div>
       <div class="value-card" data-a="up" style="--d:.12s">
+        <div class="value-num">02</div>
         <div class="value-title">Fair Trade Always</div>
         <div class="value-desc">We visit every one of our suppliers in person. Every artisan we work with is paid fairly, works safe hours, and has full visibility of where our orders go.</div>
       </div>
       <div class="value-card" data-a="up" style="--d:.19s">
+        <div class="value-num">03</div>
         <div class="value-title">Built to Last</div>
         <div class="value-desc">We design against the throwaway culture. Our pieces are built to live in your home for decades, backed by a 5-year structural warranty as standard.</div>
       </div>
       <div class="value-card" data-a="up" style="--d:.26s">
+        <div class="value-num">04</div>
         <div class="value-title">Hassle-Free Returns</div>
         <div class="value-desc">Not right for your space? No worries. Return anything within 60 days for a full refund, no questions asked. We'll even arrange the pickup for free.</div>
       </div>
@@ -951,7 +970,7 @@ footer{background:var(--ink);padding:64px 5% 28px}
     </div>
     <div class="journal-grid">
       <div class="journal-card" data-a="up" style="--d:.05s">
-        <div class="journal-thumb" style="background:linear-gradient(135deg,var(--warm),var(--sand))"></div>
+        <div class="journal-thumb" style="background:linear-gradient(135deg,var(--warm),var(--sand))"><span class="journal-thumb-word">Living</span></div>
         <div class="journal-body">
           <div class="journal-cat">Interior Design</div>
           <div class="journal-title">The 5 Rules of a Living Room That Actually Works</div>
@@ -960,7 +979,7 @@ footer{background:var(--ink);padding:64px 5% 28px}
         </div>
       </div>
       <div class="journal-card" data-a="up" style="--d:.12s">
-        <div class="journal-thumb" style="background:linear-gradient(135deg,#e8e0d5,#d4cab8)"></div>
+        <div class="journal-thumb" style="background:linear-gradient(135deg,#e8e0d5,#d4cab8)"><span class="journal-thumb-word">Sustain</span></div>
         <div class="journal-body">
           <div class="journal-cat">Sustainability</div>
           <div class="journal-title">How We Choose Our Suppliers — And Why It Matters</div>
@@ -969,7 +988,7 @@ footer{background:var(--ink);padding:64px 5% 28px}
         </div>
       </div>
       <div class="journal-card" data-a="up" style="--d:.19s">
-        <div class="journal-thumb" style="background:linear-gradient(135deg,#ddd6cc,#c8bfb0)"></div>
+        <div class="journal-thumb" style="background:linear-gradient(135deg,#ddd6cc,#c8bfb0)"><span class="journal-thumb-word">Winter</span></div>
         <div class="journal-body">
           <div class="journal-cat">Styling Tips</div>
           <div class="journal-title">Winter Layering: How to Make Any Room Feel Cosy</div>
@@ -1215,10 +1234,12 @@ setInterval(() => {
     `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
 }, 1000);
 
-// Nav shadow on scroll
+// Nav shadow on scroll + progress bar
 window.addEventListener('scroll', () => {
   const y = window.scrollY;
   document.getElementById('nav').classList.toggle('scrolled', y > 10);
+  const pct = y / (document.body.scrollHeight - window.innerHeight) * 100;
+  document.getElementById('sp').style.width = Math.min(pct, 100) + '%';
 }, {passive:true});
 
 // Scroll-reveal
