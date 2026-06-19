@@ -497,7 +497,160 @@ footer{background:var(--ink);padding:64px 5% 28px}
   .hero{height:85vh}
   .foot-grid{grid-template-columns:1fr}
   .foot-bottom{flex-direction:column;gap:8px;text-align:center}
+  .press-logos{gap:24px}
+  .how-grid{grid-template-columns:1fr}
+  .journal-grid{grid-template-columns:1fr}
+  .about-grid{grid-template-columns:1fr}
+  .values-grid{grid-template-columns:1fr 1fr}
+  .quiz-cta h2{font-size:32px}
 }
+
+/* ── ABOUT / STORY ── */
+.about-section{padding:100px 5%;background:var(--cream)}
+.about-grid{
+  max-width:1240px;margin:0 auto;
+  display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;
+}
+.about-left .tag{margin-bottom:14px}
+.about-left .h2{margin-bottom:20px}
+.about-left p{font-size:16px;color:var(--mid);line-height:1.8;margin-bottom:16px}
+.about-left p:last-of-type{margin-bottom:32px}
+.about-stat-row{display:flex;gap:40px;padding-top:32px;border-top:1px solid var(--sand)}
+.about-stat-num{font-family:var(--serif);font-size:42px;font-weight:600;color:var(--ink);line-height:1}
+.about-stat-lbl{font-size:12px;color:var(--mid);letter-spacing:.06em;text-transform:uppercase;margin-top:4px}
+.about-right{
+  background:linear-gradient(145deg,var(--warm) 0%,var(--sand) 100%);
+  border-radius:16px;padding:56px 48px;
+  display:flex;flex-direction:column;gap:28px;
+}
+.about-pull{
+  font-family:var(--serif);font-size:clamp(22px,3vw,32px);
+  font-style:italic;color:var(--ink);line-height:1.4;
+  padding-left:24px;border-left:3px solid var(--sage);
+}
+.about-founder{display:flex;align-items:center;gap:16px}
+.founder-avatar{
+  width:52px;height:52px;border-radius:50%;
+  background:linear-gradient(135deg,var(--sage),#4a6b50);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--serif);font-size:20px;color:#fff;font-weight:600;flex-shrink:0;
+}
+.founder-name{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:2px}
+.founder-title{font-size:12px;color:var(--mid)}
+
+/* ── VALUES ── */
+.values-section{padding:90px 5%;background:var(--ink)}
+.values-inner{max-width:1240px;margin:0 auto}
+.values-header{text-align:center;margin-bottom:60px}
+.values-header .tag{color:var(--sage);justify-content:center;margin-bottom:10px}
+.values-header .h2{color:#fff}
+.values-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:2px;
+  background:rgba(255,255,255,.06);border-radius:12px;overflow:hidden;
+}
+.value-card{
+  background:var(--ink);padding:40px 28px;
+  transition:background .3s;
+}
+.value-card:hover{background:#2d2820}
+.value-icon{font-size:32px;margin-bottom:18px}
+.value-title{font-family:var(--serif);font-size:20px;color:#fff;margin-bottom:10px}
+.value-desc{font-size:14px;color:rgba(255,255,255,.5);line-height:1.7}
+
+/* ── TESTIMONIALS ── */
+.testi-section{padding:100px 5%;background:var(--warm)}
+.testi-inner{max-width:1240px;margin:0 auto}
+.testi-header{text-align:center;margin-bottom:56px}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.testi-card{
+  background:var(--cream);border-radius:14px;padding:36px;
+  display:flex;flex-direction:column;gap:16px;
+  box-shadow:0 2px 16px rgba(0,0,0,.05);
+}
+.testi-stars{color:var(--gold);font-size:15px;letter-spacing:2px}
+.testi-text{
+  font-family:var(--serif);font-size:17px;font-style:italic;
+  color:var(--ink);line-height:1.65;flex:1;
+}
+.testi-author{display:flex;align-items:center;gap:12px;padding-top:16px;border-top:1px solid var(--sand)}
+.testi-avatar{
+  width:40px;height:40px;border-radius:50%;
+  background:linear-gradient(135deg,var(--sage),#3a5e40);
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:700;color:#fff;font-family:var(--sans);flex-shrink:0;
+}
+.testi-name{font-size:13.5px;font-weight:600;color:var(--ink)}
+.testi-meta{font-size:12px;color:var(--mid)}
+
+/* ── PRESS ── */
+.press-section{padding:60px 5%;background:var(--cream);border-top:1px solid var(--sand);border-bottom:1px solid var(--sand)}
+.press-inner{max-width:1000px;margin:0 auto;text-align:center}
+.press-label{font-size:11.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--light);margin-bottom:32px}
+.press-logos{display:flex;align-items:center;justify-content:center;gap:48px;flex-wrap:wrap}
+.press-name{
+  font-family:var(--serif);font-size:clamp(16px,2.5vw,24px);
+  font-weight:600;color:var(--light);letter-spacing:.06em;
+  font-style:italic;transition:color .2s;cursor:default;
+}
+.press-name:hover{color:var(--mid)}
+
+/* ── HOW IT WORKS ── */
+.how-section{padding:100px 5%;background:var(--cream)}
+.how-inner{max-width:1240px;margin:0 auto}
+.how-header{text-align:center;margin-bottom:60px}
+.how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:48px;position:relative}
+.how-grid::before{
+  content:'';position:absolute;top:32px;left:calc(100%/6);right:calc(100%/6);
+  height:1px;background:var(--sand);z-index:0;
+}
+.how-step{text-align:center;position:relative;z-index:1}
+.how-num{
+  width:64px;height:64px;border-radius:50%;
+  background:var(--ink);color:#fff;
+  font-family:var(--serif);font-size:26px;font-weight:600;
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 24px;border:3px solid var(--cream);
+  box-shadow:0 0 0 1px var(--sand);
+}
+.how-step h3{font-family:var(--serif);font-size:20px;margin-bottom:10px}
+.how-step p{font-size:14px;color:var(--mid);line-height:1.7}
+
+/* ── JOURNAL ── */
+.journal-section{padding:100px 5%;background:var(--warm)}
+.journal-inner{max-width:1240px;margin:0 auto}
+.journal-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:48px}
+.journal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.journal-card{background:var(--cream);border-radius:14px;overflow:hidden;cursor:pointer;transition:transform .3s,box-shadow .3s}
+.journal-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.1)}
+.journal-thumb{
+  height:200px;display:flex;align-items:center;justify-content:center;
+  font-size:48px;
+}
+.journal-body{padding:24px}
+.journal-cat{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--sage);margin-bottom:10px}
+.journal-title{font-family:var(--serif);font-size:20px;font-weight:600;color:var(--ink);margin-bottom:10px;line-height:1.3}
+.journal-excerpt{font-size:13.5px;color:var(--mid);line-height:1.65;margin-bottom:16px}
+.journal-meta{font-size:12px;color:var(--light);display:flex;gap:12px}
+
+/* ── QUIZ CTA ── */
+.quiz-cta{
+  padding:100px 5%;
+  background:linear-gradient(135deg,var(--sage) 0%,#4a6b50 100%);
+  text-align:center;
+}
+.quiz-cta .tag{color:rgba(255,255,255,.6);justify-content:center;margin:0 auto 14px}
+.quiz-cta h2{
+  font-family:var(--serif);font-size:clamp(32px,5vw,58px);
+  font-weight:600;color:#fff;line-height:1.1;margin-bottom:16px;
+}
+.quiz-cta p{font-size:17px;color:rgba(255,255,255,.75);max-width:480px;margin:0 auto 36px;line-height:1.65}
+.btn-white{
+  background:#fff;color:var(--sage);
+  padding:16px 40px;border-radius:4px;
+  font-size:14px;font-weight:700;letter-spacing:.04em;
+  display:inline-block;transition:transform .2s,box-shadow .2s;
+}
+.btn-white:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.15)}
 </style>
 </head>
 <body>
@@ -632,6 +785,213 @@ footer{background:var(--ink);padding:64px 5% 28px}
     </div>
   </div>
 </div>
+
+<!-- ABOUT -->
+<section class="about-section">
+  <div class="about-grid">
+    <div class="about-left" data-a="left">
+      <div class="tag">Our Story</div>
+      <h2 class="h2">Designed in Auckland,<br>Loved Everywhere</h2>
+      <p>Nova Home Co. started in 2018 when founder Emma Whitfield noticed a gap in the market — beautiful, thoughtfully designed furniture that didn't cost a fortune or take six months to arrive. What began as a tiny studio in Ponsonby has grown into one of New Zealand's most loved home goods brands.</p>
+      <p>Every piece in our collection is chosen by our in-house design team. We work directly with craftspeople across Portugal, Japan, and New Zealand — cutting out the middlemen and putting that saving back into quality and design. No flat-pack nonsense. No compromise.</p>
+      <div class="about-stat-row">
+        <div>
+          <div class="about-stat-num">50k+</div>
+          <div class="about-stat-lbl">Happy Homes</div>
+        </div>
+        <div>
+          <div class="about-stat-num">3</div>
+          <div class="about-stat-lbl">Countries</div>
+        </div>
+        <div>
+          <div class="about-stat-num">8 yrs</div>
+          <div class="about-stat-lbl">In Business</div>
+        </div>
+      </div>
+    </div>
+    <div class="about-right" data-a="right">
+      <div class="about-pull">"We believe your home should be the most beautiful place in your world — not just on the weekends."</div>
+      <div class="about-founder">
+        <div class="founder-avatar">EW</div>
+        <div>
+          <div class="founder-name">Emma Whitfield</div>
+          <div class="founder-title">Founder & Creative Director, Nova Home Co.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VALUES -->
+<section class="values-section">
+  <div class="values-inner">
+    <div class="values-header" data-a="up">
+      <div class="tag" style="justify-content:center">What We Stand For</div>
+      <h2 class="h2" style="color:#fff">Built on Four Beliefs</h2>
+    </div>
+    <div class="values-grid">
+      <div class="value-card" data-a="up" style="--d:.05s">
+        <div class="value-icon">🌿</div>
+        <div class="value-title">Sustainably Sourced</div>
+        <div class="value-desc">Every material we use is chosen with the planet in mind. FSC-certified timber, recycled textiles, and zero single-use plastic packaging across our entire range.</div>
+      </div>
+      <div class="value-card" data-a="up" style="--d:.12s">
+        <div class="value-icon">🤝</div>
+        <div class="value-title">Fair Trade Always</div>
+        <div class="value-desc">We visit every one of our suppliers in person. Every artisan we work with is paid fairly, works safe hours, and has full visibility of where our orders go.</div>
+      </div>
+      <div class="value-card" data-a="up" style="--d:.19s">
+        <div class="value-icon">⏳</div>
+        <div class="value-title">Built to Last</div>
+        <div class="value-desc">We design against the throwaway culture. Our pieces are built to live in your home for decades, backed by a 5-year structural warranty as standard.</div>
+      </div>
+      <div class="value-card" data-a="up" style="--d:.26s">
+        <div class="value-icon">🔄</div>
+        <div class="value-title">Hassle-Free Returns</div>
+        <div class="value-desc">Not right for your space? No worries. Return anything within 60 days for a full refund, no questions asked. We'll even arrange the pickup for free.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testi-section">
+  <div class="testi-inner">
+    <div class="testi-header" data-a="up">
+      <div class="tag" style="justify-content:center">Real Reviews</div>
+      <h2 class="h2">What Our Customers Say</h2>
+      <p class="sub" style="margin:0 auto;text-align:center">Don't take our word for it.</p>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card" data-a="up" style="--d:.05s">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-text">"The sofa arrived in perfect condition and honestly looks even better in person than in the photos. My living room finally feels like the grown-up space I always wanted. Worth every cent."</div>
+        <div class="testi-author">
+          <div class="testi-avatar">SR</div>
+          <div>
+            <div class="testi-name">Sophie R.</div>
+            <div class="testi-meta">Auckland · Purchased the Linen Cloud Sofa</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card" data-a="up" style="--d:.12s">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-text">"I've ordered from probably ten different furniture stores over the years and Nova is genuinely the best experience I've had. Fast delivery, beautifully packaged, and the quality is exceptional."</div>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:linear-gradient(135deg,var(--terra),#8a3e22)">JM</div>
+          <div>
+            <div class="testi-name">James M.</div>
+            <div class="testi-meta">Wellington · Purchased the Walnut Side Table</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card" data-a="up" style="--d:.19s">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-text">"Bought the pendant light for our dining room renovation and everyone who comes over asks where it's from. Simple, beautiful, and the price is incredible for the quality. Will definitely be back."</div>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:linear-gradient(135deg,#c9a84c,#8a7030)">TK</div>
+          <div>
+            <div class="testi-name">Tania K.</div>
+            <div class="testi-meta">Christchurch · Purchased the Rattan Pendant Light</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRESS -->
+<div class="press-section">
+  <div class="press-inner">
+    <div class="press-label">As Featured In</div>
+    <div class="press-logos">
+      <div class="press-name">Vogue Living</div>
+      <div class="press-name">Real Homes</div>
+      <div class="press-name">Elle Décor</div>
+      <div class="press-name">Habitus</div>
+      <div class="press-name">Architectural Digest</div>
+      <div class="press-name">NZ House &amp; Garden</div>
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="how-section">
+  <div class="how-inner">
+    <div class="how-header" data-a="up">
+      <div class="tag" style="justify-content:center">Simple Process</div>
+      <h2 class="h2">Shopping Made Easy</h2>
+      <p class="sub" style="text-align:center;margin:0 auto">From browse to delivered in three steps.</p>
+    </div>
+    <div class="how-grid">
+      <div class="how-step" data-a="up" style="--d:.05s">
+        <div class="how-num">1</div>
+        <h3>Browse & Discover</h3>
+        <p>Explore our curated collections by room, style, or material. Filter by what matters to you — sustainability, size, or simply what looks good. Not sure where to start? Take our 2-minute Style Quiz.</p>
+      </div>
+      <div class="how-step" data-a="up" style="--d:.15s">
+        <div class="how-num">2</div>
+        <h3>Order with Confidence</h3>
+        <p>Add to cart and check out securely in under two minutes. Pay your way — card, Afterpay, or bank transfer. You'll get a confirmation email instantly and a tracking link the moment your order ships.</p>
+      </div>
+      <div class="how-step" data-a="up" style="--d:.25s">
+        <div class="how-num">3</div>
+        <h3>Love It or Return It</h3>
+        <p>Your piece arrives in protective packaging, ready to place. Not feeling it? Our 60-day free return policy means there's zero risk. We'll collect from your door — no printer required.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- JOURNAL -->
+<section class="journal-section">
+  <div class="journal-inner">
+    <div class="journal-header">
+      <div>
+        <div class="tag" data-a="left">From the Journal</div>
+        <h2 class="h2" data-a="left">Styling Ideas &amp; Inspiration</h2>
+      </div>
+      <a href="#" class="view-link" data-a="right">Read All Posts →</a>
+    </div>
+    <div class="journal-grid">
+      <div class="journal-card" data-a="up" style="--d:.05s">
+        <div class="journal-thumb" style="background:linear-gradient(135deg,var(--warm),var(--sand))">🛋️</div>
+        <div class="journal-body">
+          <div class="journal-cat">Interior Design</div>
+          <div class="journal-title">The 5 Rules of a Living Room That Actually Works</div>
+          <div class="journal-excerpt">Forget everything you think you know about furniture arrangement. Our lead stylist breaks down the five principles behind every living room we've ever admired.</div>
+          <div class="journal-meta"><span>12 June 2026</span><span>·</span><span>6 min read</span></div>
+        </div>
+      </div>
+      <div class="journal-card" data-a="up" style="--d:.12s">
+        <div class="journal-thumb" style="background:linear-gradient(135deg,#e8e0d5,#d4cab8)">🌿</div>
+        <div class="journal-body">
+          <div class="journal-cat">Sustainability</div>
+          <div class="journal-title">How We Choose Our Suppliers — And Why It Matters</div>
+          <div class="journal-excerpt">Every piece in our range starts with a question: who made this, and was it done right? Here's the full story of how we vet the people we work with.</div>
+          <div class="journal-meta"><span>4 June 2026</span><span>·</span><span>8 min read</span></div>
+        </div>
+      </div>
+      <div class="journal-card" data-a="up" style="--d:.19s">
+        <div class="journal-thumb" style="background:linear-gradient(135deg,#ddd6cc,#c8bfb0)">🕯️</div>
+        <div class="journal-body">
+          <div class="journal-cat">Styling Tips</div>
+          <div class="journal-title">Winter Layering: How to Make Any Room Feel Cosy</div>
+          <div class="journal-excerpt">Throws, texture, warm light. Our winter styling guide covers the exact products and techniques that turn a cold room into a retreat you never want to leave.</div>
+          <div class="journal-meta"><span>28 May 2026</span><span>·</span><span>5 min read</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STYLE QUIZ CTA -->
+<section class="quiz-cta">
+  <div class="tag" data-a="up">Find Your Style</div>
+  <h2 data-a="up" style="--d:.08s">Not Sure Where to Start?</h2>
+  <p data-a="up" style="--d:.14s">Answer 8 quick questions and we'll build a personalised room plan with products picked just for you. Takes less than two minutes.</p>
+  <a href="#" class="btn-white" data-a="up" style="--d:.2s">Take the Style Quiz →</a>
+</section>
 
 <!-- NEWSLETTER -->
 <div class="newsletter-section">
