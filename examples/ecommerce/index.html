@@ -669,9 +669,9 @@ footer{background:var(--ink);padding:64px 5% 28px}
     <li><a href="#">Journal</a></li>
   </ul>
   <div class="nav-right">
-    <button class="nav-icon">🔍</button>
+    <button class="nav-icon" aria-label="Search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></button>
     <div class="cart-wrap">
-      <button class="nav-icon" onclick="openCart()" aria-label="Open basket">🛒</button>
+      <button class="nav-icon" onclick="openCart()" aria-label="Open basket"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></button>
       <span class="cart-badge" id="cb" style="display:none">0</span>
     </div>
   </div>
@@ -697,10 +697,10 @@ footer{background:var(--ink);padding:64px 5% 28px}
 
 <!-- USP STRIP -->
 <div class="usp-strip">
-  <div class="usp-item"><div class="usp-icon">🌿</div><div class="usp-label">Sustainably Made</div></div>
-  <div class="usp-item"><div class="usp-icon">🚚</div><div class="usp-label">Free Shipping $75+</div></div>
-  <div class="usp-item"><div class="usp-icon">🔄</div><div class="usp-label">60-Day Returns</div></div>
-  <div class="usp-item"><div class="usp-icon">🛡️</div><div class="usp-label">5-Year Warranty</div></div>
+  <div class="usp-item"><div class="usp-label">Sustainably Made</div></div>
+  <div class="usp-item"><div class="usp-label">Free Shipping $75+</div></div>
+  <div class="usp-item"><div class="usp-label">60-Day Returns</div></div>
+  <div class="usp-item"><div class="usp-label">5-Year Warranty</div></div>
 </div>
 
 <!-- CATEGORIES -->
@@ -778,7 +778,7 @@ footer{background:var(--ink);padding:64px 5% 28px}
       <a href="#" class="btn-sage">Learn About Us</a>
       <div class="ed-stats">
         <div><div class="ed-stat-num">12k+</div><div class="ed-stat-lbl">Happy Homes</div></div>
-        <div><div class="ed-stat-num">4.9★</div><div class="ed-stat-lbl">Avg Rating</div></div>
+        <div><div class="ed-stat-num">4.9/5</div><div class="ed-stat-lbl">Avg Rating</div></div>
         <div><div class="ed-stat-num">8yr</div><div class="ed-stat-lbl">In Business</div></div>
         <div><div class="ed-stat-num">100%</div><div class="ed-stat-lbl">Sustainable</div></div>
       </div>
@@ -831,22 +831,18 @@ footer{background:var(--ink);padding:64px 5% 28px}
     </div>
     <div class="values-grid">
       <div class="value-card" data-a="up" style="--d:.05s">
-        <div class="value-icon">🌿</div>
         <div class="value-title">Sustainably Sourced</div>
         <div class="value-desc">Every material we use is chosen with the planet in mind. FSC-certified timber, recycled textiles, and zero single-use plastic packaging across our entire range.</div>
       </div>
       <div class="value-card" data-a="up" style="--d:.12s">
-        <div class="value-icon">🤝</div>
         <div class="value-title">Fair Trade Always</div>
         <div class="value-desc">We visit every one of our suppliers in person. Every artisan we work with is paid fairly, works safe hours, and has full visibility of where our orders go.</div>
       </div>
       <div class="value-card" data-a="up" style="--d:.19s">
-        <div class="value-icon">⏳</div>
         <div class="value-title">Built to Last</div>
         <div class="value-desc">We design against the throwaway culture. Our pieces are built to live in your home for decades, backed by a 5-year structural warranty as standard.</div>
       </div>
       <div class="value-card" data-a="up" style="--d:.26s">
-        <div class="value-icon">🔄</div>
         <div class="value-title">Hassle-Free Returns</div>
         <div class="value-desc">Not right for your space? No worries. Return anything within 60 days for a full refund, no questions asked. We'll even arrange the pickup for free.</div>
       </div>
@@ -955,7 +951,7 @@ footer{background:var(--ink);padding:64px 5% 28px}
     </div>
     <div class="journal-grid">
       <div class="journal-card" data-a="up" style="--d:.05s">
-        <div class="journal-thumb" style="background:linear-gradient(135deg,var(--warm),var(--sand))">🛋️</div>
+        <div class="journal-thumb" style="background:linear-gradient(135deg,var(--warm),var(--sand))"></div>
         <div class="journal-body">
           <div class="journal-cat">Interior Design</div>
           <div class="journal-title">The 5 Rules of a Living Room That Actually Works</div>
@@ -964,7 +960,7 @@ footer{background:var(--ink);padding:64px 5% 28px}
         </div>
       </div>
       <div class="journal-card" data-a="up" style="--d:.12s">
-        <div class="journal-thumb" style="background:linear-gradient(135deg,#e8e0d5,#d4cab8)">🌿</div>
+        <div class="journal-thumb" style="background:linear-gradient(135deg,#e8e0d5,#d4cab8)"></div>
         <div class="journal-body">
           <div class="journal-cat">Sustainability</div>
           <div class="journal-title">How We Choose Our Suppliers — And Why It Matters</div>
@@ -973,7 +969,7 @@ footer{background:var(--ink);padding:64px 5% 28px}
         </div>
       </div>
       <div class="journal-card" data-a="up" style="--d:.19s">
-        <div class="journal-thumb" style="background:linear-gradient(135deg,#ddd6cc,#c8bfb0)">🕯️</div>
+        <div class="journal-thumb" style="background:linear-gradient(135deg,#ddd6cc,#c8bfb0)"></div>
         <div class="journal-body">
           <div class="journal-cat">Styling Tips</div>
           <div class="journal-title">Winter Layering: How to Make Any Room Feel Cosy</div>
@@ -1017,9 +1013,9 @@ footer{background:var(--ink);padding:64px 5% 28px}
       <div class="foot-logo">Nova <em>Home</em> Co.</div>
       <p class="foot-desc">Thoughtfully designed home goods for modern living. Made with care, built to last.</p>
       <div class="foot-social">
-        <div class="social">📸</div>
-        <div class="social">📌</div>
-        <div class="social">▶️</div>
+        <div class="social" style="font-size:11px;font-weight:700;letter-spacing:.04em">IG</div>
+        <div class="social" style="font-size:11px;font-weight:700;letter-spacing:.04em">PT</div>
+        <div class="social" style="font-size:11px;font-weight:700;letter-spacing:.04em">YT</div>
       </div>
     </div>
     <div class="foot-col">
@@ -1156,7 +1152,6 @@ function renderCart() {
   if (cartItems.length === 0) {
     foot.style.display = 'none';
     body.innerHTML = `<div class="cart-empty">
-      <div class="cart-empty-icon">🛒</div>
       <p>Your basket is empty.<br>Add something beautiful.</p>
     </div>`;
     return;
